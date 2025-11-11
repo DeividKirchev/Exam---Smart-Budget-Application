@@ -38,9 +38,9 @@ workflow_status:
   create-design: conditional  # agent: ux-designer
 
   # Phase 2: Solutioning
-  create-architecture: required  # agent: architect
-  validate-architecture: optional  # agent: architect
-  solutioning-gate-check: required  # agent: architect
+  create-architecture: docs/architecture.md  # agent: architect
+  validate-architecture: docs/validation-report-2025-11-10.md  # agent: architect
+  solutioning-gate-check: docs/implementation-readiness-report-2025-11-10.md  # agent: architect
 
   # Phase 3: Implementation
   sprint-planning: required  # agent: sm

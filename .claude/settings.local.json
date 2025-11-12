@@ -1,7 +1,27 @@
 {
   "permissions": {
     "allow": [
-      "Bash(powershell -Command:*)"
+      "Bash(node:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run start:*)",
+      "Bash(npm install:*)",
+      "Bash(npx:*)",
+      "Bash(yarn:*)",
+      "Bash(dir:*)",
+      "Bash(cd:*)",
+      "Bash(mkdir:*)",
+      "Bash(rmdir:*)",
+      "Bash(copy:*)",
+      "Bash(del:*)",
+      "Bash(ren:*)",
+      "Bash(move:*)",
+      "Bash(ping:*)",
+      "Bash(curl:*)",
+      "Bash(fetch:*)",
+      "Bash(nul)",
+      "Bash(git add:*)",
+      "Bash(npx tsc:*)"
     ],
     "deny": [],
     "ask": []

@@ -1,0 +1,425 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>2</storyId>
+    <title>Code Quality Tooling Setup</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-12</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>.bmad-ephemeral/stories/1-2-code-quality-tooling-setup.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a developer</asA>
+    <iWant>ESLint, Prettier, and Git hooks configured</iWant>
+    <soThat>code quality standards are automatically enforced (NFR-3.3)</soThat>
+    <tasks>
+### Task 1: Install ESLint Dependencies (AC: #1, #3)
+- [ ] **1.1** Install ESLint and TypeScript parser: npm install --save-dev eslint@^9.0.0 @typescript-eslint/eslint-plugin@^8.0.0 @typescript-eslint/parser@^8.0.0
+- [ ] **1.2** Install ESLint React plugins: npm install --save-dev eslint-plugin-react-hooks@^5.0.0 eslint-plugin-react-refresh@^0.4.14
+- [ ] **1.3** Verify package.json devDependencies include all ESLint packages
+- [ ] **1.4** Note: Vite template may have some ESLint packages pre-installed - check first
+
+### Task 2: Configure ESLint (AC: #1, #3)
+- [ ] **2.1** Create .eslintrc.cjs file in project root
+- [ ] **2.2** Add base configuration with recommended rules, TypeScript, React Hooks
+- [ ] **2.3** Verify .eslintrc.cjs syntax is valid
+- [ ] **2.4** Test ESLint: npx eslint src/ (should run without errors)
+
+### Task 3: Install and Configure Prettier (AC: #2, #3)
+- [ ] **3.1** Install Prettier: npm install --save-dev prettier@^3.4.0
+- [ ] **3.2** Create .prettierrc file with formatting rules
+- [ ] **3.3** Create .prettierignore file
+- [ ] **3.4** Test Prettier: npx prettier --check src/
+
+### Task 4: Add npm Scripts (AC: #6)
+- [ ] **4.1** Add linting scripts: lint, lint:fix, format, format:check
+- [ ] **4.2** Test each script
+- [ ] **4.3** Verify all Vite template code passes linting
+
+### Task 5: Install and Configure Husky (AC: #4, #7)
+- [ ] **5.1** Install Husky: npm install --save-dev husky@^9.0.0
+- [ ] **5.2** Initialize Husky: npx husky init
+- [ ] **5.3** Verify .husky/ directory created
+- [ ] **5.4** Create pre-commit hook file
+- [ ] **5.5** Add pre-commit hook content (runs lint-staged)
+- [ ] **5.6** Make hook executable
+- [ ] **5.7** Verify package.json has prepare script
+
+### Task 6: Install and Configure lint-staged (AC: #5, #7)
+- [ ] **6.1** Install lint-staged: npm install --save-dev lint-staged@^15.0.0
+- [ ] **6.2** Create .lintstagedrc.json file
+- [ ] **6.3** Verify configuration only lints/formats staged files
+- [ ] **6.4** Note: lint-staged runs automatically via Husky
+
+### Task 7: Test Pre-commit Hook (AC: #7)
+- [ ] **7.1** Make test change with intentional linting error
+- [ ] **7.2** Stage the change
+- [ ] **7.3** Attempt commit - verify it's blocked
+- [ ] **7.4** Fix the error
+- [ ] **7.5** Stage fix and commit again
+- [ ] **7.6** Verify commit succeeds
+- [ ] **7.7** Verify code was auto-formatted
+
+### Task 8: Add .editorconfig for Consistency
+- [ ] **8.1** Create .editorconfig file
+- [ ] **8.2** Verify recognized by IDE
+- [ ] **8.3** Note: Ensures consistent formatting across editors
+
+### Task 9: Update README with Linting Info
+- [ ] **9.1** Add "Code Quality" section to README
+- [ ] **9.2** Document linting rules
+
+### Task 10: Validation and Clean-up (AC: #8)
+- [ ] **10.1** Run full lint check: npm run lint (zero errors, zero warnings)
+- [ ] **10.2** Run format check: npm run format:check
+- [ ] **10.3** Verify all acceptance criteria met
+- [ ] **10.4** Create Git commit with conventional format
+- [ ] **10.5** Verify commit succeeds with hooks active
+- [ ] **10.6** Run build: npm run build (ensure tooling doesn't break build)
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+**Given** The project is initialized (Story 1.1 complete)
+**When** I configure linting and formatting tools
+**Then** The following are set up and working:
+
+1. ✅ ESLint installed and configured with React + TypeScript rules
+2. ✅ Prettier installed and configured for code formatting
+3. ✅ Configuration files created: `.eslintrc.cjs`, `.prettierrc`
+4. ✅ Husky installed and configured for Git hooks
+5. ✅ lint-staged installed and configured for pre-commit linting
+6. ✅ npm scripts added: `lint`, `format`, `lint:fix`
+
+**And** Pre-commit hooks prevent commits with linting errors
+**And** All existing code passes linting checks with zero warnings
+**And** Prettier formats code automatically on save or pre-commit
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <!-- PRD: Product Requirements Document -->
+      <doc path="docs/PRD.md" section="NFR-3.3: Code Style &amp; Consistency">
+        ESLint configuration for linting, Prettier configuration for formatting, Pre-commit hooks to enforce standards. Naming conventions: camelCase for variables/functions, PascalCase for components.
+      </doc>
+
+      <doc path="docs/PRD.md" section="NFR-3.4: Git Practices">
+        Professional Git workflow demonstrating version control best practices. Clear, descriptive commit messages following conventional commits format. Commits represent logical units of work. Pre-commit hooks enforce quality.
+      </doc>
+
+      <doc path="docs/PRD.md" section="NFR-3.2: Code Documentation">
+        All code is well-documented for AI-assisted development demonstration. JSDoc comments on all functions explaining purpose, parameters, returns. Inline comments explaining complex logic or AI-generated code decisions.
+      </doc>
+
+      <!-- Architecture: System Architecture Document -->
+      <doc path="docs/architecture.md" section="Code Quality">
+        ESLint + Prettier: Enforce standards, format automatically. Git Hooks: Husky + lint-staged. Pre-commit quality checks. Versions: ESLint Latest, Prettier Latest, Husky Latest, lint-staged Latest.
+      </doc>
+
+      <doc path="docs/architecture.md" section="Error Handling - Consistency Rules">
+        Never show technical error messages to users. Always log errors to console for debugging. Provide actionable error messages. Use loading states to prevent errors from hasty user actions.
+      </doc>
+
+      <doc path="docs/architecture.md" section="Code Organization - Import Order">
+        Enforced by ESLint: 1) External libraries, 2) Internal modules, 3) Components, 4) Utilities &amp; Constants, 5) Styles. Consistent structure across all files.
+      </doc>
+
+      <doc path="docs/architecture.md" section="Naming Conventions">
+        Files: Components PascalCase.tsx, Services camelCase.ts, Utilities camelCase.ts. Code: Variables/Functions camelCase, Types/Interfaces PascalCase, Constants UPPER_SNAKE_CASE. Event handlers: handle prefix.
+      </doc>
+
+      <!-- Epic Tech Spec: Technical Specification for Epic 1 -->
+      <doc path=".bmad-ephemeral/stories/tech-spec-epic-1.md" section="AC-1.2: Code Quality Tooling">
+        ESLint configured with React + TypeScript rules. Prettier configured for consistent formatting. Husky installed with pre-commit hook. npm run lint executes and passes on clean code. npm run format formats all files consistently. Pre-commit hook blocks commits with linting errors. All existing code passes linting with zero warnings.
+      </doc>
+
+      <doc path=".bmad-ephemeral/stories/tech-spec-epic-1.md" section="Services and Modules - ESLint Config">
+        .eslintrc.cjs: React + TypeScript linting rules. Owner: Story 1.2. Inputs: Source files. Outputs: Lint errors/warnings. Responsibility: Code linting rules for React + TypeScript.
+      </doc>
+
+      <doc path=".bmad-ephemeral/stories/tech-spec-epic-1.md" section="Configuration Files Created">
+        .eslintrc.cjs: ESLint rules. .prettierrc: Prettier formatting (single quotes, 2-space indent, trailing commas). .lintstagedrc: lint-staged config. All configuration files in project root.
+      </doc>
+
+      <!-- Epics: Epic and Story Breakdown -->
+      <doc path="docs/epics.md" section="Story 1.2: Code Quality Tooling Setup">
+        As a developer, I want ESLint, Prettier, and Git hooks configured, so that code quality standards are automatically enforced (NFR-3.3). Acceptance: ESLint with React configuration, Prettier for code formatting, Husky for Git hooks, lint-staged for pre-commit linting, npm scripts for lint/format. Pre-commit hooks prevent commits with linting errors. All existing code passes linting checks.
+      </doc>
+
+      <doc path="docs/epics.md" section="Story 1.2 Technical Notes">
+        Use ESLint recommended rules + React plugin. Configure Prettier to work alongside ESLint. Add editor config for consistency. Document linting rules in README. Prerequisite: Story 1.1 (Project Initialization).
+      </doc>
+
+      <!-- Story 1.1: Prerequisite Story -->
+      <doc path=".bmad-ephemeral/stories/1-1-project-initialization-technology-stack-setup.md" section="Story Overview">
+        Story 1.1 establishes project foundation with Vite + React + TypeScript. Creates package.json, Git repository, and folder structure. Prerequisite for Story 1.2's code quality tooling setup.
+      </doc>
+    </docs>
+
+    <code>
+      <!-- Code from Story 1.1 (prerequisite - ready-for-dev) -->
+      <artifact path="package.json" kind="config" reason="Dependency manifest - will be modified to add ESLint, Prettier, Husky devDependencies and npm scripts">
+        Base package.json created by Story 1.1 with Vite, React, TypeScript dependencies. Story 1.2 adds code quality devDependencies and linting/formatting scripts.
+      </artifact>
+
+      <artifact path="vite.config.ts" kind="config" reason="Build configuration - may need ESLint plugin integration">
+        Vite configuration from Story 1.1. ESLint plugin already included by Vite template (@vitejs/plugin-react). No modifications needed for Story 1.2.
+      </artifact>
+
+      <artifact path="tsconfig.json" kind="config" reason="TypeScript configuration - ESLint's TypeScript parser will respect these settings">
+        TypeScript configuration from Story 1.1. ESLint will use @typescript-eslint/parser which respects this config. Ensures type-aware linting rules.
+      </artifact>
+
+      <artifact path=".gitignore" kind="config" reason="Git ignore rules - ensures code quality tool outputs are not committed">
+        Base .gitignore from Story 1.1. Already excludes node_modules/, dist/, .env. No modifications needed for Story 1.2 (Husky hooks tracked in .husky/).
+      </artifact>
+
+      <artifact path="src/" kind="directory" reason="Source code directory - will be linted and formatted by ESLint and Prettier">
+        Source code directory created by Story 1.1. Contains App.tsx, main.tsx, and other Vite template files. Story 1.2 will lint/format these files and add pre-commit hooks.
+      </artifact>
+
+      <!-- Configuration patterns to implement -->
+      <pattern name="ESLint Config Pattern" type="configuration">
+        Use .eslintrc.cjs (CommonJS) for compatibility with ESM projects. Extend recommended rulesets: eslint:recommended, plugin:@typescript-eslint/recommended, plugin:react-hooks/recommended. Minimal custom rules - trust defaults. Ignore dist/ and config files.
+      </pattern>
+
+      <pattern name="Prettier Integration Pattern" type="workflow">
+        Prettier runs AFTER ESLint in lint-staged. No ESLint-Prettier conflict plugins needed (modern 2025 approach). Prettier handles formatting, ESLint handles code quality. Prevents conflicts.
+      </pattern>
+
+      <pattern name="Husky + lint-staged Workflow" type="workflow">
+        Git commit attempt → Husky pre-commit hook triggers → lint-staged runs on staged files only → ESLint --fix (auto-fix issues) → Prettier --write (format code) → If all pass: Commit succeeds. If errors remain: Commit blocked, dev fixes manually.
+      </pattern>
+    </code>
+
+    <dependencies>
+      <ecosystem name="node">
+        <!-- Code Quality: ESLint -->
+        <package name="eslint" version="^9.0.0" dev="true" required="true">JavaScript/TypeScript linter</package>
+        <package name="@typescript-eslint/eslint-plugin" version="^8.0.0" dev="true" required="true">TypeScript-specific linting rules</package>
+        <package name="@typescript-eslint/parser" version="^8.0.0" dev="true" required="true">TypeScript parser for ESLint</package>
+        <package name="eslint-plugin-react-hooks" version="^5.0.0" dev="true" required="true">React Hooks linting rules</package>
+        <package name="eslint-plugin-react-refresh" version="^0.4.14" dev="true" required="true">React Refresh linting rules for Vite</package>
+
+        <!-- Code Quality: Prettier -->
+        <package name="prettier" version="^3.4.0" dev="true" required="true">Code formatter</package>
+
+        <!-- Git Hooks: Husky + lint-staged -->
+        <package name="husky" version="^9.0.0" dev="true" required="true">Git hooks manager</package>
+        <package name="lint-staged" version="^15.0.0" dev="true" required="true">Run linters on staged files only</package>
+      </ecosystem>
+
+      <notes>
+        All packages are devDependencies (not runtime dependencies).
+        Versions verified current as of 2025-11-10.
+        Total: 8 new devDependencies added to package.json.
+        Vite template may have some ESLint packages pre-installed - check package.json first before installing.
+      </notes>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="prerequisite">Story 1.1 MUST be complete - project initialized with package.json, Git repository, and src/ directory</constraint>
+    <constraint type="prerequisite">Vite template code must exist in src/ for linting tests to work</constraint>
+    <constraint type="quality">All existing code must pass linting with zero errors and zero warnings</constraint>
+    <constraint type="quality">Pre-commit hooks must block commits with linting errors (tested in Task 7)</constraint>
+    <constraint type="build">Code quality tooling must not break npm run build - verify in Task 10.6</constraint>
+    <constraint type="configuration">Use .eslintrc.cjs (not .eslintrc.js or .json) for compatibility with ESM projects</constraint>
+    <constraint type="configuration">Prettier runs AFTER ESLint in lint-staged to prevent conflicts</constraint>
+    <constraint type="configuration">lint-staged only processes staged files (not entire codebase) for performance</constraint>
+    <constraint type="git">Husky hooks must be executable - use chmod +x on Unix/Mac systems</constraint>
+    <constraint type="npm-scripts">npm scripts must follow naming conventions: lint, lint:fix, format, format:check</constraint>
+    <constraint type="editor">.editorconfig ensures consistency across VSCode, IntelliJ, Sublime, Vim, etc.</constraint>
+    <constraint type="security">Run npm audit after installing new packages - fix high/critical vulnerabilities immediately</constraint>
+  </constraints>
+
+  <interfaces>
+    <!-- Configuration Files Created by Story 1.2 -->
+    <interface name="ESLint Configuration" type="config-file">
+      <location>.eslintrc.cjs</location>
+      <purpose>ESLint rules for React + TypeScript - enforces code quality standards</purpose>
+      <format>CommonJS module (module.exports)</format>
+      <content>
+        root: true, env: browser + es2020
+        extends: eslint:recommended, @typescript-eslint/recommended, react-hooks/recommended
+        parser: @typescript-eslint/parser
+        plugins: react-refresh
+        ignorePatterns: dist/, .eslintrc.cjs
+      </content>
+      <notes>Uses CommonJS for compatibility with ESM projects. Minimal custom rules - trust recommended defaults.</notes>
+    </interface>
+
+    <interface name="Prettier Configuration" type="config-file">
+      <location>.prettierrc</location>
+      <purpose>Prettier formatting rules - consistent code style across project</purpose>
+      <format>JSON</format>
+      <content>
+        semi: true (semicolons required)
+        singleQuote: true (use single quotes)
+        tabWidth: 2 (2-space indentation)
+        trailingComma: es5 (trailing commas where valid in ES5)
+        printWidth: 80 (max line length)
+        arrowParens: avoid (omit parens when possible)
+      </content>
+      <notes>Matches architecture.md formatting standards. Runs after ESLint in lint-staged to prevent conflicts.</notes>
+    </interface>
+
+    <interface name="lint-staged Configuration" type="config-file">
+      <location>.lintstagedrc.json</location>
+      <purpose>lint-staged rules - lint/format only staged files for performance</purpose>
+      <format>JSON</format>
+      <content>
+        "*.{ts,tsx}": ["eslint --fix", "prettier --write"]
+        "*.{json,css,md}": ["prettier --write"]
+      </content>
+      <notes>Runs ESLint first (with --fix), then Prettier. Only processes staged files, not entire codebase. Called by Husky pre-commit hook.</notes>
+    </interface>
+
+    <interface name="Husky Pre-commit Hook" type="git-hook">
+      <location>.husky/pre-commit</location>
+      <purpose>Git pre-commit hook - runs lint-staged before commits</purpose>
+      <format>Shell script</format>
+      <content>
+        #!/usr/bin/env sh
+        . "$(dirname -- "$0")/_/husky.sh"
+        npx lint-staged
+      </content>
+      <notes>Executable script. Blocks commits if lint-staged fails (non-zero exit code). Installed by: npx husky init</notes>
+    </interface>
+
+    <interface name="EditorConfig" type="config-file">
+      <location>.editorconfig</location>
+      <purpose>Editor consistency settings - works across VSCode, IntelliJ, Vim, etc.</purpose>
+      <format>INI</format>
+      <content>
+        root = true
+        [*]: charset utf-8, indent 2 spaces, lf line endings, final newline, trim trailing whitespace
+        [*.md]: trim_trailing_whitespace = false (preserve trailing spaces in markdown)
+      </content>
+      <notes>Ensures all developers use same basic formatting regardless of editor/IDE. Complements Prettier.</notes>
+    </interface>
+
+    <interface name="npm Scripts Extended" type="package-scripts">
+      <location>package.json scripts section</location>
+      <purpose>npm scripts for linting and formatting</purpose>
+      <scripts>
+        <script name="lint">eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0</script>
+        <script name="lint:fix">eslint . --ext ts,tsx --fix</script>
+        <script name="format">prettier --write "src/**/*.{ts,tsx,js,jsx,css,md,json}"</script>
+        <script name="format:check">prettier --check "src/**/*.{ts,tsx,js,jsx,css,md,json}"</script>
+        <script name="prepare">husky (auto-generated by Husky)</script>
+      </scripts>
+      <notes>
+        lint: Check for errors (CI/CD use). lint:fix: Auto-fix issues (dev use). format: Format all files (dev use). format:check: Check formatting (CI/CD use). prepare: Install Husky hooks (auto-runs on npm install).
+      </notes>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Epic 1 uses manual testing only. Automated testing deferred to Epic 6.
+
+      Manual verification approach for Story 1.2:
+      - Install packages and verify package.json updated
+      - Create configuration files and verify syntax
+      - Run linting/formatting commands and verify output
+      - Test pre-commit hooks by attempting commit with intentional errors
+      - Verify hooks block bad commits and allow good commits
+      - Confirm npm run build still works after adding tooling
+
+      Test environment: Local development machine with Node.js 20.19+ or 22.12+, Git initialized repository
+    </standards>
+
+    <locations>
+      No automated test files in Story 1.2.
+      Configuration files tested manually via:
+      - npx eslint src/
+      - npx prettier --check src/
+      - git commit (with intentional errors)
+      Future automated tests in Epic 6.
+    </locations>
+
+    <ideas>
+      <test id="AC-1" criterion="ESLint installed and configured">
+        Manual: npm install eslint packages, verify package.json devDependencies
+        Create .eslintrc.cjs with configuration
+        Run: npx eslint src/
+        Verify: No errors on Vite template code, ESLint executes successfully
+      </test>
+
+      <test id="AC-2" criterion="Prettier installed and configured">
+        Manual: npm install prettier, verify package.json
+        Create .prettierrc and .prettierignore
+        Run: npx prettier --check src/
+        Verify: Prettier executes, reports formatting status
+      </test>
+
+      <test id="AC-3" criterion="Configuration files created">
+        Manual: ls -la (list all files including hidden)
+        Verify: .eslintrc.cjs, .prettierrc, .prettierignore, .lintstagedrc.json, .editorconfig all exist
+        Verify: Syntax valid (no JSON parse errors, no shell script errors)
+      </test>
+
+      <test id="AC-4" criterion="Husky installed and configured">
+        Manual: npm install husky, npx husky init
+        Verify: .husky/ directory exists
+        Verify: .husky/pre-commit file exists and executable
+        Verify: package.json has "prepare": "husky" script
+      </test>
+
+      <test id="AC-5" criterion="lint-staged configured">
+        Manual: npm install lint-staged
+        Create .lintstagedrc.json
+        Verify: Configuration only targets staged files (not all files)
+        Verify: ESLint runs before Prettier in lint-staged
+      </test>
+
+      <test id="AC-6" criterion="npm scripts added">
+        Manual: Inspect package.json scripts section
+        Verify: Scripts exist: lint, lint:fix, format, format:check
+        Test each: npm run lint, npm run lint:fix, npm run format, npm run format:check
+        Verify: All execute without errors on clean Vite template code
+      </test>
+
+      <test id="AC-7" criterion="Pre-commit hooks block bad commits">
+        Manual Test Flow:
+        1. Edit src/App.tsx, add: const unused = 'test';
+        2. git add src/App.tsx
+        3. git commit -m "test"
+        4. Verify: Commit BLOCKED with ESLint error message
+        5. Remove unused variable
+        6. git add src/App.tsx
+        7. git commit -m "test: verify hooks work"
+        8. Verify: Commit SUCCEEDS, code auto-formatted by Prettier
+      </test>
+
+      <test id="AC-8" criterion="All code passes linting">
+        Manual: npm run lint
+        Verify: Zero errors, zero warnings reported
+        Verify: "✓ All files pass linting" or similar success message
+      </test>
+
+      <test id="FORMAT-CHECK" criterion="Prettier formats automatically">
+        Manual: Add unformatted code: const y = 'test' ; (extra spaces)
+        git add, git commit
+        Verify: Prettier auto-formats during commit (check git diff)
+        Verify: Extra spaces removed, code follows .prettierrc rules
+      </test>
+
+      <test id="BUILD-INTEGRATION" criterion="Tooling doesn't break build">
+        Manual: npm run build (after all setup complete)
+        Verify: Build succeeds with no ESLint errors blocking build
+        Verify: dist/ folder created with optimized bundles
+        Check: Build time reasonable (less than 30 seconds)
+      </test>
+
+      <test id="EDITOR-CONFIG" criterion=".editorconfig recognized">
+        Manual: Open project in VSCode, IntelliJ, or other editor
+        Verify: Editor shows ".editorconfig detected" or similar message
+        Create new file, type code
+        Verify: Auto-indentation follows .editorconfig (2 spaces, not 4)
+      </test>
+    </ideas>
+  </tests>
+</story-context>

@@ -1,0 +1,300 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>1</storyId>
+    <title>Project Initialization & Technology Stack Setup</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-12</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>.bmad-ephemeral/stories/1-1-project-initialization-technology-stack-setup.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a developer</asA>
+    <iWant>to initialize a new project with a modern JavaScript framework and build tooling</iWant>
+    <soThat>I have a solid foundation for building the SmartBudget application</soThat>
+    <tasks>
+### Task 1: Execute Vite Project Initialization (AC: #1, #2, #3)
+- [ ] **1.1** Verify Node.js version ≥20.19 or ≥22.12 installed (`node --version`)
+- [ ] **1.2** Run initialization command: `npm create vite@latest smartbudget -- --template react-ts`
+- [ ] **1.3** Navigate to project directory: `cd smartbudget`
+- [ ] **1.4** Install dependencies: `npm install`
+- [ ] **1.5** Verify package.json contains: react@^18.3.0, react-dom@^18.3.0, vite@^6.0.0, typescript@~5.6.0
+- [ ] **1.6** Verify initial folder structure includes: `/src`, `/public`, `vite.config.ts`, `tsconfig.json`, `index.html`
+
+### Task 2: Enhance Project Structure (AC: #4)
+- [ ] **2.1** Create directory: `src/components/` (for reusable UI components)
+- [ ] **2.2** Create directory: `src/components/layout/` (for Header, Nav, Layout components)
+- [ ] **2.3** Create directory: `src/components/common/` (for generic components - future)
+- [ ] **2.4** Create directory: `src/pages/` (for page/route components)
+- [ ] **2.5** Create directory: `src/services/` (for business logic and data access)
+- [ ] **2.6** Create directory: `src/utils/` (for helper functions)
+- [ ] **2.7** Create directory: `src/constants/` (for app constants and configuration)
+- [ ] **2.8** Create directory: `src/models/` (for TypeScript interfaces and types)
+- [ ] **2.9** Create directory: `src/hooks/` (for custom React hooks)
+- [ ] **2.10** Create directory: `src/context/` (for React Context providers)
+- [ ] **2.11** Verify folder structure matches architecture document
+
+### Task 3: Configure .gitignore (AC: #5)
+- [ ] **3.1** Verify Vite template created `.gitignore` file
+- [ ] **3.2** Ensure `.gitignore` includes: `node_modules/`, `dist/`, `.env`, `.env.local`
+- [ ] **3.3** Add additional exclusions: `.DS_Store`, `*.log`, `.vscode/`, `.idea/`, `coverage/`
+- [ ] **3.4** Verify sensitive files will not be tracked by Git
+
+### Task 4: Test Development Server (AC: #6, #7, #8)
+- [ ] **4.1** Start development server: `npm run dev`
+- [ ] **4.2** Verify server starts without errors on port 5173
+- [ ] **4.3** Open browser to `http://localhost:5173`
+- [ ] **4.4** Verify Vite welcome page renders with React logo
+- [ ] **4.5** Test Hot Module Replacement (HMR): Edit `src/App.tsx`, verify instant update
+- [ ] **4.6** Stop server and verify graceful shutdown
+
+### Task 5: Initialize Git Repository
+- [ ] **5.1** Initialize Git: `git init`
+- [ ] **5.2** Add all files: `git add .`
+- [ ] **5.3** Create initial commit with proper message format
+- [ ] **5.4** Verify clean Git status: `git status`
+
+### Task 6: Validation and Documentation
+- [ ] **6.1** Run TypeScript type check: `npx tsc --noEmit`
+- [ ] **6.2** Run build command: `npm run build`
+- [ ] **6.3** Verify `dist/` folder created
+- [ ] **6.4** Document project setup in README.md
+- [ ] **6.5** Verify all acceptance criteria met
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+**Given** I need to start the SmartBudget project
+**When** I run the project initialization
+**Then** A new project is created with:
+
+1. ✅ React 18.x + TypeScript 5.x properly configured via Vite template
+2. ✅ Vite 6.x build tool set up with development server
+3. ✅ package.json with initial dependencies (React, React-DOM, TypeScript, Vite)
+4. ✅ Basic folder structure created: `/src`, `/public`, with subdirectories for `/components`, `/pages`, `/services`, `/utils`, `/constants`
+5. ✅ .gitignore configured for Node.js projects (excludes `node_modules/`, `.env`, `dist/`, `.DS_Store`)
+
+**And** The development server starts successfully via `npm run dev`
+**And** A basic "Hello World" page renders in the browser at `http://localhost:5173`
+**And** Hot Module Replacement (HMR) works instantly when editing React components
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <!-- PRD: Product Requirements Document -->
+      <doc path="docs/PRD.md" section="NFR-3.1: Code Organization">
+        Component-based architecture with clear separation of concerns. Structure: /components, /pages, /services, /utils, /constants. Single Responsibility - each file/component has one clear purpose.
+      </doc>
+
+      <doc path="docs/PRD.md" section="NFR-3.3: Code Style &amp; Consistency">
+        ESLint configuration for linting, Prettier for formatting, Pre-commit hooks to enforce standards. Naming conventions: camelCase for variables/functions, PascalCase for components.
+      </doc>
+
+      <doc path="docs/PRD.md" section="NFR-6.1: Simple Deployment">
+        Static hosting (Netlify, Vercel, GitHub Pages). Single command (npm run build) produces deployment artifact.
+      </doc>
+
+      <doc path="docs/PRD.md" section="Web Application Specific Requirements">
+        Modern JavaScript framework required (React recommended). Component-based architecture for maintainability. State management for transaction data and UI state.
+      </doc>
+
+      <!-- Architecture: System Architecture Document -->
+      <doc path="docs/architecture.md" section="Project Initialization">
+        Command: npm create vite@latest smartbudget -- --template react-ts. Establishes: React 18+ with TypeScript, Vite (fast HMR), ES Modules, ESLint pre-configured. Requirements: Node.js 20.19+ or 22.12+
+      </doc>
+
+      <doc path="docs/architecture.md" section="Decision Summary">
+        Core Framework: React 18.x. Language: TypeScript 5.x. Build Tool: Vite 6.x (modern, fast, officially recommended for React 2025). Package Manager: npm 10.x.
+      </doc>
+
+      <doc path="docs/architecture.md" section="Project Structure">
+        Complete folder structure: src/ with assets/, components/ (common/, layout/, transactions/, dashboard/, charts/), pages/, context/, services/, models/, constants/, utils/, hooks/, styles/.
+      </doc>
+
+      <doc path="docs/architecture.md" section="Naming Conventions">
+        Components: PascalCase.tsx. Services: camelCase.ts. Utilities: camelCase.ts. Types/Models: PascalCase.ts.
+      </doc>
+
+      <doc path="docs/architecture.md" section="Development Environment Setup">
+        npm create vite@latest smartbudget -- --template react-ts, cd smartbudget, npm install. Daily: npm run dev, npm run lint, npm run build.
+      </doc>
+
+      <!-- Epic Tech Spec: Technical Specification for Epic 1 -->
+      <doc path=".bmad-ephemeral/stories/tech-spec-epic-1.md" section="Overview">
+        Epic 1 establishes technical foundation using Vite + React + TypeScript + Tailwind CSS with automated quality enforcement. Creates professional, maintainable project structure.
+      </doc>
+
+      <doc path=".bmad-ephemeral/stories/tech-spec-epic-1.md" section="System Architecture Alignment">
+        Starter Template: Vite react-ts template. React 18.x + TypeScript 5.x, Vite 6.x with fast HMR, ESLint pre-configured, ES Modules. Node.js 20.19+ or 22.12+ required.
+      </doc>
+
+      <doc path=".bmad-ephemeral/stories/tech-spec-epic-1.md" section="AC-1.1: Project Initialization">
+        Vite project with react-ts template. npm install completes. npm run dev starts server on localhost:5173. Folder structure: /src, /public, vite.config.ts, package.json, tsconfig.json.
+      </doc>
+
+      <doc path=".bmad-ephemeral/stories/tech-spec-epic-1.md" section="NFR-1.2: Development HMR">
+        Target: Hot Module Replacement less than 200ms. Vite's fast HMR engine. Changes reflect instantly in browser.
+      </doc>
+
+      <!-- Epics: Epic and Story Breakdown -->
+      <doc path="docs/epics.md" section="Epic 1: Project Foundation">
+        Establish professional foundation with modern tooling, quality standards, deployment infrastructure. Technical bedrock for all subsequent development.
+      </doc>
+
+      <doc path="docs/epics.md" section="Story 1.1">
+        Initialize new project with modern JavaScript framework and build tooling. Solid foundation for SmartBudget. React properly configured, modern build tool, basic folder structure, development server starts successfully.
+      </doc>
+    </docs>
+
+    <code>
+      <!-- No existing code - Story 1.1 creates initial codebase from Vite template -->
+      <!-- This story will generate the entire project structure from scratch -->
+    </code>
+
+    <dependencies>
+      <ecosystem name="node">
+        <package name="react" version="^18.3.0" required="true">React library for UI</package>
+        <package name="react-dom" version="^18.3.0" required="true">React DOM renderer</package>
+        <package name="typescript" version="~5.6.0" required="true">TypeScript compiler</package>
+        <package name="vite" version="^6.0.0" required="true">Build tool and dev server</package>
+        <package name="@types/react" version="^18.3.0" dev="true">TypeScript types for React</package>
+        <package name="@types/react-dom" version="^18.3.0" dev="true">TypeScript types for React DOM</package>
+        <package name="@vitejs/plugin-react" version="^4.3.0" dev="true">Vite plugin for React</package>
+      </ecosystem>
+
+      <notes>
+        All dependencies installed automatically by Vite template (npm create vite@latest -- --template react-ts).
+        Versions verified current as of 2025-11-10.
+        Node.js 20.19+ or 22.12+ required (checked in Task 1.1).
+      </notes>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="environment">Node.js version ≥20.19 or ≥22.12 required (Vite 6.x dependency)</constraint>
+    <constraint type="environment">npm 10.x (comes with Node.js, no separate install)</constraint>
+    <constraint type="browser">Modern browsers only (Chrome, Firefox, Safari latest 2 versions) - No IE11 support</constraint>
+    <constraint type="architecture">Client-side only (no backend in MVP) - SPA architecture</constraint>
+    <constraint type="build">ES2020+ JavaScript - ES Modules (ESM) standard</constraint>
+    <constraint type="structure">Must follow exact folder structure from architecture.md - /src with 10 subdirectories</constraint>
+    <constraint type="naming">Components: PascalCase.tsx, Services: camelCase.ts, Utilities: camelCase.ts, Models: PascalCase.ts</constraint>
+    <constraint type="git">.gitignore must exclude: node_modules/, dist/, .env, .DS_Store, *.log, .vscode/, .idea/, coverage/</constraint>
+    <constraint type="performance">Development HMR target: less than 200ms. Production build: less than 30 seconds</constraint>
+    <constraint type="quality">Zero TypeScript errors. Zero ESLint errors. Code must pass tsc --noEmit and npm run lint</constraint>
+  </constraints>
+
+  <interfaces>
+    <!-- No external APIs in this story - pure project setup -->
+    <!-- Internal structure established: -->
+
+    <interface name="Vite Config" type="build-config">
+      <location>vite.config.ts</location>
+      <purpose>Build tool configuration - dev server, plugins, optimizations</purpose>
+      <notes>Auto-generated by Vite template. Includes @vitejs/plugin-react for JSX and Fast Refresh</notes>
+    </interface>
+
+    <interface name="TypeScript Config" type="compiler-config">
+      <location>tsconfig.json</location>
+      <purpose>TypeScript compiler options - strict mode, module resolution, JSX transform</purpose>
+      <notes>Auto-generated by Vite template. Uses modern ES2020+ target</notes>
+    </interface>
+
+    <interface name="Package Scripts" type="npm-scripts">
+      <location>package.json</location>
+      <scripts>
+        <script name="dev">vite - Start development server</script>
+        <script name="build">tsc &amp;&amp; vite build - Type check and build for production</script>
+        <script name="preview">vite preview - Preview production build locally</script>
+      </scripts>
+      <notes>Additional scripts added in Story 1.2 (lint, format)</notes>
+    </interface>
+
+    <interface name="Project Entry Point" type="react-root">
+      <location>src/main.tsx</location>
+      <purpose>Application entry point - renders React root to DOM</purpose>
+      <signature>ReactDOM.createRoot(document.getElementById('root')!).render(&lt;App /&gt;)</signature>
+    </interface>
+
+    <interface name="App Component" type="react-component">
+      <location>src/App.tsx</location>
+      <purpose>Root React component - will contain routing in Story 1.3</purpose>
+      <notes>Initially contains Vite welcome screen. Modified in Story 1.3 for routing</notes>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Epic 1 uses manual testing only. Automated testing deferred to Epic 6.
+
+      Manual verification approach:
+      - Execute commands and verify output
+      - Check browser for expected rendering
+      - Inspect file system for correct structure
+      - Verify no console errors in browser dev tools
+      - Confirm TypeScript compilation succeeds (npm run build)
+
+      Test environment: Local development machine with Node.js 20.19+ or 22.12+
+    </standards>
+
+    <locations>
+      No automated test files in Story 1.1.
+      Testing infrastructure established in Epic 6 (Vitest + React Testing Library).
+      Future tests location: src/**/*.test.tsx or src/**/*.test.ts
+    </locations>
+
+    <ideas>
+      <test id="AC-1" criterion="React 18.x + TypeScript 5.x configured">
+        Manual: Run 'npm run dev', check package.json for react@^18.3.0 and typescript@~5.6.0
+        Verify: Browser renders Vite + React welcome screen with no errors
+      </test>
+
+      <test id="AC-2" criterion="Vite 6.x build tool set up">
+        Manual: Verify package.json contains vite@^6.0.0
+        Verify: 'npm run dev' starts server on localhost:5173 in less than 2 seconds
+      </test>
+
+      <test id="AC-3" criterion="package.json with dependencies">
+        Manual: Inspect package.json dependencies section
+        Verify: Contains react, react-dom, vite, typescript with correct versions
+      </test>
+
+      <test id="AC-4" criterion="Basic folder structure created">
+        Manual: Run 'ls -R src' to list all directories
+        Verify: /src, /public exist. Subdirectories: components/, pages/, services/, utils/, constants/, models/, hooks/, context/, assets/, styles/
+      </test>
+
+      <test id="AC-5" criterion=".gitignore configured">
+        Manual: cat .gitignore
+        Verify: Contains node_modules/, dist/, .env, .DS_Store, *.log, .vscode/, .idea/, coverage/
+      </test>
+
+      <test id="AC-6" criterion="Development server starts">
+        Manual: npm run dev
+        Verify: Server starts on http://localhost:5173, terminal shows "Local: http://localhost:5173/"
+      </test>
+
+      <test id="AC-7" criterion="Hello World page renders">
+        Manual: Open http://localhost:5173 in browser
+        Verify: Vite + React logo visible, no console errors in browser dev tools
+      </test>
+
+      <test id="AC-8" criterion="HMR works instantly">
+        Manual: Edit src/App.tsx (change text "Vite + React" to "SmartBudget")
+        Verify: Browser updates within 200ms without full page reload, console shows [vite] hot updated
+      </test>
+
+      <test id="BUILD" criterion="Production build succeeds">
+        Manual: npm run build
+        Verify: dist/ folder created, contains index.html and assets/ with minified JS/CSS bundles
+        Check: No TypeScript errors, build completes in less than 30 seconds
+      </test>
+
+      <test id="GIT" criterion="Git repository initialized">
+        Manual: git status
+        Verify: "On branch main" or "On branch master", "nothing to commit, working tree clean"
+        Check: .git/ folder exists in project root
+      </test>
+    </ideas>
+  </tests>
+</story-context>

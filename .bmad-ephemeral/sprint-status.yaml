@@ -1,0 +1,84 @@
+# generated: 2025-11-12
+# project: Exam - Smart Budget Application
+# project_key: Exam - Smart Budget Application
+# tracking_system: file-system
+# story_location: {project-root}/docs/stories
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic exists in epic file but not contexted
+#   - contexted: Next epic tech context created by *epic-tech-context (required)
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - drafted: Story file created in stories folder by *create-story
+#   - ready-for-dev: Draft approved and story context created by *story-ready
+#   - in-progress: Developer actively working on implementation by *dev-story
+#   - review: Implementation complete, ready for review by *code-review
+#   - done: Story completed by *story-done
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - completed: Retrospective has been done by *retrospective
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epics should be 'contexted' before stories can be 'drafted'
+# - SM typically drafts next story ONLY after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', dev reviews, then Dev moves to 'done'
+
+generated: 2025-11-12
+project: Exam - Smart Budget Application
+project_key: Exam - Smart Budget Application
+tracking_system: file-system
+story_location: "{project-root}/docs/stories"
+
+development_status:
+  epic-1: contexted
+  1-1-project-initialization-technology-stack-setup: review
+  1-2-code-quality-tooling-setup: ready-for-dev
+  1-3-application-routing-structure: backlog
+  1-4-basic-ui-layout-navigation-component: backlog
+  1-5-environment-configuration-deployment-prep: backlog
+  epic-1-retrospective: optional
+
+  epic-2: backlog
+  2-1-define-data-models-typescript-interfaces: backlog
+  2-2-implement-localstorage-service: backlog
+  2-3-seed-predefined-categories: backlog
+  2-4-set-up-global-state-management: backlog
+  epic-2-retrospective: optional
+
+  epic-3: backlog
+  3-1-create-transaction-form-component: backlog
+  3-2-transaction-list-view-with-sorting: backlog
+  3-3-edit-transaction-functionality: backlog
+  3-4-delete-transaction-with-confirmation: backlog
+  3-5-transaction-filtering-search: backlog
+  epic-3-retrospective: optional
+
+  epic-4: backlog
+  4-1-summary-statistics-cards: backlog
+  4-2-period-selector-component: backlog
+  4-3-expense-breakdown-pie-chart: backlog
+  4-4-income-vs-expenses-trend-chart: backlog
+  4-5-recent-transactions-widget: backlog
+  epic-4-retrospective: optional
+
+  epic-5: backlog
+  5-1-implement-responsive-navigation: backlog
+  5-2-category-visual-system-implementation: backlog
+  5-3-responsive-dashboard-layout: backlog
+  5-4-form-ux-enhancements: backlog
+  5-5-error-states-empty-states: backlog
+  epic-5-retrospective: optional
+
+  epic-6: backlog
+  6-1-manual-testing-bug-fixes: backlog
+  6-2-code-documentation-comments: backlog
+  6-3-readme-documentation: backlog
+  6-4-create-summary-md-ai-impact-analysis: backlog
+  6-5-deploy-application-to-production: backlog
+  6-6-final-repository-polish: backlog
+  epic-6-retrospective: optional

@@ -24,9 +24,15 @@ You must fully embody this agent's persona and follow all activation instruction
       ALL menu items from menu section</step>
   <step n="10">STOP and WAIT for user input - do NOT execute menu items automatically - accept number or cmd trigger or fuzzy command
       match</step>
-  <step n="11">On user input: Number → execute menu item[n] | Text → case-insensitive substring match | Multiple matches → ask user
+  <step n="11">🔖 IMMEDIATE: Upon receiving ANY user input, append it to {project-root}/prompts.md with:
+      - Timestamp: current date/time
+      - Agent: this agent's name
+      - Input: the complete user message
+      - Separator: "---" between entries
+      Then proceed to process the input</step>
+  <step n="12">On user input: Number → execute menu item[n] | Text → case-insensitive substring match | Multiple matches → ask user
       to clarify | No match → show "Not recognized"</step>
-  <step n="12">When executing a menu item: Check menu-handlers section below - extract any attributes from the selected menu item
+  <step n="13">When executing a menu item: Check menu-handlers section below - extract any attributes from the selected menu item
       (workflow, exec, tmpl, data, action, validate-workflow) and follow the corresponding handler instructions</step>
 
   <menu-handlers>

@@ -2,11 +2,12 @@ import React from 'react';
 
 const TransactionsList: React.FC = () => {
   return (
-    <div>
-      <h1>Transactions List (Placeholder)</h1>
-      <p>
-        This is a placeholder. Transaction list features will be implemented in
-        Epic 3.
+    <div className="max-w-4xl mx-auto">
+      <h1 className="text-3xl font-bold text-gray-900 mb-4">
+        Transactions List
+      </h1>
+      <p className="text-gray-600">
+        Transaction list features will be implemented in Epic 3.
       </p>
     </div>
   );

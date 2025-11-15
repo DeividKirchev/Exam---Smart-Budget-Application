@@ -100,13 +100,44 @@ smartbudget/
 
 Note: Placeholders will be implemented with full functionality in future epics.
 
+## Components
+
+### Layout Components
+
+- **Layout** - Main layout wrapper providing consistent structure
+- **Header** - Application header with SmartBudget branding
+- **Navigation** - Responsive navigation menu with active state highlighting
+
+## UI Framework
+
+**Tailwind CSS 4.0** - Utility-first CSS framework for rapid UI development
+
+- Mobile-first responsive design
+- Optimized production builds (unused classes purged)
+- Custom configuration in `tailwind.config.js`
+
+**Lucide React** - Modern icon library
+
+- Lightweight, tree-shakable SVG icons
+- Used for navigation and UI elements
+
+## Responsive Breakpoints
+
+- **Mobile**: < 768px (hamburger menu)
+- **Tablet**: 768px - 1023px
+- **Desktop**: ≥ 1024px
+
+The layout is designed mobile-first and adapts seamlessly across all screen sizes.
+
 ## Tech Stack
 
 - **React** 18.3.1 - UI framework
 - **TypeScript** 5.9.3 - Type safety
 - **Vite** 6.4.1 - Build tool & dev server
 - **React Router** 6.30.2 - Client-side routing
-- **ESLint** - Code quality
+- **Tailwind CSS** 4.0.0 - Utility-first CSS framework
+- **Lucide React** - Icon library
+- **ESLint** + **Prettier** - Code quality
 
 ## License
 

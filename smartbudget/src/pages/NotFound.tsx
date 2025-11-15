@@ -3,10 +3,15 @@ import { Link } from 'react-router-dom';
 
 const NotFound: React.FC = () => {
   return (
-    <div>
-      <h1>404 - Page Not Found</h1>
-      <p>The page you're looking for doesn't exist.</p>
-      <Link to="/dashboard">← Back to Dashboard</Link>
+    <div className="text-center py-16">
+      <h1 className="text-4xl font-bold text-gray-900 mb-4">404</h1>
+      <p className="text-xl text-gray-600 mb-8">Page Not Found</p>
+      <Link
+        to="/"
+        className="text-blue-600 hover:text-blue-700 underline font-medium"
+      >
+        Return to Dashboard
+      </Link>
     </div>
   );
 };

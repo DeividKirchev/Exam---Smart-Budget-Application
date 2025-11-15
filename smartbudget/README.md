@@ -90,11 +90,22 @@ smartbudget/
 └── .gitignore         # Git ignore rules
 ```
 
+## Routes
+
+- `/` or `/dashboard` - Dashboard (placeholder)
+- `/transactions` - Transactions list (placeholder)
+- `/transactions/new` - Add new transaction (placeholder)
+- `/transactions/:id/edit` - Edit existing transaction (placeholder)
+- `*` - 404 Not Found page
+
+Note: Placeholders will be implemented with full functionality in future epics.
+
 ## Tech Stack
 
 - **React** 18.3.1 - UI framework
 - **TypeScript** 5.9.3 - Type safety
 - **Vite** 6.4.1 - Build tool & dev server
+- **React Router** 6.30.2 - Client-side routing
 - **ESLint** - Code quality
 
 ## License

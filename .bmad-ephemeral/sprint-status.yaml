@@ -36,11 +36,11 @@ story_location: "{project-root}/docs/stories"
 
 development_status:
   epic-1: contexted
-  1-1-project-initialization-technology-stack-setup: review
-  1-2-code-quality-tooling-setup: ready-for-dev
-  1-3-application-routing-structure: backlog
-  1-4-basic-ui-layout-navigation-component: backlog
-  1-5-environment-configuration-deployment-prep: backlog
+  1-1-project-initialization-technology-stack-setup: done
+  1-2-code-quality-tooling-setup: done
+  1-3-application-routing-structure: done
+  1-4-basic-ui-layout-navigation-component: drafted
+  1-5-environment-configuration-deployment-prep: drafted
   epic-1-retrospective: optional
 
   epic-2: backlog

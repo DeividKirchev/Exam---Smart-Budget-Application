@@ -1,0 +1,209 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>3</storyId>
+    <title>Application Routing Structure</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-15</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>.bmad-ephemeral/stories/1-3-application-routing-structure.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a user</asA>
+    <iWant>to navigate between different pages in the application</iWant>
+    <soThat>I can access Dashboard, Transactions, and other views seamlessly</soThat>
+    <tasks>
+### Task 1: Install React Router Dependencies (AC: #1-5)
+- Install React Router v6: npm install react-router-dom@^6.30.0
+- Verify package.json includes react-router-dom in dependencies
+- Check React Router version matches architecture spec (6.x)
+
+### Task 2: Create Placeholder Page Components (AC: #1-4)
+- Create Dashboard page component at src/pages/Dashboard.tsx
+- Create Transactions List page at src/pages/TransactionsList.tsx
+- Create Transaction Form page at src/pages/TransactionForm.tsx with mode prop
+- Create 404 Not Found page at src/pages/NotFound.tsx
+
+### Task 3: Configure React Router in App.tsx (AC: #1-5)
+- Import React Router components (BrowserRouter, Routes, Route, Navigate)
+- Import all page components
+- Wrap app in BrowserRouter
+- Define all routes inside Routes
+- Verify route order (most specific first, wildcard * last)
+- Remove default Vite template content
+
+### Task 4: Add Navigation Links (Basic) (AC: navigation)
+- Import Link component
+- Add simple navigation above Routes
+- Note: Full navigation styling will be in Story 1.4
+
+### Task 5: Test Client-Side Navigation (AC: navigation, back/forward)
+- Start dev server and test each route manually
+- Test browser navigation (back/forward buttons)
+- Verify URL updates and no full page reload
+- Check console for errors
+
+### Task 6: Test Dynamic Route Parameters (AC: #4)
+- Add useParams hook in TransactionForm.tsx
+- Test with different IDs
+- Verify id parameter is accessible
+
+### Task 7: Verify TypeScript Compilation (AC: quality)
+- Run TypeScript type check: npx tsc --noEmit
+- Fix any TypeScript errors
+- Ensure proper type annotations
+- Verify no any types used
+
+### Task 8: Test Production Build (AC: deployment readiness)
+- Run production build: npm run build
+- Verify build succeeds
+- Check bundle size (should be reasonable, <200KB)
+- Preview production build and test routes
+
+### Task 9: Update README (Best Practice)
+- Add Routes section to README.md documenting all routes
+
+### Task 10: Git Commit (Best Practice)
+- Stage changes and verify linting passes
+- Create commit with conventional format
+- Verify all acceptance criteria met
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+**Given** The application is running (Story 1.1 complete)
+**When** I navigate to different routes
+**Then** The following routes are accessible:
+
+1. `/` or `/dashboard` - Dashboard view (placeholder component)
+2. `/transactions` - Transactions list view (placeholder component)
+3. `/transactions/new` - Add transaction form (placeholder component)
+4. `/transactions/:id/edit` - Edit transaction form (placeholder component with dynamic :id param)
+5. `/*` (invalid routes) - 404 Not Found page
+
+**And** Navigation is client-side only (no page reloads, no full HTTP requests)
+**And** Browser back/forward buttons work correctly
+**And** Invalid routes show a proper 404 Not Found page
+**And** URL updates in browser address bar when navigating
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>SmartBudget - System Architecture</title>
+        <section>Routing & Navigation</section>
+        <snippet>React Router 6.x is the de facto standard for React routing. Client-side routing only, no backend required for MVP. Uses BrowserRouter for clean URLs.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>SmartBudget - System Architecture</title>
+        <section>Project Structure - Pages</section>
+        <snippet>Page components defined in src/pages/: Dashboard.tsx, TransactionsList.tsx, TransactionForm.tsx, NotFound.tsx. App.tsx serves as root component with routing configuration.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-1.md</path>
+        <title>Epic Technical Specification: Project Foundation</title>
+        <section>React Router Configuration</section>
+        <snippet>Story 1.3 establishes React Router 6.x for client-side navigation with placeholder pages. BrowserRouter provides clean URLs, Routes component manages navigation.</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>Epic 1: Project Foundation & Development Setup</title>
+        <section>Story 1.3: Application Routing Structure</section>
+        <snippet>Implement React Router with 5 routes: /, /dashboard, /transactions, /transactions/new, /transactions/:id/edit. All routes need placeholder components and 404 handling.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/1-1-project-initialization-technology-stack-setup.md</path>
+        <title>Story 1.1 Learnings</title>
+        <section>Prerequisites for Story 1.3</section>
+        <snippet>Vite 6.4.1 project initialized with React 18.3.1 + TypeScript. src/pages/ directory already created. src/App.tsx exists and needs modification for routing. Development server runs on port 5173.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>smartbudget/src/App.tsx</path>
+        <kind>component</kind>
+        <symbol>App</symbol>
+        <lines>1-36</lines>
+        <reason>Root component that needs modification to add BrowserRouter and Routes configuration. Currently contains Vite template boilerplate.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/main.tsx</path>
+        <kind>entry-point</kind>
+        <symbol>main</symbol>
+        <lines>N/A</lines>
+        <reason>Application entry point - mounts App component. No changes needed for routing.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package name="react" version="^18.3.1" />
+        <package name="react-dom" version="^18.3.1" />
+        <package name="vite" version="^6.4.1" />
+        <package name="typescript" version="~5.9.3" />
+      </node>
+      <to-install>
+        <package name="react-router-dom" version="^6.30.0" reason="Client-side routing for SPA navigation" />
+      </to-install>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Use React Router 6.x syntax (BrowserRouter, Routes, Route components - NOT older Switch syntax)</constraint>
+    <constraint>All page components must be TypeScript (.tsx) with proper type annotations</constraint>
+    <constraint>Route order matters: Most specific routes first, wildcard (*) route last for 404 handling</constraint>
+    <constraint>Client-side routing only - no full page reloads, browser back/forward must work</constraint>
+    <constraint>Use BrowserRouter (clean URLs) not HashRouter per architecture specification</constraint>
+    <constraint>Placeholder components only - actual implementations come in Epic 3-4</constraint>
+    <constraint>Must pass ESLint and Prettier checks (Story 1.2 quality gates)</constraint>
+    <constraint>Bundle size should stay under 200KB after adding React Router (~10-15KB addition)</constraint>
+    <constraint>Compatible with Vite 6.4.1 and Node.js 18.20.4 (established in Story 1.1)</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>Route Configuration</name>
+      <kind>React Router Routes</kind>
+      <signature>
+        &lt;Routes&gt;
+          &lt;Route path="/" element={&lt;Dashboard /&gt;} /&gt;
+          &lt;Route path="/dashboard" element={&lt;Dashboard /&gt;} /&gt;
+          &lt;Route path="/transactions" element={&lt;TransactionsList /&gt;} /&gt;
+          &lt;Route path="/transactions/new" element={&lt;TransactionForm mode="create" /&gt;} /&gt;
+          &lt;Route path="/transactions/:id/edit" element={&lt;TransactionForm mode="edit" /&gt;} /&gt;
+          &lt;Route path="*" element={&lt;NotFound /&gt;} /&gt;
+        &lt;/Routes&gt;
+      </signature>
+      <path>smartbudget/src/App.tsx</path>
+    </interface>
+    <interface>
+      <name>TransactionForm Props</name>
+      <kind>Component Interface</kind>
+      <signature>interface TransactionFormProps { mode: 'create' | 'edit' }</signature>
+      <path>smartbudget/src/pages/TransactionForm.tsx</path>
+    </interface>
+    <interface>
+      <name>useParams Hook</name>
+      <kind>React Router Hook</kind>
+      <signature>const { id } = useParams&lt;{ id: string }&gt;();</signature>
+      <path>smartbudget/src/pages/TransactionForm.tsx</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>Manual testing required for Story 1.3 (no automated test infrastructure yet). Use browser DevTools to verify: (1) client-side navigation with no document reloads in Network tab, (2) browser back/forward functionality, (3) dynamic route parameters displaying correctly, (4) 404 page for invalid routes. Run 'npm run build' to verify production bundle size stays under 200KB. TypeScript compilation via 'npx tsc --noEmit' must pass with zero errors.</standards>
+    <locations>No automated test files in Story 1.3. Manual browser testing at http://localhost:5173. Future: tests/ directory will be established in Epic 6.</locations>
+    <ideas>
+      <test ac="AC-1" description="Verify Dashboard route accessible at / and /dashboard, renders placeholder content" />
+      <test ac="AC-2" description="Verify Transactions list route accessible at /transactions, renders placeholder" />
+      <test ac="AC-3" description="Verify Add Transaction route accessible at /transactions/new, shows 'create' mode" />
+      <test ac="AC-4" description="Verify Edit Transaction route at /transactions/:id/edit shows correct id parameter (test with 123, 456, abc)" />
+      <test ac="AC-5" description="Verify 404 Not Found page renders for invalid routes like /invalid-route" />
+      <test ac="navigation" description="Click browser back button after navigating Dashboard → Transactions → Add, verify returns to Transactions then Dashboard" />
+      <test ac="navigation" description="Open Network tab, navigate between routes, verify zero document requests (only XHR/fetch allowed)" />
+      <test ac="quality" description="Run 'npx tsc --noEmit' to verify TypeScript compilation with no errors" />
+      <test ac="quality" description="Run 'npm run lint' to verify ESLint passes (pre-commit hook from Story 1.2)" />
+      <test ac="build" description="Run 'npm run build', check dist/ bundle size is under 200KB total" />
+    </ideas>
+  </tests>
+</story-context>

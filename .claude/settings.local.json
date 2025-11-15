@@ -21,7 +21,12 @@
       "Bash(fetch:*)",
       "Bash(nul)",
       "Bash(git add:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npm run format:*)",
+      "Bash(git commit:*)",
+      "Bash(cat:*)",
+      "Bash(npm run prepare:*)"
     ],
     "deny": [],
     "ask": []

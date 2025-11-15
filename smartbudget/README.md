@@ -44,6 +44,25 @@ Preview the production build locally:
 npm run preview
 ```
 
+## Code Quality
+
+This project uses ESLint and Prettier to enforce code quality standards.
+
+**Linting Commands:**
+
+- `npm run lint` - Check for linting errors
+- `npm run lint:fix` - Auto-fix linting errors
+- `npm run format` - Format all code with Prettier
+- `npm run format:check` - Check code formatting
+
+**Pre-commit Hooks:**
+
+- Husky runs lint-staged before each commit
+- Commits with linting errors will be blocked
+- Code is automatically formatted on commit
+
+All linting rules are configured in `eslint.config.js`. Formatting rules are defined in `.prettierrc`. For more details on the code quality setup, see the configuration files in the project root.
+
 ## Project Structure
 
 ```

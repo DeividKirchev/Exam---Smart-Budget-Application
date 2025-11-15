@@ -39,8 +39,8 @@ development_status:
   1-1-project-initialization-technology-stack-setup: done
   1-2-code-quality-tooling-setup: done
   1-3-application-routing-structure: done
-  1-4-basic-ui-layout-navigation-component: drafted
-  1-5-environment-configuration-deployment-prep: drafted
+  1-4-basic-ui-layout-navigation-component: review
+  1-5-environment-configuration-deployment-prep: review  # Implementation completed 2025-11-15
   epic-1-retrospective: optional
 
   epic-2: backlog

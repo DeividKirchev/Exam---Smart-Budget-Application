@@ -1,0 +1,360 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>5</storyId>
+    <title>Environment Configuration & Deployment Prep</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-15</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>.bmad-ephemeral/stories/1-5-environment-configuration-deployment-prep.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a developer</asA>
+    <iWant>environment variables and build configuration set up</iWant>
+    <soThat>the application can be deployed to production (NFR-6)</soThat>
+    <tasks>
+### Task 1: Create Environment Variable Configuration (AC: #1, #2)
+- Create .env.example file with template variables (VITE_APP_NAME, VITE_APP_VERSION, etc.)
+- Create .env.development file with dev-specific values
+- Create .env.production file with production values
+- Verify .env files in .gitignore
+- Add security comments explaining env file exclusion
+
+### Task 2: Configure TypeScript Environment Types (AC: #1)
+- Create/update src/vite-env.d.ts with ImportMetaEnv interface
+- Define all environment variable types
+- Verify TypeScript recognizes env types
+- Test IDE autocomplete for environment variables
+
+### Task 3: Use Environment Variables in App (AC: #1)
+- Update Header.tsx to use VITE_APP_NAME and VITE_APP_ENV
+- Add version display (optional)
+- Test dev environment shows "(Dev)" indicator
+- Verify production build does NOT show "(Dev)" indicator
+
+### Task 4: Optimize Vite Build Configuration (AC: #3, minification)
+- Update vite.config.ts with production optimizations (sourcemap: false, minify: esbuild)
+- Configure manual chunks (react-vendor, router)
+- Set build.outDir to 'dist'
+- Configure server.port and open: true
+
+### Task 5: Create Netlify Deployment Configuration (AC: #5)
+- Create netlify.toml with build config
+- Add client-side routing redirects (/* -> /index.html)
+- Add security headers (X-Frame-Options, X-Content-Type-Options, Referrer-Policy)
+- Add asset caching headers (Cache-Control: immutable)
+
+### Task 6: Create Vercel Deployment Configuration (AC: #5)
+- Create vercel.json with build config
+- Add client-side routing rewrites
+- Add security headers
+- Add asset caching headers
+
+### Task 7: Add Deployment Scripts to package.json (AC: #3)
+- Add 'preview' script
+- Add 'type-check' script
+- Verify build script includes TypeScript check
+- Test all scripts individually
+
+### Task 8: Test Production Build Process (AC: #3)
+- Clean previous builds
+- Run type-check (verify 0 errors)
+- Run production build (verify success, <30s build time)
+- Inspect /dist folder (index.html, hashed assets)
+- Check bundle sizes (<300KB target)
+- Verify minification
+
+### Task 9: Test Production Preview Server (AC: #3, #4)
+- Start preview server
+- Test all routes (/, /dashboard, /transactions, etc.)
+- Test environment variables in production build
+- Open DevTools (check console errors, network assets, cache headers)
+- Test responsive layout
+
+### Task 10: Security Audit (AC: security)
+- Run npm audit
+- Verify .env files NOT committed to Git
+- Verify no sensitive data in Git history
+- Test VITE_ prefix enforcement
+
+### Task 11: Update README with Deployment Documentation (AC: README)
+- Add Environment Variables section
+- Add Build & Deployment section (Netlify and Vercel instructions)
+- Update Available Scripts section
+- Add Browser Support section
+
+### Task 12: Create .gitignore Additions (AC: security)
+- Verify .gitignore includes dist, .env files, deployment folders
+- Add comments explaining each section
+- Verify no sensitive files tracked
+
+### Task 13: Test Asset Optimization (AC: #3, #4)
+- Check CSS optimization (Tailwind purged, minified)
+- Check JS code splitting (react-vendor, router, main chunks)
+- Check static assets handling
+- Verify asset hashing
+
+### Task 14: Document Build Performance Baseline (Best Practice)
+- Record production build metrics (build time, bundle size, gzipped size, chunk count)
+- Add performance baseline to story completion notes
+- Compare with previous baselines (Story 1.1: 144KB, Story 1.3: 166KB, Story 1.4: expected ~200KB)
+
+### Task 15: Git Commit (Best Practice)
+- Verify linting passes
+- Verify type check passes
+- Stage changes (verify .env files NOT staged)
+- Create conventional commit message
+- Verify pre-commit hooks pass
+- Verify all acceptance criteria met
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+1. ✅ Environment variable support (.env files with VITE_ prefix)
+2. ✅ Separate configs for development and production
+3. ✅ Build script produces optimized production bundle in /dist
+4. ✅ Static asset handling configured correctly
+5. ✅ Deployment configuration files for Netlify/Vercel
+6. ✅ npm run build creates deployable artifact in /dist folder
+7. ✅ Production build is optimized (minified, tree-shaken, gzipped)
+8. ✅ README documents deployment process step-by-step
+9. ✅ .env files excluded from Git (security)
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>System Architecture Document</title>
+        <section>Environment Configuration</section>
+        <snippet>Vite environment system uses import.meta.env.VITE_* prefix for security. Only VITE_* prefixed variables exposed to client to prevent secrets leakage.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>System Architecture Document</title>
+        <section>Deployment Architecture</section>
+        <snippet>Target platforms: Netlify and Vercel for static hosting. Both support serverless functions for future use. Deployment configurations include client-side routing support via redirects/rewrites.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>System Architecture Document</title>
+        <section>Performance Considerations</section>
+        <snippet>Build optimization strategy includes esbuild minification, code splitting (react-vendor, router chunks), sourcemap disabled in production, and aggressive asset caching with immutable headers.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>System Architecture Document</title>
+        <section>Security Architecture</section>
+        <snippet>Security headers configured: X-Frame-Options: DENY (prevent clickjacking), X-Content-Type-Options: nosniff (prevent MIME sniffing), Referrer-Policy: strict-origin-when-cross-origin (privacy).</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>AC-1.5: Environment Configuration</section>
+        <snippet>Environment variable handling with VITE_ prefix for client-side exposure. Separate .env files for development and production. Build optimization includes minification, code splitting, and security headers.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>Non-Functional Requirements - Security</section>
+        <snippet>Environment variables with VITE_ prefix only. .env files excluded from Git. Security headers configured (XSS, clickjacking prevention). Sourcemaps disabled in production. npm audit for vulnerability scanning.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>Non-Functional Requirements - Performance</section>
+        <snippet>Build time target: <30 seconds. Bundle size target: <500KB. Code splitting for vendor libraries. Asset caching with immutable headers for hashed filenames.</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>NFR-6: Deployment Requirements</section>
+        <snippet>Application must be deployable to static hosting platforms (Netlify, Vercel). Production build must be optimized and cacheable. Deployment documentation required in README.</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>NFR-3: Code Quality</section>
+        <snippet>TypeScript strict mode enabled. Linting and formatting enforced. Type checking must pass before production builds. All scripts documented in README.</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>Epic Breakdown</title>
+        <section>Epic 1, Story 1.5</section>
+        <snippet>Final story in Epic 1. Sets up environment configuration, build optimization, and deployment preparation. Critical for production readiness.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/1-3-application-routing-structure.md</path>
+        <title>Story 1.3 Completion Notes</title>
+        <section>Dev Agent Record</section>
+        <snippet>Bundle size baseline: 166.51 KB (54.36 KB gzipped). Build performance: 3.35s. React Router requires server redirect configuration for production deployment.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <file>
+        <path>smartbudget/vite.config.ts</path>
+        <kind>config</kind>
+        <symbol>defineConfig</symbol>
+        <lines>entire file</lines>
+        <reason>Must be updated with build optimizations (sourcemap: false, minify: esbuild, manualChunks for code splitting)</reason>
+      </file>
+      <file>
+        <path>smartbudget/package.json</path>
+        <kind>config</kind>
+        <symbol>scripts</symbol>
+        <lines>scripts section</lines>
+        <reason>Add 'preview' and 'type-check' scripts for deployment workflow</reason>
+      </file>
+      <file>
+        <path>smartbudget/.gitignore</path>
+        <kind>config</kind>
+        <symbol>N/A</symbol>
+        <lines>entire file</lines>
+        <reason>Verify .env files, dist folder, and deployment folders (.vercel, .netlify) are excluded</reason>
+      </file>
+      <file>
+        <path>smartbudget/src/components/layout/Header.tsx</path>
+        <kind>component</kind>
+        <symbol>Header</symbol>
+        <lines>entire file</lines>
+        <reason>Update to use environment variables (VITE_APP_NAME, VITE_APP_ENV) for dynamic app name and dev indicator</reason>
+      </file>
+      <file>
+        <path>smartbudget/README.md</path>
+        <kind>documentation</kind>
+        <symbol>N/A</symbol>
+        <lines>entire file</lines>
+        <reason>Add Environment Variables, Build & Deployment, and Browser Support sections</reason>
+      </file>
+    </code>
+    <dependencies>
+      <node>
+        <package>vite</package>
+        <version>^6.0.0</version>
+        <reason>Build tool - provides environment variable system and production build optimization</reason>
+      </node>
+      <node>
+        <package>typescript</package>
+        <version>~5.6.0</version>
+        <reason>Type checking for environment variables via ImportMetaEnv interface</reason>
+      </node>
+      <node>
+        <package>react</package>
+        <version>^18.3.0</version>
+        <reason>Code splitting - react-vendor chunk for vendor library caching</reason>
+      </node>
+      <node>
+        <package>react-dom</package>
+        <version>^18.3.0</version>
+        <reason>Code splitting - react-vendor chunk for vendor library caching</reason>
+      </node>
+      <node>
+        <package>react-router-dom</package>
+        <version>^6.30.0</version>
+        <reason>Code splitting - router chunk. Client-side routing requires deployment config (redirects/rewrites)</reason>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+1. **VITE_ Prefix Requirement**: All client-side environment variables MUST use VITE_ prefix for security (prevents server-side secrets exposure)
+2. **.env Security**: NEVER commit .env, .env.local, or .env.*.local files to Git. Only .env.example is safe to commit
+3. **Client-Side Routing**: Deployment configurations MUST include redirects (Netlify) or rewrites (Vercel) for /* -> /index.html to support React Router
+4. **Build Optimization**: Production builds MUST disable sourcemaps (sourcemap: false), enable minification (minify: esbuild), and configure code splitting
+5. **Security Headers**: Deployment configs MUST include X-Frame-Options: DENY, X-Content-Type-Options: nosniff, Referrer-Policy: strict-origin-when-cross-origin
+6. **Asset Caching**: Static assets in /assets/* MUST have Cache-Control: max-age=31536000, immutable for optimal caching
+7. **TypeScript Strict**: Type checking (tsc --noEmit) MUST pass before production builds. Define all env variables in ImportMetaEnv interface
+8. **Bundle Size Target**: Total production bundle <300KB (current baseline ~167KB, expected ~200KB after Tailwind CSS)
+9. **Build Time Target**: Production build must complete in <30 seconds (NFR-1.3)
+10. **Fallback Values**: Always provide fallback values when accessing environment variables (e.g., import.meta.env.VITE_APP_NAME || 'SmartBudget')
+  </constraints>
+
+  <interfaces>
+1. **ImportMetaEnv Interface (TypeScript)**:
+   ```typescript
+   interface ImportMetaEnv {
+     readonly VITE_APP_NAME: string;
+     readonly VITE_APP_VERSION: string;
+     readonly VITE_APP_DESCRIPTION: string;
+     readonly VITE_APP_ENV: 'development' | 'production';
+   }
+   ```
+
+2. **Vite Build Config (vite.config.ts)**:
+   ```typescript
+   export default defineConfig({
+     plugins: [react()],
+     build: {
+       outDir: 'dist',
+       sourcemap: false,
+       minify: 'esbuild',
+       target: 'es2020',
+       cssMinify: true,
+       rollupOptions: {
+         output: {
+           manualChunks: {
+             'react-vendor': ['react', 'react-dom'],
+             'router': ['react-router-dom']
+           }
+         }
+       }
+     }
+   });
+   ```
+
+3. **Environment Variable Access Pattern**:
+   ```typescript
+   const appName = import.meta.env.VITE_APP_NAME || 'SmartBudget';
+   const env = import.meta.env.VITE_APP_ENV;
+   const isDev = import.meta.env.DEV;
+   const isProd = import.meta.env.PROD;
+   ```
+
+4. **Netlify Deployment Config (netlify.toml)**:
+   ```toml
+   [build]
+     publish = "dist"
+     command = "npm run build"
+   [[redirects]]
+     from = "/*"
+     to = "/index.html"
+     status = 200
+   ```
+
+5. **Vercel Deployment Config (vercel.json)**:
+   ```json
+   {
+     "buildCommand": "npm run build",
+     "outputDirectory": "dist",
+     "rewrites": [{"source": "/(.*)", "destination": "/index.html"}]
+   }
+   ```
+  </interfaces>
+
+  <tests>
+    <standards>Manual testing approach for Story 1.5. No automated tests required for configuration files. Testing focuses on: (1) Environment variable functionality in dev and production builds, (2) Production build optimization verification, (3) Preview server testing with all routes, (4) Security audit with npm audit and Git history checks, (5) Deployment configuration validation.</standards>
+    <locations>N/A - Configuration story, no test files required. Verification through build output, preview server, and npm scripts.</locations>
+    <ideas>
+1. **Environment Variables Test** (AC #1, #2): Start dev server and verify app name shows with "(Dev)" indicator. Build production and verify NO "(Dev)" indicator. Test fallback by commenting out VITE_APP_NAME.
+
+2. **Production Build Test** (AC #3): Run 'npm run build', verify completes in <30 seconds, check dist/ folder exists with index.html and hashed assets, verify bundle size <300KB.
+
+3. **Preview Server Test** (AC #3, #4): Run 'npm run preview', navigate to all routes (/, /dashboard, /transactions, /transactions/new), verify no 404 errors, test direct URL access, test browser back/forward.
+
+4. **Security Audit Test** (AC #9): Run 'git status --ignored' to verify .env files in ignored section. Run 'git log --all --full-history -- "*.env"' to verify no .env files in history. Run 'npm audit' to check vulnerabilities.
+
+5. **Code Splitting Test** (AC #3): Inspect build output for chunk information. Verify separate chunks: react-vendor.js (~140KB), router.js (~20KB), main.js (smaller). Verify vendor chunk is largest.
+
+6. **Asset Optimization Test** (AC #3, #4): Inspect dist/assets/*.css for Tailwind purging (only used classes). Verify CSS minified. Verify JS minified with short variable names. Verify asset hashing (e.g., main.abc123.js).
+
+7. **Deployment Config Test** (AC #5): Verify netlify.toml has redirect rule (/* -> /index.html). Verify vercel.json has rewrite rule. Verify security headers in both configs. Verify cache headers for /assets/*.
+
+8. **TypeScript Types Test** (AC #1): Open Header.tsx, access import.meta.env.VITE_APP_NAME, verify TypeScript autocomplete works, verify no TypeScript errors, verify build type-check passes.
+
+9. **Environment Indicator Test** (AC #1): In development mode, verify Header shows "SmartBudget (Dev)". In production build preview, verify Header shows "SmartBudget" only (no dev indicator).
+
+10. **Build Performance Test** (Best Practice): Measure build time (should be <30s, expected ~3-5s). Record bundle size and compare to Story 1.3 baseline (166.51 KB). Document metrics in completion notes.
+    </ideas>
+  </tests>
+</story-context>

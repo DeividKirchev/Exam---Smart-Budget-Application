@@ -1,0 +1,356 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>4</storyId>
+    <title>Basic UI Layout & Navigation Component</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-15</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>.bmad-ephemeral/stories/1-4-basic-ui-layout-navigation-component.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a user</asA>
+    <iWant>a consistent layout with navigation across all pages</iWant>
+    <soThat>the application feels cohesive and I can easily move between sections</soThat>
+    <tasks>
+### Task 1: Install Tailwind CSS and Dependencies (AC: #3, #4)
+- 1.1: Install Tailwind CSS v4.x + required dependencies
+- 1.2: Initialize Tailwind configuration
+- 1.3: Verify configuration files created
+- 1.4: Configure Tailwind content scanning for TypeScript/TSX files
+- 1.5: Add Tailwind directives to src/index.css
+- 1.6: Verify dev server restarts and Tailwind classes work
+
+### Task 2: Install Lucide React Icons (AC: #1, #2)
+- 2.1: Install lucide-react icon library
+- 2.2: Verify package.json includes lucide-react dependency
+- 2.3: Test icon import works
+
+### Task 3: Create Layout Component (AC: #1, #3, #4)
+- 3.1: Create directory: src/components/layout/
+- 3.2: Create file: src/components/layout/Layout.tsx
+- 3.3: Define TypeScript interface for Layout props
+- 3.4: Implement Layout component structure
+- 3.5: Export Layout as default export
+
+### Task 4: Create Header Component (AC: #1)
+- 4.1: Create file: src/components/layout/Header.tsx
+- 4.2: Implement Header with SmartBudget branding
+- 4.3: Export Header component
+- 4.4: Use semantic HTML (header, h1)
+
+### Task 5: Create Navigation Component (AC: #2, active state)
+- 5.1: Create file: src/components/layout/Navigation.tsx
+- 5.2: Import React Router hooks and Link
+- 5.3: Define navigation items data structure
+- 5.4: Implement Navigation with active state detection using useLocation()
+- 5.5: Export Navigation component
+- 5.6: Use semantic HTML (nav, ul, li)
+
+### Task 6: Implement Mobile Responsive Navigation (AC: hamburger menu)
+- 6.1: Add state for mobile menu open/closed
+- 6.2: Import Menu and X icons from Lucide
+- 6.3: Add hamburger menu button (visible only on mobile < 768px)
+- 6.4: Update navigation list to show/hide based on screen size
+- 6.5: Add mobile-specific styles (full-width links on mobile)
+- 6.6: Close mobile menu when navigation item clicked
+- 6.7: Test responsive behavior at breakpoints: 320px, 767px, 768px, 1024px
+
+### Task 7: Wrap Routes in Layout Component (AC: all pages)
+- 7.1: Import Layout in src/App.tsx
+- 7.2: Wrap Routes with Layout component
+- 7.3: Remove inline navigation from App.tsx (now in Layout)
+- 7.4: Verify all pages render within Layout component
+
+### Task 8: Update Page Components with Tailwind Styling (AC: #3)
+- 8.1: Update Dashboard.tsx with Tailwind classes
+- 8.2: Update TransactionsList.tsx with Tailwind classes
+- 8.3: Update TransactionForm.tsx with Tailwind classes
+- 8.4: Update NotFound.tsx with centered error page styling
+- 8.5: Remove old inline styles from page components
+
+### Task 9: Test Responsive Layout (AC: #4)
+- 9.1: Start dev server: npm run dev
+- 9.2: Open browser DevTools responsive design mode
+- 9.3: Test at mobile breakpoint (375px width)
+- 9.4: Test at tablet breakpoint (768px width)
+- 9.5: Test at desktop breakpoint (1024px+ width)
+- 9.6: Test minimum width (320px)
+
+### Task 10: Test Active Navigation State (AC: active highlighting)
+- 10.1: Navigate to Dashboard (/) - verify highlighted
+- 10.2: Navigate to /dashboard - verify highlighted
+- 10.3: Navigate to /transactions - verify highlighted
+- 10.4: Navigate to /transactions/new - verify Transactions remains highlighted
+- 10.5: Verify color contrast meets accessibility (WCAG AA)
+
+### Task 11: Verify TypeScript Compilation (AC: quality)
+- 11.1: Run TypeScript type check: npx tsc --noEmit
+- 11.2: Fix any type errors in Layout/Header/Navigation
+- 11.3: Ensure proper types for React.FC components
+- 11.4: Verify no 'any' types used
+
+### Task 12: Test Production Build (AC: deployment)
+- 12.1: Run production build: npm run build
+- 12.2: Verify build succeeds with no errors or warnings
+- 12.3: Check bundle size remains under 200KB target
+- 12.4: Check Tailwind CSS purge working (unused classes removed)
+- 12.5: Run production preview: npm run preview
+- 12.6: Test responsive layout in preview mode
+
+### Task 13: Accessibility Testing (Best Practice)
+- 13.1: Verify semantic HTML used (header, nav, main)
+- 13.2: Test keyboard navigation
+- 13.3: Add aria-label to hamburger menu button
+- 13.4: Verify color contrast ratios
+- 13.5: Test with screen reader (optional but recommended)
+
+### Task 14: Update README Documentation (Best Practice)
+- 14.1: Add UI Framework section documenting Tailwind CSS
+- 14.2: Add Icons section documenting Lucide React
+- 14.3: Update Components section listing Layout/Header/Navigation
+- 14.4: Document responsive breakpoints
+
+### Task 15: Git Commit (Best Practice)
+- 15.1: Verify all linting passes: npm run lint
+- 15.2: Stage all changes: git add .
+- 15.3: Create commit with conventional format
+- 15.4: Verify pre-commit hooks pass
+- 15.5: Verify all acceptance criteria met
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+1. App header with "SmartBudget" branding/logo visible on all pages
+2. Navigation menu with links to Dashboard and Transactions visible on all pages
+3. Main content area for page-specific content properly structured
+4. Responsive design that adapts to screen size (mobile ≥320px, tablet 768-1023px, desktop ≥1024px)
+5. Current page is highlighted in the navigation (active state)
+6. Navigation works on both desktop and mobile (hamburger menu on mobile, < 768px)
+7. Layout component wraps all routes for consistency
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>System Architecture</title>
+        <section>Decision Summary</section>
+        <snippet>Tailwind CSS 4.0 for styling - utility-first CSS framework for rapid UI development with responsive design built-in. Lucide React for icons - modern, tree-shakeable icon library.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>System Architecture</title>
+        <section>Project Structure</section>
+        <snippet>Layout components should be created in src/components/layout/ directory. Structure includes Header, Nav, Footer components.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>System Architecture</title>
+        <section>Implementation Patterns - Component Patterns</section>
+        <snippet>All components should use React.FC with TypeScript interfaces. Layout component wraps Routes to provide consistent structure across all pages.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>System Architecture</title>
+        <section>Performance Considerations</section>
+        <snippet>Tailwind CSS purges unused classes in production. Bundle size target is under 200KB. Expected increase for Tailwind: ~30-40KB gzipped.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-1.md</path>
+        <title>Epic Technical Specification: Project Foundation & Development Setup</title>
+        <section>System Architecture Alignment</section>
+        <snippet>Tailwind CSS 4.0 is the chosen utility-first CSS framework for fast development and responsive design. Project structure establishes src/components/layout/ for Header, Nav, Layout components.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-1.md</path>
+        <title>Epic Technical Specification: Project Foundation & Development Setup</title>
+        <section>APIs and Interfaces</section>
+        <snippet>Layout component interface: LayoutProps with children: React.ReactNode. Navigation items structure: {label: string, path: string, icon: LucideIcon}.</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>User Experience Principles</section>
+        <snippet>Primary color: Blue (#2563eb). Income: Green, Expense: Red. Clean, modern interface with responsive design for mobile-first development.</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>NFR-2: Responsive Design</section>
+        <snippet>Mobile support ≥320px, tablet 768-1023px, desktop ≥1024px. Touch-friendly controls (44px minimum) on mobile devices.</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>Epics Breakdown</title>
+        <section>Epic 1 - Story 1.4</section>
+        <snippet>Create basic UI layout with navigation component using Tailwind CSS. Implement responsive design with mobile hamburger menu below 768px.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/1-3-application-routing-structure.md</path>
+        <title>Story 1.3: Application Routing Structure</title>
+        <section>Completion Notes</section>
+        <snippet>React Router 6.30.2 installed and configured. BrowserRouter wrapping in App.tsx. All routes configured (/, /dashboard, /transactions, /transactions/new, /transactions/:id/edit, 404). Page components created in src/pages/.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/1-3-application-routing-structure.md</path>
+        <title>Story 1.3: Application Routing Structure</title>
+        <section>Dev Notes</section>
+        <snippet>Bundle size after Story 1.3: 166.51 KB (54.36 KB gzipped). Basic inline navigation exists in App.tsx (lines ~11-15) - should be replaced with Layout component navigation.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>smartbudget/src/App.tsx</path>
+        <kind>component</kind>
+        <symbol>App</symbol>
+        <lines>1-39</lines>
+        <reason>Root component where Routes need to be wrapped with Layout. Contains inline navigation (lines 11-19) that should be removed and replaced with Layout component.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/pages/Dashboard.tsx</path>
+        <kind>component</kind>
+        <symbol>Dashboard</symbol>
+        <lines>1-15</lines>
+        <reason>Placeholder page component that needs Tailwind styling applied. Currently has minimal inline content.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/pages/TransactionsList.tsx</path>
+        <kind>component</kind>
+        <symbol>TransactionsList</symbol>
+        <lines>all</lines>
+        <reason>Placeholder page component requiring Tailwind styling updates.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/pages/TransactionForm.tsx</path>
+        <kind>component</kind>
+        <symbol>TransactionForm</symbol>
+        <lines>all</lines>
+        <reason>Placeholder page component requiring Tailwind styling updates.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/pages/NotFound.tsx</path>
+        <kind>component</kind>
+        <symbol>NotFound</symbol>
+        <lines>all</lines>
+        <reason>404 page component that needs centered error page styling with Tailwind and Link to return home.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package name="react" version="^18.3.1" />
+        <package name="react-dom" version="^18.3.1" />
+        <package name="react-router-dom" version="^6.30.2" />
+        <package name="tailwindcss" version="^4.0.0" dev="true" />
+        <package name="postcss" version="latest" dev="true" />
+        <package name="autoprefixer" version="latest" dev="true" />
+        <package name="lucide-react" version="latest" />
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint id="1">Must use Tailwind CSS 4.0 utility classes exclusively - no custom CSS files except for Tailwind directives in index.css</constraint>
+    <constraint id="2">Layout component must wrap all Routes in App.tsx to provide consistent structure across all pages</constraint>
+    <constraint id="3">Navigation must use React Router's useLocation() hook for active state detection - no external state management</constraint>
+    <constraint id="4">Mobile hamburger menu must appear at < 768px breakpoint (md: breakpoint in Tailwind)</constraint>
+    <constraint id="5">All components must use TypeScript with React.FC and proper interface definitions - no 'any' types allowed</constraint>
+    <constraint id="6">Semantic HTML required: header, nav, main elements for accessibility and SEO</constraint>
+    <constraint id="7">Bundle size must remain under 200KB target after adding Tailwind CSS and Lucide icons</constraint>
+    <constraint id="8">Color palette must follow PRD: Primary Blue (blue-600), gray scale for backgrounds/text</constraint>
+    <constraint id="9">Responsive design must support minimum width 320px without horizontal scroll</constraint>
+    <constraint id="10">Pre-commit hooks must pass (ESLint + Prettier) before commit is allowed</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>LayoutProps</name>
+      <kind>React Component Interface</kind>
+      <signature>
+interface LayoutProps {
+  children: React.ReactNode;
+}
+
+export const Layout: React.FC&lt;LayoutProps&gt; = ({ children }) => { ... }
+      </signature>
+      <path>smartbudget/src/components/layout/Layout.tsx</path>
+    </interface>
+    <interface>
+      <name>NavigationItem</name>
+      <kind>Data Structure</kind>
+      <signature>
+interface NavigationItem {
+  label: string;
+  path: string;
+  icon: LucideIcon;
+}
+
+const navItems: NavigationItem[] = [
+  { label: 'Dashboard', path: '/', icon: LayoutDashboard },
+  { label: 'Transactions', path: '/transactions', icon: List }
+];
+      </signature>
+      <path>smartbudget/src/components/layout/Navigation.tsx</path>
+    </interface>
+    <interface>
+      <name>useLocation Hook</name>
+      <kind>React Router Hook</kind>
+      <signature>
+const location = useLocation();
+// Returns: { pathname: string, search: string, hash: string, state: any, key: string }
+
+const isActive = (path: string) => {
+  return location.pathname === path || (path === '/' && location.pathname === '/dashboard');
+};
+      </signature>
+      <path>react-router-dom</path>
+    </interface>
+    <interface>
+      <name>Tailwind Responsive Classes</name>
+      <kind>CSS Framework Pattern</kind>
+      <signature>
+// Mobile-first approach
+className="flex-col md:flex-row"  // Column on mobile, row on desktop
+className="hidden md:block"       // Hidden on mobile, visible on desktop
+className="md:hidden"             // Visible on mobile, hidden on desktop
+
+// Breakpoints:
+// - No prefix: < 768px (mobile)
+// - md: ≥ 768px (tablet)
+// - lg: ≥ 1024px (desktop)
+      </signature>
+      <path>Tailwind CSS v4.0</path>
+    </interface>
+    <interface>
+      <name>Lucide React Icons</name>
+      <kind>Icon Library</kind>
+      <signature>
+import { LayoutDashboard, List, Menu, X, Plus } from 'lucide-react';
+
+&lt;LayoutDashboard size={20} /&gt;
+&lt;List size={20} className="text-blue-600" /&gt;
+      </signature>
+      <path>lucide-react</path>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>Manual testing using browser DevTools for responsive design verification. TypeScript compilation with 'npx tsc --noEmit' for type safety. ESLint + Prettier pre-commit hooks for code quality. Production build testing with 'npm run build' and 'npm run preview'. Accessibility testing: keyboard navigation (Tab, Enter), semantic HTML verification, color contrast ratios (WCAG AA).</standards>
+
+    <locations>No automated test files for this story. Testing is manual using browser DevTools responsive mode and keyboard navigation.</locations>
+
+    <ideas>
+1. Test responsive layout at mobile breakpoint (375px): hamburger menu visible, navigation hidden by default, clicking hamburger opens menu, clicking nav item closes menu and navigates
+2. Test responsive layout at tablet breakpoint (768px): hamburger menu hidden, full navigation visible, layout adapts smoothly
+3. Test responsive layout at desktop breakpoint (1024px+): full navigation visible, content centered with proper margins, no horizontal scroll
+4. Test minimum width (320px): layout doesn't break, text remains readable, buttons/links tappable (44px min)
+5. Test active navigation state: Navigate to / → Dashboard highlighted, navigate to /transactions → Transactions highlighted, navigate to /transactions/new → Transactions remains highlighted
+6. Test keyboard navigation: Tab through nav links, Enter key activates links, focus visible on interactive elements
+7. Test mobile menu behavior: Click hamburger → menu opens, click nav item → menu closes and navigates, click hamburger again → menu closes
+8. Verify TypeScript compilation: Run 'npx tsc --noEmit' → 0 errors, no 'any' types used
+9. Verify production build: Run 'npm run build' → succeeds, bundle size < 200KB, Tailwind purge working (unused classes removed)
+10. Test color contrast: Active links (blue-600) and inactive links (gray-600) meet WCAG AA standards for accessibility
+    </ideas>
+  </tests>
+</story-context>

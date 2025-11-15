@@ -31,7 +31,8 @@
       "Bash(npm audit:*)",
       "Bash(\"d:\\Projects\\React Udemy\\Mine\\AI First\\Exam - Smart Budget Application\\prompts.md\")",
       "Bash(npm run test:*)",
-      "Bash(npm run test:coverage:*)"
+      "Bash(npm run test:coverage:*)",
+      "SlashCommand(/bmad:bmm:workflows:create-story)"
     ],
     "deny": [],
     "ask": []

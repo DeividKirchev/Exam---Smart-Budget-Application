@@ -7,6 +7,7 @@
  * @module utils/validators
  */
 
+import { parseISO, isValid, isFuture } from 'date-fns';
 import type { Transaction } from '../models/Transaction';
 import { CATEGORIES } from '../constants/categories';
 
@@ -240,4 +241,54 @@ export const validateTransactionData = (
     valid: Object.keys(errors).length === 0,
     errors,
   };
+};
+
+/**
+ * Validates a custom date range
+ *
+ * Business rules for custom date ranges:
+ * - Start and end dates must be valid ISO 8601 strings
+ * - End date must be after or equal to start date (cannot be inverted)
+ * - End date cannot be in the future
+ *
+ * @param start - Start date in ISO 8601 format (YYYY-MM-DD)
+ * @param end - End date in ISO 8601 format (YYYY-MM-DD)
+ * @returns Validation result with error message if invalid
+ *
+ * @example
+ * validateDateRange('2025-11-01', '2025-11-15') // { valid: true }
+ * validateDateRange('2025-11-15', '2025-11-01') // { valid: false, error: 'End date must be after or equal to start date' }
+ * validateDateRange('2025-11-01', '2026-12-31') // { valid: false, error: 'End date cannot be in the future' }
+ */
+export const validateDateRange = (
+  start: string,
+  end: string
+): ValidationResult => {
+  // Parse dates
+  const startDate = parseISO(start);
+  const endDate = parseISO(end);
+
+  // Check valid date format
+  if (!isValid(startDate)) {
+    return { valid: false, error: 'Invalid start date format' };
+  }
+
+  if (!isValid(endDate)) {
+    return { valid: false, error: 'Invalid end date format' };
+  }
+
+  // Check end date is not before start date
+  if (endDate < startDate) {
+    return {
+      valid: false,
+      error: 'End date must be after or equal to start date',
+    };
+  }
+
+  // Check end date is not in the future
+  if (isFuture(endDate)) {
+    return { valid: false, error: 'End date cannot be in the future' };
+  }
+
+  return { valid: true };
 };

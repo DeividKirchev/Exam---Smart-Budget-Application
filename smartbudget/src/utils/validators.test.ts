@@ -19,6 +19,7 @@ import {
   validateCategory,
   sanitizeDescription,
   validateTransactionData,
+  validateDateRange,
 } from './validators';
 
 describe('validateAmount', () => {
@@ -509,6 +510,72 @@ describe('validateTransactionData', () => {
       const result = validateTransactionData(data);
       expect(result.valid).toBe(true);
       expect(result.errors).toEqual({});
+    });
+  });
+
+  describe('validateDateRange', () => {
+    it('should return valid for correct date range', () => {
+      const result = validateDateRange('2025-11-01', '2025-11-15');
+      expect(result.valid).toBe(true);
+      expect(result.error).toBeUndefined();
+    });
+
+    it('should return valid when start and end dates are the same', () => {
+      const result = validateDateRange('2025-11-15', '2025-11-15');
+      expect(result.valid).toBe(true);
+      expect(result.error).toBeUndefined();
+    });
+
+    it('should return invalid when end date is before start date', () => {
+      const result = validateDateRange('2025-11-15', '2025-11-01');
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe(
+        'End date must be after or equal to start date'
+      );
+    });
+
+    it('should return invalid when start date format is invalid', () => {
+      const result = validateDateRange('invalid-date', '2025-11-15');
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe('Invalid start date format');
+    });
+
+    it('should return invalid when end date format is invalid', () => {
+      const result = validateDateRange('2025-11-01', 'not-a-date');
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe('Invalid end date format');
+    });
+
+    it('should return invalid when end date is in the future', () => {
+      // Mock a date far in the future
+      const futureDate = new Date();
+      futureDate.setFullYear(futureDate.getFullYear() + 2);
+      const futureDateStr = futureDate.toISOString().split('T')[0];
+
+      const result = validateDateRange('2025-11-01', futureDateStr);
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe('End date cannot be in the future');
+    });
+
+    it('should handle dates across year boundary', () => {
+      const result = validateDateRange('2024-12-15', '2025-01-15');
+      expect(result.valid).toBe(true);
+    });
+
+    it('should handle leap year dates correctly', () => {
+      const result = validateDateRange('2024-02-01', '2024-02-29');
+      expect(result.valid).toBe(true);
+    });
+
+    it('should reject empty strings', () => {
+      const result = validateDateRange('', '2025-11-15');
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe('Invalid start date format');
+    });
+
+    it('should reject malformed ISO dates', () => {
+      const result = validateDateRange('2025-11-1', '2025-11-15');
+      expect(result.valid).toBe(false);
     });
   });
 });

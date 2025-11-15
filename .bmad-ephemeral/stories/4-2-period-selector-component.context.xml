@@ -1,0 +1,294 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>4</epicId>
+    <storyId>2</storyId>
+    <title>Period Selector Component</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-15</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>.bmad-ephemeral/stories/4-2-period-selector-component.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a user</asA>
+    <iWant>to select different time periods to filter my financial data</iWant>
+    <soThat>I can analyze my income and expenses for specific timeframes</soThat>
+    <tasks>
+      <task id="1" status="pending">Complete Period model definition (verify - may already be done in 4.1)</task>
+      <task id="2" status="pending">Create period calculation utilities (getThisMonth, getLastMonth, getLast3Months)</task>
+      <task id="3" status="pending">Create date validation utility (validateDateRange)</task>
+      <task id="4" status="pending">Update AppContext with period state (verify integration)</task>
+      <task id="5" status="pending">Create usePeriod custom hook</task>
+      <task id="6" status="pending">Create PeriodSelector component file and structure</task>
+      <task id="7" status="pending">Implement preset period selection</task>
+      <task id="8" status="pending">Implement custom date range picker</task>
+      <task id="9" status="pending">Add ARIA accessibility attributes</task>
+      <task id="10" status="pending">Integrate PeriodSelector in Dashboard</task>
+      <task id="11" status="pending">Create periodHelpers tests</task>
+      <task id="12" status="pending">Create date validation tests</task>
+      <task id="13" status="pending">Create usePeriod hook tests</task>
+      <task id="14" status="pending">Create PeriodSelector component tests</task>
+      <task id="15" status="pending">Manual testing</task>
+      <task id="16" status="pending">TypeScript compilation and verification</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="1" priority="high">PeriodSelector Component Created - Component at src/components/dashboard/PeriodSelector.tsx with dropdown UI, displays selected period label, responsive design, Tailwind CSS styling</criterion>
+    <criterion id="2" priority="high">Preset Period Options Available - This Month, Last Month, Last 3 Months options with auto-calculated startDate/endDate using date-fns</criterion>
+    <criterion id="3" priority="medium">Custom Range Option - Custom Range opens date picker, user selects start/end dates, creates Period with type='custom' and auto-generated label</criterion>
+    <criterion id="4" priority="high">Period Model Fully Defined - Complete Period interface with type (PeriodType), startDate, endDate, label fields exported from src/models/Period.ts</criterion>
+    <criterion id="5" priority="high">usePeriod Custom Hook Created - Hook at src/hooks/usePeriod.ts returns selectedPeriod, setPeriod, periodOptions, isCustomPeriod</criterion>
+    <criterion id="6" priority="high">AppContext Integration - selectedPeriod and setPeriod in AppContext, accessible via useAppContext() hook</criterion>
+    <criterion id="7" priority="high">Default Period on App Load - Default This Month calculated using date-fns startOfMonth and endOfMonth</criterion>
+    <criterion id="8" priority="high">Selected Period Persists Across Page Refresh - Saved to localStorage via storageService (key: smartbudget_settings), falls back to This Month if not saved</criterion>
+    <criterion id="9" priority="high">Dashboard Components Update When Period Changes - setPeriod updates AppContext, all consumers re-render, calculations filter by new period, &lt;500ms update time</criterion>
+    <criterion id="10" priority="medium">Clear Visual Indication of Currently Selected Period - Displays selected period label, dropdown shows checkmark/highlight on selected option, ARIA attributes</criterion>
+    <criterion id="11" priority="high">Custom Date Range Validation - Validates end &gt;= start, dates not in future, valid ISO strings, user-friendly error messages</criterion>
+    <criterion id="12" priority="critical">Period Change Performance - Period change triggers dashboard update in &lt;500ms (NFR-1.4), tested with 1000 transactions</criterion>
+    <criterion id="13" priority="high">PeriodSelector Component Tests - ≥85% coverage, tests rendering, selection, validation, ARIA attributes</criterion>
+    <criterion id="14" priority="high">usePeriod Hook Tests - ≥90% coverage, tests return values, periodOptions, isCustomPeriod boolean logic</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>SmartBudget System Architecture</title>
+        <section>Custom Hooks Pattern</section>
+        <snippet>Extract reusable stateful logic into custom hooks. Use prefix 'use' (e.g., usePeriod). Hooks consume context and provide derived state/actions. Pattern: export interface for return type, implement hook accessing context.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>SmartBudget System Architecture</title>
+        <section>State Management Patterns</section>
+        <snippet>Global state in AppContext with useReducer. Period state already initialized (getDefaultPeriod). Updates via setPeriod action. Persistence to localStorage via storageService.saveSettings().</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-4.md</path>
+        <title>Epic Technical Specification: Dashboard and Analytics</title>
+        <section>Data Models and Contracts - Period Interface</section>
+        <snippet>type PeriodType = 'this-month' | 'last-month' | 'last-3-months' | 'custom'; interface Period { type: PeriodType; startDate: string; endDate: string; label: string; }</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-4.md</path>
+        <title>Epic Technical Specification: Dashboard and Analytics</title>
+        <section>APIs and Interfaces - PeriodSelector</section>
+        <snippet>interface PeriodSelectorProps { className?: string; } Component renders dropdown with preset periods + Custom Range option. Calls setPeriod(period) on selection.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-4.md</path>
+        <title>Epic Technical Specification: Dashboard and Analytics</title>
+        <section>APIs and Interfaces - usePeriod Hook</section>
+        <snippet>interface UsePeriodReturn { selectedPeriod: Period; setPeriod: (period: Period) =&gt; void; periodOptions: Period[]; isCustomPeriod: boolean; }</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-4.md</path>
+        <title>Epic Technical Specification: Dashboard and Analytics</title>
+        <section>Workflows and Sequencing - Period Change Flow</section>
+        <snippet>User selects period → PeriodSelector calls setPeriod(newPeriod) → AppContext updates selectedPeriod → All consumers re-render → useMemo recalculates with new period → Charts/cards update. Total time: &lt;500ms (NFR-1.4)</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-4.md</path>
+        <title>Epic Technical Specification: Dashboard and Analytics</title>
+        <section>NFR-1.4: Filter Performance</section>
+        <snippet>Period filter updates complete in &lt;500ms. Implementation: Memoize calculation results, use efficient date filtering (ISO string comparison), batch state updates, stable data references for charts.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>smartbudget/src/models/Period.ts</path>
+        <kind>interface</kind>
+        <symbol>Period, PeriodType</symbol>
+        <lines>1-61</lines>
+        <reason>IMPORTANT: Period interface already fully implemented in Story 4.1 with ALL required fields (type, startDate, endDate, label). NO modifications needed. Task 1 is verification only - period model is complete.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/services/calculationService.ts</path>
+        <kind>service</kind>
+        <symbol>calculateTotalIncome, calculateTotalExpenses, calculateNetBalance, isWithinPeriod</symbol>
+        <lines>1-91</lines>
+        <reason>Calculation service from Story 4.1 already uses Period interface with optional period parameter. Shows pattern for period filtering using date-fns (parseISO, isWithinInterval). Reuse isWithinPeriod logic if needed.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/components/dashboard/SummaryCards.tsx</path>
+        <kind>component</kind>
+        <symbol>SummaryCards</symbol>
+        <lines>1-128</lines>
+        <reason>SummaryCards from Story 4.1 accepts optional period prop and uses useMemo for calculations. Will automatically update when period changes in AppContext. Example consumer of period state.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/context/AppContext.tsx</path>
+        <kind>context</kind>
+        <symbol>AppContext, useAppContext, getDefaultPeriod</symbol>
+        <lines>132-141, 394-397</lines>
+        <reason>AppContext already has selectedPeriod state and setPeriod action. getDefaultPeriod() initializes "This Month". setPeriod persists to localStorage via storageService.saveSettings(). Verify integration works correctly.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/pages/Dashboard.tsx</path>
+        <kind>component</kind>
+        <symbol>Dashboard</symbol>
+        <lines>1-14</lines>
+        <reason>Dashboard page where PeriodSelector will be integrated. Currently renders SummaryCards (from 4.1). Add PeriodSelector above or alongside SummaryCards.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/constants/categories.ts</path>
+        <kind>constants</kind>
+        <symbol>CATEGORIES</symbol>
+        <lines>1-167</lines>
+        <reason>Predefined categories with colors. Not directly used in PeriodSelector but important for understanding data structure used by transactions.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package>react</package>
+        <version>^18.3.1</version>
+        <usage>Core framework for PeriodSelector component and usePeriod hook</usage>
+      </node>
+      <node>
+        <package>date-fns</package>
+        <version>^4.1.0</version>
+        <usage>Period calculations (startOfMonth, endOfMonth, subMonths, format, parseISO, isValid, isWithinInterval)</usage>
+      </node>
+      <node>
+        <package>lucide-react</package>
+        <version>^0.553.0</version>
+        <usage>ChevronDown icon for dropdown indicator, Calendar icon for custom range picker</usage>
+      </node>
+      <node>
+        <package>typescript</package>
+        <version>~5.9.3</version>
+        <usage>Type safety for Period model, component props, hook return types</usage>
+      </node>
+      <node>
+        <package>vitest</package>
+        <version>^4.0.9</version>
+        <usage>Test runner for unit tests (periodHelpers, validators, usePeriod hook)</usage>
+      </node>
+      <node>
+        <package>@testing-library/react</package>
+        <version>^16.3.0</version>
+        <usage>Component testing for PeriodSelector, hook testing with renderHook</usage>
+      </node>
+      <node>
+        <package>@testing-library/user-event</package>
+        <version>^14.6.1</version>
+        <usage>User interaction simulation for dropdown selection and date picker</usage>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="pattern" priority="critical">Period interface ALREADY COMPLETE in Story 4.1. Task 1 is VERIFICATION ONLY - do not modify Period.ts. The full model with type, startDate, endDate, label fields already exists.</constraint>
+    <constraint type="pattern" priority="critical">Use date-fns for ALL date calculations. Functions: startOfMonth, endOfMonth, subMonths for period calculations. parseISO, isValid for validation. format for label generation.</constraint>
+    <constraint type="pattern" priority="critical">AppContext already has selectedPeriod and setPeriod. VERIFY integration works, do not recreate. Check getDefaultPeriod() returns "This Month" correctly.</constraint>
+    <constraint type="pattern" priority="high">Custom hook pattern: Export UsePeriodReturn interface, implement usePeriod() function consuming useAppContext(). Return object with selectedPeriod, setPeriod, periodOptions, isCustomPeriod.</constraint>
+    <constraint type="styling" priority="high">Use Tailwind CSS for all styling. Dropdown: border, padding, hover states, focus ring. Custom picker: modal or dropdown panel with date inputs. NO custom CSS files.</constraint>
+    <constraint type="validation" priority="high">Date range validation: end &gt;= start (cannot be inverted), end &lt;= today (not in future), valid ISO 8601 strings. Use validateDateRange utility.</constraint>
+    <constraint type="performance" priority="critical">Period change must trigger dashboard update in &lt;500ms (NFR-1.4). Use memoization in consuming components, batch state updates, avoid unnecessary re-renders.</constraint>
+    <constraint type="accessibility" priority="high">Add ARIA attributes: aria-label on dropdown, aria-live="polite" on selected label, aria-describedby for errors. Keyboard navigation (Tab, Enter, Escape) must work.</constraint>
+    <constraint type="testing" priority="high">Component tests ≥85% coverage, utility/hook tests ≥90% coverage. Test all presets calculate correctly, custom range validation, error messages, ARIA attributes.</constraint>
+    <constraint type="persistence" priority="high">Use storageService.saveSettings({ selectedPeriod: period }) and loadSettings() for localStorage. Key: smartbudget_settings. Fall back to "This Month" if not saved.</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>Period</name>
+      <kind>TypeScript Interface</kind>
+      <signature>interface Period { type: PeriodType; startDate: string; endDate: string; label: string; } // ALREADY COMPLETE in Story 4.1</signature>
+      <path>smartbudget/src/models/Period.ts</path>
+    </interface>
+    <interface>
+      <name>PeriodType</name>
+      <kind>TypeScript Type</kind>
+      <signature>type PeriodType = 'this-month' | 'last-month' | 'last-3-months' | 'custom'; // ALREADY COMPLETE in Story 4.1</signature>
+      <path>smartbudget/src/models/Period.ts</path>
+    </interface>
+    <interface>
+      <name>PeriodSelectorProps</name>
+      <kind>Component Props</kind>
+      <signature>interface PeriodSelectorProps { className?: string; }</signature>
+      <path>smartbudget/src/components/dashboard/PeriodSelector.tsx (to be created)</path>
+    </interface>
+    <interface>
+      <name>UsePeriodReturn</name>
+      <kind>Hook Return Type</kind>
+      <signature>interface UsePeriodReturn { selectedPeriod: Period; setPeriod: (period: Period) =&gt; void; periodOptions: Period[]; isCustomPeriod: boolean; }</signature>
+      <path>smartbudget/src/hooks/usePeriod.ts (to be created)</path>
+    </interface>
+    <interface>
+      <name>getThisMonth</name>
+      <kind>Function Signature</kind>
+      <signature>(): Period // Returns Period for current month using date-fns startOfMonth/endOfMonth</signature>
+      <path>smartbudget/src/utils/periodHelpers.ts (to be created)</path>
+    </interface>
+    <interface>
+      <name>getLastMonth</name>
+      <kind>Function Signature</kind>
+      <signature>(): Period // Returns Period for previous month using date-fns subMonths</signature>
+      <path>smartbudget/src/utils/periodHelpers.ts (to be created)</path>
+    </interface>
+    <interface>
+      <name>getLast3Months</name>
+      <kind>Function Signature</kind>
+      <signature>(): Period // Returns Period for last 3 months (start 3 months ago, end today)</signature>
+      <path>smartbudget/src/utils/periodHelpers.ts (to be created)</path>
+    </interface>
+    <interface>
+      <name>formatCustomLabel</name>
+      <kind>Function Signature</kind>
+      <signature>(startDate: string, endDate: string): string // Formats as "Nov 1 - Nov 15"</signature>
+      <path>smartbudget/src/utils/periodHelpers.ts (to be created)</path>
+    </interface>
+    <interface>
+      <name>getAllPresetPeriods</name>
+      <kind>Function Signature</kind>
+      <signature>(): Period[] // Returns [ThisMonth, LastMonth, Last3Months]</signature>
+      <path>smartbudget/src/utils/periodHelpers.ts (to be created)</path>
+    </interface>
+    <interface>
+      <name>validateDateRange</name>
+      <kind>Function Signature</kind>
+      <signature>(start: string, end: string): { valid: boolean; error?: string } // Validates custom date range</signature>
+      <path>smartbudget/src/utils/validators.ts (modify existing or create)</path>
+    </interface>
+    <interface>
+      <name>useAppContext</name>
+      <kind>React Hook</kind>
+      <signature>function useAppContext(): { selectedPeriod: Period; setPeriod: (period: Period) =&gt; void; ... } // ALREADY EXISTS</signature>
+      <path>smartbudget/src/context/AppContext.tsx</path>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      <standard>Use Vitest as test runner (configured in vite.config.ts)</standard>
+      <standard>Use React Testing Library for component tests, renderHook for hook tests</standard>
+      <standard>Mock dates for consistent testing: vi.useFakeTimers() or vi.setSystemTime()</standard>
+      <standard>Coverage targets: periodHelpers/validators ≥90%, usePeriod hook ≥90%, PeriodSelector component ≥85%</standard>
+      <standard>Test naming: describe('ModuleName', () =&gt; { it('does specific thing', () =&gt; {...}); })</standard>
+      <standard>Mock AppContext for component/hook tests using custom wrapper</standard>
+      <standard>Test edge cases: leap years, month boundaries, future dates, inverted ranges, invalid ISO strings</standard>
+      <standard>Test ARIA attributes: aria-label, aria-live, aria-describedby, keyboard navigation</standard>
+      <standard>Performance test: Verify period change with 1000 transactions updates in &lt;500ms</standard>
+    </standards>
+    <locations>
+      <location>smartbudget/src/utils/periodHelpers.test.ts</location>
+      <location>smartbudget/src/utils/validators.test.ts (or add to existing)</location>
+      <location>smartbudget/src/hooks/usePeriod.test.ts</location>
+      <location>smartbudget/src/components/dashboard/PeriodSelector.test.tsx</location>
+    </locations>
+    <ideas>
+      <idea ac="2,7">Period Calculation Tests - Test getThisMonth() returns correct start (first day) and end (last day) of current month. Test getLastMonth() with subMonths(1). Test getLast3Months() calculates 3-month range. Mock current date for consistency.</idea>
+      <idea ac="2,7">Label Formatting Tests - Test formatCustomLabel("2025-11-01", "2025-11-15") returns "Nov 1 - Nov 15". Test different date formats. Test month/year boundaries.</idea>
+      <idea ac="5,14">usePeriod Hook Tests - Test returns selectedPeriod from context. Test returns setPeriod function. Test periodOptions array has 3 presets. Test isCustomPeriod = false when type !== 'custom'. Test isCustomPeriod = true when type === 'custom'.</idea>
+      <idea ac="11,12">Date Validation Tests - Test validateDateRange with valid range { valid: true }. Test inverted range (end &lt; start) returns error. Test future date returns error. Test invalid ISO strings return error. Test edge case start === end (should be valid).</idea>
+      <idea ac="1,13">Component Rendering Tests - Test PeriodSelector renders dropdown. Test displays all period options (This Month, Last Month, Last 3 Months, Custom Range). Test displays selected period label.</idea>
+      <idea ac="7,13">Preset Selection Tests - Test selecting "This Month" calls setPeriod with correct Period object. Test selecting "Last Month" calls setPeriod. Test selecting "Last 3 Months" calls setPeriod.</idea>
+      <idea ac="3,13">Custom Range Tests - Test selecting "Custom Range" shows date picker. Test applying valid custom range calls setPeriod with type='custom'. Test cancel closes picker without changing period.</idea>
+      <idea ac="11,13">Validation Error Tests - Test applying invalid range (end &lt; start) shows error message. Test applying future date shows error. Test error message has aria-describedby.</idea>
+      <idea ac="10,13">ARIA Accessibility Tests - Test dropdown has aria-label. Test selected label has aria-live="polite". Test keyboard navigation works (Tab, Enter, Escape). Test screen reader announcements.</idea>
+      <idea ac="12">Performance Tests - Create 1000 mock transactions. Change period. Measure update time (should be &lt;500ms). Test memoization prevents unnecessary recalculations.</idea>
+    </ideas>
+  </tests>
+</story-context>

@@ -58,12 +58,12 @@ development_status:
   3-5-transaction-filtering-search: done
   epic-3-retrospective: optional
 
-  epic-4: backlog
-  4-1-summary-statistics-cards: backlog
-  4-2-period-selector-component: backlog
-  4-3-expense-breakdown-pie-chart: backlog
-  4-4-income-vs-expenses-trend-chart: backlog
-  4-5-recent-transactions-widget: backlog
+  epic-4: contexted
+  4-1-summary-statistics-cards: done
+  4-2-period-selector-component: done
+  4-3-expense-breakdown-pie-chart: done
+  4-4-income-vs-expenses-trend-chart: done
+  4-5-recent-transactions-widget: done
   epic-4-retrospective: optional
 
   epic-5: backlog
@@ -76,9 +76,9 @@ development_status:
 
   epic-6: backlog
   6-1-manual-testing-bug-fixes: backlog
-  6-2-code-documentation-comments: backlog
+  6-2-code-documentation-comments: skip
   6-3-readme-documentation: backlog
-  6-4-create-summary-md-ai-impact-analysis: backlog
+  6-4-create-summary-md-ai-impact-analysis: skip
   6-5-deploy-application-to-production: backlog
   6-6-final-repository-polish: backlog
   epic-6-retrospective: optional

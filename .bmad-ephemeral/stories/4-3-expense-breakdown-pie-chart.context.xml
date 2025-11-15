@@ -1,0 +1,238 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>4</epicId>
+    <storyId>3</storyId>
+    <title>Expense Breakdown Pie Chart</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-15</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>.bmad-ephemeral/stories/4-3-expense-breakdown-pie-chart.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a user</asA>
+    <iWant>to see a visual breakdown of my expenses by category</iWant>
+    <soThat>I can understand where my money is going</soThat>
+    <tasks>
+- [ ] **Task 1: Install Recharts dependency** (AC: 1)
+  - [ ] Run `npm install recharts` in smartbudget directory
+  - [ ] Verify package.json lists recharts ^2.15.0 (or latest)
+  - [ ] Check if @types/recharts needed (Recharts 2.x includes types)
+  - [ ] Run `npm install` to ensure lock file updated
+  - [ ] Verify TypeScript recognizes Recharts imports (no errors)
+
+- [ ] **Task 2: Implement calculateExpensesByCategory in calculationService** (AC: 11)
+  - [ ] Open `src/services/calculationService.ts`
+  - [ ] Add function with period filtering
+  - [ ] Reuse existing `isWithinPeriod` helper from calculateTotalIncome
+  - [ ] Add JSDoc comments
+
+- [ ] **Task 3: Create chart data transformation helper** (AC: 12)
+  - [ ] Create file `src/utils/chartHelpers.ts`
+  - [ ] Import getCategoryById from constants/categories
+  - [ ] Implement transformToPieChartData with percentage calculation
+  - [ ] Ensure percentages sum to 100% (handle rounding)
+
+- [ ] **Task 4: Create ExpenseBreakdownChart component file** (AC: 2)
+  - [ ] Create file `src/components/dashboard/ExpenseBreakdownChart.tsx`
+  - [ ] Import React, useMemo, Recharts components
+  - [ ] Define component props interface
+
+- [ ] **Task 5: Implement chart data calculation with memoization** (AC: 10)
+  - [ ] Use useMemo to calculate expensesByCategory
+  - [ ] Use useMemo to transform to chart data
+  - [ ] Dependencies: [transactions, period]
+
+- [ ] **Task 6: Implement empty state** (AC: 8)
+  - [ ] Import PieChart icon from lucide-react
+  - [ ] Check if chartData.length === 0
+  - [ ] Display empty state message with icon
+
+- [ ] **Task 7: Implement pie chart rendering** (AC: 2, 4, 7)
+  - [ ] Return JSX for chart with ResponsiveContainer
+  - [ ] Configure Pie component with data
+  - [ ] Use Cell components with category colors
+
+- [ ] **Task 8: Create custom tooltip component** (AC: 5)
+  - [ ] Define CustomTooltip component
+  - [ ] Show category name, amount (formatted), percentage
+
+- [ ] **Task 9: Style chart legend** (AC: 6)
+  - [ ] Use Recharts Legend component
+  - [ ] Verify legend items use category colors
+
+- [ ] **Task 10: Integrate ExpenseBreakdownChart in Dashboard** (AC: 15)
+  - [ ] Open `src/pages/Dashboard.tsx`
+  - [ ] Import ExpenseBreakdownChart
+  - [ ] Render below SummaryCards
+  - [ ] Pass selectedPeriod from AppContext
+
+- [ ] **Task 11: Create calculateExpensesByCategory tests** (AC: 14)
+  - [ ] Open existing `src/services/calculationService.test.ts`
+  - [ ] Add test suite for calculateExpensesByCategory
+  - [ ] Coverage target: ≥90%
+
+- [ ] **Task 12: Create chartHelpers tests** (AC: 12)
+  - [ ] Create file `src/utils/chartHelpers.test.ts`
+  - [ ] Test transformToPieChartData
+  - [ ] Test percentage sum = 100%
+
+- [ ] **Task 13: Create ExpenseBreakdownChart component tests** (AC: 13)
+  - [ ] Create file `src/components/dashboard/ExpenseBreakdownChart.test.tsx`
+  - [ ] Mock useAppContext to provide test transactions
+  - [ ] Coverage target: ≥85%
+
+- [ ] **Task 14: Manual testing** (AC: all)
+  - [ ] Navigate to Dashboard route
+  - [ ] Verify chart displays with correct colors
+  - [ ] Test hover tooltip
+  - [ ] Change period and verify chart updates
+  - [ ] Test empty state
+  - [ ] Test on mobile device
+
+- [ ] **Task 15: TypeScript compilation and verification** (AC: all)
+  - [ ] Run `npm run build` or `tsc --noEmit`
+  - [ ] Fix any TypeScript errors related to Recharts types
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+1. **Recharts Dependency Installed** - Install Recharts package ^2.15.0
+2. **ExpenseBreakdownChart Component Created** - Component at src/components/dashboard/ExpenseBreakdownChart.tsx using Recharts PieChart
+3. **Only Categories with Transactions Shown** - Chart displays only expense categories with transactions in selected period
+4. **Category Colors from Constants** - Each pie slice uses predefined color from CATEGORIES constant
+5. **Hover/Click Displays Details** - Tooltip shows category name, amount (USD), percentage
+6. **Legend Shows All Categories** - Legend displays all categories with name and amount/percentage
+7. **Chart Responsive** - ResponsiveContainer with width="100%" height={400}, adapts to screen size
+8. **Empty State Handling** - Display "No expenses in this period" when no data
+9. **Percentages Sum to 100%** - Proper rounding ensures percentages sum to exactly 100%
+10. **Chart Renders Within 2 Seconds** - useMemo cache with dependencies [transactions, selectedPeriod]
+11. **Data Transformation Service** - calculateExpensesByCategory() in calculationService.ts
+12. **Chart Data Transformation Helper** - transformToPieChartData() helper function
+13. **ExpenseBreakdownChart Component Tests** - Test file with ≥85% coverage
+14. **Calculation Service Tests** - Tests for calculateExpensesByCategory with ≥90% coverage
+15. **Integration in Dashboard** - Render below SummaryCards, updates with period changes
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc path=".bmad-ephemeral/stories/tech-spec-epic-4.md" title="Epic 4 Technical Specification" section="Overview">
+        Epic 4 delivers dashboard and analytics visualization layer, transforming transaction data into actionable insights through interactive charts. Building upon transaction management (Epic 3) and data layer (Epic 2), Epic 4 creates the primary user interface for visualizing spending patterns.
+      </doc>
+      <doc path=".bmad-ephemeral/stories/tech-spec-epic-4.md" title="Epic 4 Technical Specification" section="Data Models - PieChartDataPoint">
+        Pie Chart Data Format: { name: string (category name), value: number (amount), fill: string (hex color), percentage: number (calculated percentage) }
+      </doc>
+      <doc path=".bmad-ephemeral/stories/tech-spec-epic-4.md" title="Epic 4 Technical Specification" section="ExpenseBreakdownChart Props">
+        ExpenseBreakdownChartProps interface defines: data (PieChartDataPoint[]), height (optional number), showLegend (optional boolean), isLoading (optional boolean)
+      </doc>
+      <doc path="docs/architecture.md" title="Architecture" section="Technology Stack">
+        Recharts 2.x: React-native charting library for dashboard visualizations. SVG-based, composable components, perfect for responsive dashboard charts.
+      </doc>
+      <doc path="docs/architecture.md" title="Architecture" section="Chart Data Transformation Patterns">
+        Transform expenses by category to Recharts PieChart format. Use ResponsiveContainer for adaptive sizing, Cell components with category colors, custom Tooltip and Legend components.
+      </doc>
+      <doc path="docs/architecture.md" title="Architecture" section="Financial Calculation Patterns">
+        calculateExpensesByCategory function signature: (transactions: Transaction[], period?: Period): Record&lt;string, number&gt;. Filters expense transactions, applies period filter if provided, aggregates amounts per category.
+      </doc>
+      <doc path="docs/architecture.md" title="Architecture" section="Performance Optimization">
+        Memoize chart data transformations using useMemo with dependencies [transactions, period]. Chart rendering target: &lt;2 seconds. Limit data points if needed.
+      </doc>
+      <doc path="docs/PRD.md" title="Product Requirements" section="FR-3.2: Expense Breakdown Chart">
+        Pie/donut chart showing percentage of expenses per category. Only shows categories with transactions in selected period. Displays percentage/amount on hover. Responsive sizing. Handles edge case: No expenses (empty state).
+      </doc>
+    </docs>
+    <code>
+      <artifact path="smartbudget/src/services/calculationService.ts" kind="service" symbol="isWithinPeriod" lines="21-27" reason="Reusable helper function for filtering transactions by period - needed in calculateExpensesByCategory">
+      <artifact path="smartbudget/src/services/calculationService.ts" kind="service" symbol="calculateTotalIncome" lines="39-49" reason="Example implementation pattern for period-filtered calculations - use as reference for calculateExpensesByCategory">
+      <artifact path="smartbudget/src/services/calculationService.ts" kind="service" symbol="calculateTotalExpenses" lines="61-71" reason="Example implementation pattern for expense filtering - base pattern for calculateExpensesByCategory">
+      <artifact path="smartbudget/src/constants/categories.ts" kind="constant" symbol="getCategoryById" lines="147-149" reason="Required function to retrieve category name and color by ID for chart data transformation">
+      <artifact path="smartbudget/src/constants/categories.ts" kind="constant" symbol="CATEGORIES" lines="129-132" reason="Predefined category list with id, name, type, color, icon - color property used for pie chart slices">
+      <artifact path="smartbudget/src/utils/formatCurrency.ts" kind="utility" symbol="formatCurrency" lines="25-32" reason="Required for formatting amounts in tooltip - consistent USD currency formatting">
+      <artifact path="smartbudget/src/pages/Dashboard.tsx" kind="component" symbol="Dashboard" lines="6-28" reason="Integration point - ExpenseBreakdownChart will be added below SummaryCards component">
+      <artifact path="smartbudget/src/components/dashboard/SummaryCards.tsx" kind="component" symbol="SummaryCards" reason="Existing dashboard component - new chart will follow similar prop pattern (period prop)">
+      <artifact path="smartbudget/src/components/dashboard/PeriodSelector.tsx" kind="component" symbol="PeriodSelector" reason="Existing period selection component - chart will react to period changes from AppContext">
+    </code>
+    <dependencies>
+      <node>
+        <package name="react" version="^18.3.1" />
+        <package name="react-dom" version="^18.3.1" />
+        <package name="date-fns" version="^4.1.0" />
+        <package name="lucide-react" version="^0.553.0" />
+        <package name="recharts" version="NOT INSTALLED - AC-1 requires installation of ^2.15.0" status="required" />
+      </node>
+      <devDependencies>
+        <package name="typescript" version="~5.9.3" />
+        <package name="vite" version="^6.4.1" />
+        <package name="vitest" version="^4.0.9" />
+        <package name="@testing-library/react" version="^16.3.0" />
+        <package name="@testing-library/jest-dom" version="^6.9.1" />
+        <package name="tailwindcss" version="^4.0.0" />
+      </devDependencies>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    - All calculations must use standardized formulas from calculationService.ts (architecture requirement)
+    - Charts must render within 2 seconds (NFR-1.3 performance requirement)
+    - Period filters must update views in &lt;500ms (NFR-1.4 performance requirement)
+    - All components must be fully responsive following mobile-first design principles
+    - Use useMemo for chart data transformation to prevent unnecessary recalculations
+    - Component file location: src/components/dashboard/ExpenseBreakdownChart.tsx
+    - Test file location: src/components/dashboard/ExpenseBreakdownChart.test.tsx
+    - Chart helpers location: src/utils/chartHelpers.ts
+    - Follow existing coding patterns: JSDoc comments, TypeScript strict mode, Tailwind CSS styling
+    - Test coverage targets: ≥85% component, ≥90% services/utilities
+    - Use Recharts ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend components
+    - Category colors must match CATEGORIES constant for consistency across app
+    - Percentages must sum to exactly 100% (handle rounding appropriately)
+  </constraints>
+  <interfaces>
+    <interface name="Period" kind="TypeScript interface" signature="interface Period { type: PeriodType; startDate: string; endDate: string; label: string; }" path="smartbudget/src/models/Period.ts" />
+    <interface name="Transaction" kind="TypeScript interface" signature="interface Transaction { id: string; amount: number; type: 'income' | 'expense'; category: string; date: string; description?: string; }" path="smartbudget/src/models/Transaction.ts" />
+    <interface name="Category" kind="TypeScript interface" signature="interface Category { id: string; name: string; type: 'income' | 'expense'; color: string; icon: string; }" path="smartbudget/src/models/Category.ts" />
+    <interface name="calculateExpensesByCategory" kind="function signature" signature="calculateExpensesByCategory(transactions: Transaction[], period?: Period): Record&lt;string, number&gt;" path="smartbudget/src/services/calculationService.ts (to be implemented)" />
+    <interface name="transformToPieChartData" kind="function signature" signature="transformToPieChartData(expensesByCategory: Record&lt;string, number&gt;): PieChartDataItem[]" path="smartbudget/src/utils/chartHelpers.ts (to be implemented)" />
+    <interface name="PieChartDataItem" kind="TypeScript interface" signature="interface PieChartDataItem { name: string; value: number; fill: string; percentage: number; }" path="smartbudget/src/utils/chartHelpers.ts (to be defined)" />
+    <interface name="ExpenseBreakdownChartProps" kind="component props" signature="interface ExpenseBreakdownChartProps { period?: Period; }" path="smartbudget/src/components/dashboard/ExpenseBreakdownChart.tsx (to be defined)" />
+    <interface name="useAppContext" kind="React hook" signature="useAppContext(): { transactions: Transaction[]; selectedPeriod: Period; ... }" path="smartbudget/src/context/AppContext.tsx" />
+  </interfaces>
+  <tests>
+    <standards>
+      Testing framework: Vitest with @testing-library/react for component tests. Pattern: Mock useAppContext using vi.mock() to provide test transactions. Use describe/it blocks with descriptive names. Target coverage: ≥85% for components, ≥90% for services/utilities. Follow existing test patterns from SummaryCards.test.tsx and calculationService.test.ts. Test files co-located with source files using .test.ts or .test.tsx extension.
+    </standards>
+    <locations>
+      - smartbudget/src/components/dashboard/*.test.tsx (component tests)
+      - smartbudget/src/services/*.test.ts (service tests)
+      - smartbudget/src/utils/*.test.ts (utility tests)
+    </locations>
+    <ideas>
+      <test id="AC-11" desc="calculateExpensesByCategory function tests">
+        - Test: Returns correct category totals when aggregating multiple expense transactions
+        - Test: Filters by period when provided (only includes transactions within date range)
+        - Test: Returns empty object when no expenses exist
+        - Test: Excludes income transactions (only processes type='expense')
+        - Test: Aggregates multiple transactions for same category correctly
+        - Test: Handles edge cases (empty array, all income transactions, zero amounts)
+      </test>
+      <test id="AC-12" desc="transformToPieChartData helper tests">
+        - Test: Transforms expenses by category to correct PieChartDataItem format
+        - Test: Filters out zero amounts (categories with $0 not included)
+        - Test: Calculates percentages correctly: (category amount / total) * 100
+        - Test: Ensures percentages sum to exactly 100% (rounding adjustment)
+        - Test: Uses getCategoryById to retrieve correct name and color
+        - Test: Returns empty array when totalExpenses is zero
+        - Test: Handles unknown category IDs gracefully
+      </test>
+      <test id="AC-13" desc="ExpenseBreakdownChart component tests">
+        - Test: Renders pie chart container when data exists
+        - Test: Displays empty state when no expenses (chartData.length === 0)
+        - Test: Uses correct colors from category constants (verify fill property)
+        - Test: Displays only categories with amounts greater than 0
+        - Test: ResponsiveContainer renders with correct dimensions
+        - Test: Chart title "Expense Breakdown" displays
+        - Test: Recharts components (PieChart, Pie, Tooltip, Legend) render
+        - Mock useAppContext to provide various transaction scenarios
+      </test>
+    </ideas>
+  </tests>
+</story-context>

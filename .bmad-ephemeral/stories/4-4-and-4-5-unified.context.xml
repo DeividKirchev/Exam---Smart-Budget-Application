@@ -1,0 +1,794 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/unified" v="1.0">
+  <metadata>
+    <epicId>4</epicId>
+    <storyIds>
+      <storyId>4</storyId>
+      <storyId>5</storyId>
+    </storyIds>
+    <titles>
+      <title>Income vs Expenses Trend Chart</title>
+      <title>Recent Transactions Widget</title>
+    </titles>
+    <status>drafted</status>
+    <generatedAt>2025-11-15</generatedAt>
+    <generator>BMAD SM Agent - Unified Context</generator>
+    <sourceStoryPaths>
+      <path>.bmad-ephemeral/stories/4-4-income-vs-expenses-trend-chart.md</path>
+      <path>.bmad-ephemeral/stories/4-5-recent-transactions-widget.md</path>
+    </sourceStoryPaths>
+    <note>This unified context combines two closely related stories for efficient implementation. Both stories complete the dashboard visualization layer with trending charts and recent transactions display.</note>
+  </metadata>
+
+  <stories>
+    <story id="4.4">
+      <asA>user</asA>
+      <iWant>to see how my income and expenses trend over time</iWant>
+      <soThat>I can spot patterns and changes in my financial behavior</soThat>
+      <tasks>
+        - Verify Recharts installation from Story 4.3
+        - Implement calculateTrendData in calculationService
+        - Create determineGranularity helper function
+        - Define TrendDataPoint interface
+        - Create IncomeTrendChart component file
+        - Implement chart data calculation with memoization
+        - Implement empty state handling
+        - Implement bar chart rendering with Recharts
+        - Create custom tooltip component
+        - Integrate IncomeTrendChart in Dashboard
+        - Create calculateTrendData tests
+        - Create IncomeTrendChart component tests
+        - Manual testing with different period lengths
+        - TypeScript compilation verification
+      </tasks>
+    </story>
+    <story id="4.5">
+      <asA>user</asA>
+      <iWant>to see my most recent transactions on the Dashboard</iWant>
+      <soThat>I have quick access to my latest activity</soThat>
+      <tasks>
+        - Create RecentTransactionsWidget component file
+        - Implement transaction filtering and sorting logic
+        - Implement empty state handling
+        - Implement transaction list rendering
+        - Implement "View All" navigation
+        - Add responsive styling
+        - Integrate RecentTransactionsWidget in Dashboard
+        - Create RecentTransactionsWidget component tests
+        - Manual testing with varying transaction counts
+        - TypeScript compilation verification
+      </tasks>
+    </story>
+  </stories>
+
+  <acceptanceCriteria>
+    <story4_4>
+      AC-4.4.1: Recharts already installed and verified from Story 4.3
+      AC-4.4.2: IncomeTrendChart component created with Recharts BarChart
+      AC-4.4.3: Adaptive granularity: daily (≤31 days), weekly (≤90 days), monthly (>90 days)
+      AC-4.4.4: Two data series: Income (green #10B981) and Expenses (red #EF4444)
+      AC-4.4.5: X-axis shows formatted date labels based on granularity
+      AC-4.4.6: Y-axis shows currency amounts with grid lines
+      AC-4.4.7: Interactive tooltip shows date, income, expenses, net balance with color coding
+      AC-4.4.8: Empty state displays when no transactions in period
+      AC-4.4.9: Chart responsive with ResponsiveContainer width=100% height=400
+      AC-4.4.10: Chart renders within 2 seconds using useMemo
+      AC-4.4.11: calculateTrendData function in calculationService
+      AC-4.4.12: Chart data transformation helper function
+      AC-4.4.13: Component tests with ≥85% coverage
+      AC-4.4.14: Calculation service tests with ≥90% coverage
+      AC-4.4.15: Integrated in Dashboard below ExpenseBreakdownChart
+    </story4_4>
+    <story4_5>
+      AC-4.5.1: RecentTransactionsWidget component created with compact format
+      AC-4.5.2: Displays last N transactions (configurable limit, default 5)
+      AC-4.5.3: Respects selected period filter from AppContext
+      AC-4.5.4: Compact format shows: date, description, category, amount
+      AC-4.5.5: Visual type indicators: green income (+), red expense (-)
+      AC-4.5.6: Category display with getCategoryById from constants
+      AC-4.5.7: "View All" link navigates to /transactions route
+      AC-4.5.8: Empty state when no transactions in period
+      AC-4.5.9: Automatic updates on transaction changes via AppContext
+      AC-4.5.10: Responsive design: mobile stacked, desktop comfortable spacing
+      AC-4.5.11: Transaction sorting by date descending (most recent first)
+      AC-4.5.12: Component tests with ≥85% coverage
+      AC-4.5.13: Integrated in Dashboard below IncomeTrendChart
+    </story4_5>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>FR-3.3 Income vs Expenses Trend Chart</section>
+        <snippet>Dashboard displays bar/line chart showing income and expenses trend over time. Adaptive granularity based on period length: daily for short periods, weekly for medium, monthly for long. Two data series (income green, expenses red) with interactive hover details. Chart updates when period changes.</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>FR-3.5 Recent Transactions Widget</section>
+        <snippet>Dashboard shows last 5-10 recent transactions in compact format with date, description, category, amount. "View All" link navigates to full transactions list. Widget respects selected period filter and updates automatically when transactions added/edited/deleted.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>System Architecture</title>
+        <section>Chart Data Transformation Patterns</section>
+        <snippet>Service layer handles business logic in calculationService.ts. Component layer uses Recharts for UI rendering. Use date-fns for date interval generation and formatting. Recharts BarChart for dual-series visualization. All charts wrapped in ResponsiveContainer for responsive sizing.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>System Architecture</title>
+        <section>Recharts Integration</section>
+        <snippet>Chart components consume processed data from services. ResponsiveContainer wraps all charts. Custom Tooltip component for branded look. Use Bar components with specified colors for data series. CartesianGrid for better readability.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>System Architecture</title>
+        <section>Performance Optimization</section>
+        <snippet>Memoize chart data transformation with useMemo. Dependencies: [transactions, period, granularity]. Chart rendering target: <2 seconds (NFR requirement). Aggregate data if >100 points for long periods (optional optimization).</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-4.md</path>
+        <title>Epic 4 Technical Specification</title>
+        <section>IncomeTrendChart Component Specification</section>
+        <snippet>Component props: { period?: Period }. Uses Recharts BarChart with income (green) and expenses (red) bars. Adaptive granularity: ≤31 days daily, ≤90 days weekly, >90 days monthly. Custom tooltip shows date, income, expenses, net balance with color coding. Empty state for no transactions.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-4.md</path>
+        <title>Epic 4 Technical Specification</title>
+        <section>RecentTransactionsWidget Component Specification</section>
+        <snippet>Component props: { period?: Period, limit?: number }. Displays last N transactions filtered by period. Compact layout with date (short format), description (truncated), category, amount. Income green with +, expense red with -. "View All" Link to /transactions. Updates automatically via AppContext.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-4.md</path>
+        <title>Epic 4 Technical Specification</title>
+        <section>Adaptive Granularity Based on Period Length</section>
+        <snippet>Period ≤31 days: Daily granularity using eachDayOfInterval. Period ≤90 days: Weekly granularity using eachWeekOfInterval, startOfWeek. Period >90 days: Monthly granularity using eachMonthOfInterval, startOfMonth. Granularity automatically determined from period.startDate and period.endDate.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-4.md</path>
+        <title>Epic 4 Technical Specification</title>
+        <section>Calculation Service Extension</section>
+        <snippet>calculateTrendData function signature: (transactions: Transaction[], period: Period, granularity: 'day' | 'week' | 'month'): TrendDataPoint[]. Returns array of data points with date, income, expenses, net. Aggregates transactions into time buckets. Uses date-fns for date manipulation.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <file>
+        <path>smartbudget/src/models/Transaction.ts</path>
+        <kind>type definition</kind>
+        <symbol>Transaction</symbol>
+        <lines>full file</lines>
+        <reason>Transaction interface with id, amount, type, category, date, description. Required for trend data aggregation and recent transactions display.</reason>
+      </file>
+      <file>
+        <path>smartbudget/src/models/Category.ts</path>
+        <kind>type definition</kind>
+        <symbol>Category</symbol>
+        <lines>full file</lines>
+        <reason>Category interface for category display in recent transactions widget. Includes id, name, type, color, icon.</reason>
+      </file>
+      <file>
+        <path>smartbudget/src/models/Period.ts</path>
+        <kind>type definition</kind>
+        <symbol>Period</symbol>
+        <lines>full file</lines>
+        <reason>Period interface for filtering transactions by date range. Both stories use period for filtering data.</reason>
+      </file>
+      <file>
+        <path>smartbudget/src/context/AppContext.tsx</path>
+        <kind>context provider</kind>
+        <symbol>useAppContext</symbol>
+        <lines>1-150</lines>
+        <reason>Provides transactions[], selectedPeriod, and subscription mechanism for real-time updates. Critical dependency for both stories.</reason>
+      </file>
+      <file>
+        <path>smartbudget/src/services/calculationService.ts</path>
+        <kind>service</kind>
+        <symbol>calculateTotalIncome, calculateTotalExpenses, etc.</symbol>
+        <lines>full file</lines>
+        <reason>Existing calculation functions to reference. Will be extended with calculateTrendData for Story 4.4. Shows calculation patterns to follow.</reason>
+      </file>
+      <file>
+        <path>smartbudget/src/constants/categories.ts</path>
+        <kind>constants</kind>
+        <symbol>CATEGORIES, getCategoryById</symbol>
+        <lines>full file</lines>
+        <reason>Category data with colors for chart visualization. getCategoryById helper for recent transactions widget.</reason>
+      </file>
+      <file>
+        <path>smartbudget/src/pages/Dashboard.tsx</path>
+        <kind>page component</kind>
+        <symbol>Dashboard</symbol>
+        <lines>full file</lines>
+        <reason>Integration point for both IncomeTrendChart and RecentTransactionsWidget. Shows existing layout with SummaryCards, PeriodSelector, ExpenseBreakdownChart.</reason>
+      </file>
+      <file>
+        <path>smartbudget/src/components/dashboard/SummaryCards.tsx</path>
+        <kind>component</kind>
+        <symbol>SummaryCards</symbol>
+        <lines>full file</lines>
+        <reason>Reference for period filtering pattern and memoization usage. Shows how to consume period prop and update on changes.</reason>
+      </file>
+      <file>
+        <path>smartbudget/src/components/dashboard/ExpenseBreakdownChart.tsx</path>
+        <kind>component</kind>
+        <symbol>ExpenseBreakdownChart</symbol>
+        <lines>full file</lines>
+        <reason>Reference for Recharts integration pattern, empty state handling, ResponsiveContainer usage, and custom tooltip implementation.</reason>
+      </file>
+      <file>
+        <path>smartbudget/src/utils/formatCurrency.ts</path>
+        <kind>utility</kind>
+        <symbol>formatCurrency</symbol>
+        <lines>full file</lines>
+        <reason>Currency formatting utility for chart tooltips and recent transactions amounts.</reason>
+      </file>
+      <file>
+        <path>smartbudget/src/utils/periodHelpers.ts</path>
+        <kind>utility</kind>
+        <symbol>period helper functions</symbol>
+        <lines>full file</lines>
+        <reason>Date manipulation helpers for period calculations. May contain isWithinPeriod or similar functions.</reason>
+      </file>
+    </code>
+    <dependencies>
+      <npm>
+        <package name="react" version="^18.3.0">Core React library for component development</package>
+        <package name="react-dom" version="^18.3.0">React DOM for rendering</package>
+        <package name="recharts" version="^2.15.0">Chart library for BarChart visualization (installed in Story 4.3)</package>
+        <package name="date-fns" version="^4.1.0">Date manipulation: parseISO, eachDayOfInterval, eachWeekOfInterval, eachMonthOfInterval, startOfWeek, startOfMonth, format, differenceInDays</package>
+        <package name="lucide-react" version="^0.553.0">Icons: BarChart3 (empty state), Receipt/FileText (empty state), ArrowRight (view all link)</package>
+        <package name="react-router-dom" version="^6.30.2">Link component for "View All" navigation in recent transactions widget</package>
+      </npm>
+      <devDependencies>
+        <package name="@types/react" version="^18.3.12">TypeScript definitions for React</package>
+        <package name="typescript" version="~5.6.2">TypeScript compiler for type checking</package>
+        <package name="vitest" version="latest">Test runner for unit and component tests</package>
+        <package name="@testing-library/react" version="latest">React Testing Library for component testing</package>
+        <package name="@testing-library/user-event" version="latest">User event simulation for testing interactions</package>
+        <package name="tailwindcss" version="^4.0.0">Utility-first CSS framework for styling components</package>
+      </devDependencies>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <story4_4>
+      - Must use Recharts BarChart component (not LineChart)
+      - Must use ResponsiveContainer with width="100%" height={400}
+      - Income bars must be green (#10B981 or emerald-500)
+      - Expense bars must be red (#EF4444 or red-500)
+      - Granularity must be adaptive: ≤31 days daily, ≤90 days weekly, >90 days monthly
+      - Must use date-fns for date interval generation (eachDayOfInterval, eachWeekOfInterval, eachMonthOfInterval)
+      - Date labels must be formatted appropriately: "Nov 10" (daily), "Week of Nov 5" (weekly), "November" (monthly)
+      - Custom tooltip must show: date, income amount, expenses amount, net balance
+      - Net balance must be color-coded: green if positive, red if negative
+      - Chart data must be memoized with useMemo, dependencies: [transactions, selectedPeriod]
+      - calculateTrendData must be added to calculationService.ts (not inline)
+      - Empty state must use BarChart3 icon from lucide-react
+      - Chart must render in <2 seconds (use memoization)
+      - Component tests must achieve ≥85% coverage
+      - Calculation service tests must achieve ≥90% coverage
+      - Must integrate in Dashboard.tsx below ExpenseBreakdownChart
+    </story4_4>
+    <story4_5>
+      - Must create RecentTransactionsWidget component in components/dashboard/
+      - Default limit must be 5 transactions (configurable via limit prop)
+      - Must filter transactions by selected period from AppContext
+      - Must sort transactions by date descending (most recent first)
+      - Income amounts must display in green (#10B981) with "+" prefix
+      - Expense amounts must display in red (#EF4444) with "-" prefix
+      - Date must use short format: "Nov 10" or "11/10" (use date-fns format)
+      - Description must be truncated to ~30 characters if needed
+      - Category must be retrieved using getCategoryById from constants
+      - "View All" must use Link component from react-router-dom to="/transactions"
+      - Empty state must use Receipt or FileText icon from lucide-react
+      - Must use useMemo for filtering/sorting, dependencies: [transactions, period, limit]
+      - Widget must update automatically when transactions change (via AppContext subscription)
+      - Must be responsive: compact spacing mobile, comfortable spacing desktop
+      - Component tests must achieve ≥85% coverage
+      - Must integrate in Dashboard.tsx below IncomeTrendChart
+    </story4_5>
+    <general>
+      - Both stories modify Dashboard.tsx (coordinate changes to avoid conflicts)
+      - Must follow TypeScript strict mode
+      - Must use Tailwind CSS for all styling
+      - All new components must be accessible (ARIA labels, keyboard nav)
+      - Must maintain existing dashboard functionality (don't break SummaryCards, PeriodSelector, ExpenseBreakdownChart)
+      - Period changes must update both chart and widget automatically via AppContext
+    </general>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>TrendDataPoint</name>
+      <kind>Type Definition</kind>
+      <signature>
+        interface TrendDataPoint {
+          date: string;      // Formatted date label (e.g., "Nov 10", "Week of Nov 5", "November")
+          income: number;    // Total income for period bucket
+          expenses: number;  // Total expenses for period bucket
+          net: number;       // Net balance (income - expenses)
+        }
+      </signature>
+      <path>src/models/TrendDataPoint.ts OR inline in calculationService.ts</path>
+    </interface>
+    <interface>
+      <name>IncomeTrendChartProps</name>
+      <kind>Component Props Interface</kind>
+      <signature>
+        interface IncomeTrendChartProps {
+          period?: Period;
+        }
+      </signature>
+      <path>src/components/dashboard/IncomeTrendChart.tsx</path>
+    </interface>
+    <interface>
+      <name>RecentTransactionsWidgetProps</name>
+      <kind>Component Props Interface</kind>
+      <signature>
+        interface RecentTransactionsWidgetProps {
+          period?: Period;
+          limit?: number;  // Default: 5
+        }
+      </signature>
+      <path>src/components/dashboard/RecentTransactionsWidget.tsx</path>
+    </interface>
+    <interface>
+      <name>calculateTrendData</name>
+      <kind>Service Function</kind>
+      <signature>
+        function calculateTrendData(
+          transactions: Transaction[],
+          period: Period,
+          granularity: 'day' | 'week' | 'month'
+        ): TrendDataPoint[]
+      </signature>
+      <path>src/services/calculationService.ts</path>
+    </interface>
+    <interface>
+      <name>determineGranularity</name>
+      <kind>Utility Function</kind>
+      <signature>
+        function determineGranularity(period: Period): 'day' | 'week' | 'month'
+      </signature>
+      <path>src/services/calculationService.ts OR src/utils/periodHelpers.ts</path>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Testing Framework: Vitest + React Testing Library
+      Coverage Target: ≥85% for components, ≥90% for services
+
+      Story 4.4 Test Files:
+      - src/services/calculationService.test.ts (MODIFIED - add calculateTrendData tests)
+      - src/components/dashboard/IncomeTrendChart.test.tsx (NEW)
+
+      Story 4.5 Test Files:
+      - src/components/dashboard/RecentTransactionsWidget.test.tsx (NEW)
+
+      Testing Approach:
+      - Mock useAppContext to return test transactions and period
+      - Use @testing-library/user-event for user interactions
+      - Test both stories independently and integrated together
+      - Verify chart + widget work together in Dashboard without conflicts
+
+      Mock Strategy:
+      - Mock transactions array with varying dates for trend testing
+      - Mock period with different lengths to test adaptive granularity
+      - Mock getCategoryById for category display
+      - Mock date-fns functions for deterministic date tests (optional)
+    </standards>
+    <locations>
+      - Run all tests: npm run test
+      - Check coverage: npm run test:coverage
+      - Target: All modified and new files ≥85% coverage (≥90% for services)
+    </locations>
+    <testIdeas>
+      <story4_4>
+        <test ac="4.4.2">Test IncomeTrendChart renders BarChart with income and expense data</test>
+        <test ac="4.4.3">Test daily granularity for period ≤31 days</test>
+        <test ac="4.4.3">Test weekly granularity for period ≤90 days</test>
+        <test ac="4.4.3">Test monthly granularity for period >90 days</test>
+        <test ac="4.4.4">Test income bars use green color (#10B981)</test>
+        <test ac="4.4.4">Test expense bars use red color (#EF4444)</test>
+        <test ac="4.4.5">Test X-axis displays formatted date labels</test>
+        <test ac="4.4.6">Test Y-axis displays currency amounts</test>
+        <test ac="4.4.7">Test tooltip displays on hover (if testable)</test>
+        <test ac="4.4.8">Test empty state when no transactions</test>
+        <test ac="4.4.9">Test ResponsiveContainer renders</test>
+        <test ac="4.4.11">Test calculateTrendData with daily aggregates</test>
+        <test ac="4.4.11">Test calculateTrendData with weekly aggregates</test>
+        <test ac="4.4.11">Test calculateTrendData with monthly aggregates</test>
+        <test ac="4.4.11">Test calculateTrendData filters by period</test>
+        <test ac="4.4.11">Test calculateTrendData returns empty array when no transactions</test>
+        <test ac="4.4.11">Test calculateTrendData handles edge cases (single transaction, period boundaries)</test>
+      </story4_4>
+      <story4_5>
+        <test ac="4.5.1">Test RecentTransactionsWidget renders transaction list</test>
+        <test ac="4.5.2">Test widget displays correct number of transactions based on limit</test>
+        <test ac="4.5.3">Test widget filters transactions by period</test>
+        <test ac="4.5.4">Test compact format displays date, description, category, amount</test>
+        <test ac="4.5.5">Test income amounts display in green with "+"</test>
+        <test ac="4.5.5">Test expense amounts display in red with "-"</test>
+        <test ac="4.5.6">Test category name displays correctly</test>
+        <test ac="4.5.7">Test "View All" link has correct href="/transactions"</test>
+        <test ac="4.5.8">Test empty state when no transactions</test>
+        <test ac="4.5.11">Test transactions sorted by date descending</test>
+        <test ac="4.5.11">Test widget shows only limit number of transactions</test>
+        <test ac="4.5.11">Test truncation of long descriptions (optional)</test>
+      </story4_5>
+      <integration>
+        <test>Test Dashboard integrates both IncomeTrendChart and RecentTransactionsWidget</test>
+        <test>Test period change updates both chart and widget</test>
+        <test>Test adding transaction updates both chart and widget</test>
+        <test>Test chart renders before widget in dashboard layout</test>
+      </integration>
+    </testIdeas>
+  </tests>
+
+  <implementationStrategy>
+    <phase1>
+      <name>Story 4.4 - Income vs Expenses Trend Chart</name>
+      <steps>
+        1. Verify Recharts installation (npm list recharts)
+        2. Define TrendDataPoint interface (models/ or inline in calculationService)
+        3. Implement determineGranularity helper function
+        4. Implement calculateTrendData in calculationService.ts
+        5. Create calculateTrendData unit tests
+        6. Create IncomeTrendChart component file
+        7. Implement chart data calculation with useMemo
+        8. Implement empty state
+        9. Implement BarChart rendering with Recharts components
+        10. Create custom tooltip component
+        11. Integrate IncomeTrendChart in Dashboard.tsx
+        12. Create IncomeTrendChart component tests
+        13. Manual testing with different period lengths
+        14. TypeScript compilation verification
+      </steps>
+    </phase1>
+    <phase2>
+      <name>Story 4.5 - Recent Transactions Widget</name>
+      <steps>
+        1. Create RecentTransactionsWidget component file
+        2. Implement transaction filtering and sorting logic with useMemo
+        3. Implement empty state
+        4. Implement transaction list rendering (date, description, category, amount)
+        5. Add visual type indicators (green income +, red expense -)
+        6. Implement "View All" navigation with Link component
+        7. Add responsive styling with Tailwind
+        8. Integrate RecentTransactionsWidget in Dashboard.tsx below IncomeTrendChart
+        9. Create RecentTransactionsWidget component tests
+        10. Manual testing with varying transaction counts
+        11. TypeScript compilation verification
+      </steps>
+    </phase2>
+    <integration>
+      <note>Both stories modify Dashboard.tsx. Implement sequentially (4.4 then 4.5) to avoid conflicts. After both implemented, test period changes update both chart and widget correctly. Verify layout: SummaryCards → PeriodSelector → ExpenseBreakdownChart → IncomeTrendChart → RecentTransactionsWidget.</note>
+    </integration>
+  </implementationStrategy>
+
+  <fileStructure>
+    <newFiles>
+      <file>src/models/TrendDataPoint.ts (optional - can be inline in calculationService)</file>
+      <file>src/components/dashboard/IncomeTrendChart.tsx</file>
+      <file>src/components/dashboard/IncomeTrendChart.test.tsx</file>
+      <file>src/components/dashboard/RecentTransactionsWidget.tsx</file>
+      <file>src/components/dashboard/RecentTransactionsWidget.test.tsx</file>
+    </newFiles>
+    <modifiedFiles>
+      <file>src/services/calculationService.ts (add calculateTrendData, determineGranularity)</file>
+      <file>src/services/calculationService.test.ts (add tests for calculateTrendData)</file>
+      <file>src/pages/Dashboard.tsx (integrate IncomeTrendChart and RecentTransactionsWidget)</file>
+    </modifiedFiles>
+  </fileStructure>
+
+  <keyDecisions>
+    <decision id="1">
+      <question>Should TrendDataPoint be a separate file or inline type?</question>
+      <recommendation>Inline in calculationService.ts as exported interface</recommendation>
+      <rationale>Used only by calculateTrendData and IncomeTrendChart. Keeping it close to calculation logic is simpler. Can be extracted later if needed elsewhere.</rationale>
+    </decision>
+    <decision id="2">
+      <question>Should determineGranularity be in calculationService or periodHelpers?</question>
+      <recommendation>Add to calculationService.ts</recommendation>
+      <rationale>Used exclusively by calculateTrendData. Keeps related logic together. periodHelpers is for general period utilities.</rationale>
+    </decision>
+    <decision id="3">
+      <question>Should RecentTransactionsWidget have "Add Transaction" button in empty state?</question>
+      <recommendation>No, keep empty state simple with just message</recommendation>
+      <rationale>Add Transaction button is already in main navigation. Empty state should just explain why widget is empty and suggest changing period.</rationale>
+    </decision>
+    <decision id="4">
+      <question>Should recent transactions widget limit be configurable via prop?</question>
+      <recommendation>Yes, add optional limit prop with default 5</recommendation>
+      <rationale>Provides flexibility for future adjustments without component changes. Dashboard can control how many to show based on screen size.</rationale>
+    </decision>
+    <decision id="5">
+      <question>Bar chart or line chart for income vs expenses trend?</question>
+      <recommendation>Bar chart (BarChart component from Recharts)</recommendation>
+      <rationale>PRD says "Bar or line chart". Bar chart is better for comparing two discrete series (income vs expenses). Clearer visual distinction.</rationale>
+    </decision>
+  </keyDecisions>
+
+  <learningsFromPreviousStories>
+    <learning source="Story 4.3">
+      <item>Recharts installed via npm install recharts (version ^2.15.0)</item>
+      <item>ResponsiveContainer pattern: width="100%" height={400}</item>
+      <item>Custom Tooltip component styled with Tailwind CSS</item>
+      <item>Empty state pattern: lucide-react icon + Tailwind-styled message</item>
+      <item>useMemo for chart data with [transactions, period] dependencies</item>
+      <item>Chart components consume processed data from calculationService</item>
+    </learning>
+    <learning source="Story 4.2">
+      <item>Period interface: { type, startDate, endDate, label }</item>
+      <item>selectedPeriod available via useAppContext() hook</item>
+      <item>Period changes automatically update all consuming components</item>
+      <item>Performance: period change updates in <500ms</item>
+    </learning>
+    <learning source="Story 4.1">
+      <item>calculationService pattern: centralized business logic</item>
+      <item>formatCurrency utility for consistent amount formatting</item>
+      <item>useMemo pattern for expensive calculations</item>
+      <item>AppContext provides transactions via useAppContext()</item>
+      <item>date-fns usage: parseISO, isWithinInterval for date filtering</item>
+    </learning>
+    <learning source="Story 3.2">
+      <item>Transaction list patterns already exist in TransactionsList.tsx</item>
+      <item>getCategoryById from constants for category lookup</item>
+      <item>date-fns format() for date display</item>
+      <item>Array.sort() for sorting transactions by date</item>
+    </learning>
+  </learningsFromPreviousStories>
+
+  <codeExamples>
+    <example id="calculate-trend-data">
+      <description>calculateTrendData function implementation pattern</description>
+      <code>
+import { parseISO, eachDayOfInterval, eachWeekOfInterval, eachMonthOfInterval,
+         startOfWeek, startOfMonth, format, differenceInDays } from 'date-fns';
+
+export interface TrendDataPoint {
+  date: string;      // Formatted label
+  income: number;
+  expenses: number;
+  net: number;
+}
+
+export const determineGranularity = (period: Period): 'day' | 'week' | 'month' => {
+  const dayDiff = differenceInDays(parseISO(period.endDate), parseISO(period.startDate));
+  if (dayDiff <= 31) return 'day';
+  if (dayDiff <= 90) return 'week';
+  return 'month';
+};
+
+export const calculateTrendData = (
+  transactions: Transaction[],
+  period: Period,
+  granularity: 'day' | 'week' | 'month'
+): TrendDataPoint[] => {
+  const start = parseISO(period.startDate);
+  const end = parseISO(period.endDate);
+
+  // Generate date intervals
+  let intervals: Date[];
+  if (granularity === 'day') {
+    intervals = eachDayOfInterval({ start, end });
+  } else if (granularity === 'week') {
+    intervals = eachWeekOfInterval({ start, end });
+  } else {
+    intervals = eachMonthOfInterval({ start, end });
+  }
+
+  // Aggregate transactions into buckets
+  return intervals.map(date => {
+    const income = transactions
+      .filter(t => t.type === 'income' && isInBucket(t.date, date, granularity))
+      .reduce((sum, t) => sum + t.amount, 0);
+
+    const expenses = transactions
+      .filter(t => t.type === 'expense' && isInBucket(t.date, date, granularity))
+      .reduce((sum, t) => sum + t.amount, 0);
+
+    return {
+      date: formatDateLabel(date, granularity),
+      income,
+      expenses,
+      net: income - expenses
+    };
+  });
+};
+      </code>
+    </example>
+    <example id="income-trend-chart-component">
+      <description>IncomeTrendChart component structure</description>
+      <code>
+import React, { useMemo } from 'react';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { useAppContext } from '../../context/AppContext';
+import { calculateTrendData, determineGranularity } from '../../services/calculationService';
+import { formatCurrency } from '../../utils/formatCurrency';
+import { BarChart3 } from 'lucide-react';
+import type { Period } from '../../models/Period';
+
+interface IncomeTrendChartProps {
+  period?: Period;
+}
+
+export const IncomeTrendChart: React.FC&lt;IncomeTrendChartProps&gt; = ({ period }) => {
+  const { transactions, selectedPeriod } = useAppContext();
+  const activePeriod = period || selectedPeriod;
+
+  const granularity = useMemo(
+    () => determineGranularity(activePeriod),
+    [activePeriod]
+  );
+
+  const chartData = useMemo(
+    () => calculateTrendData(transactions, activePeriod, granularity),
+    [transactions, activePeriod, granularity]
+  );
+
+  if (chartData.length === 0 || chartData.every(d => d.income === 0 && d.expenses === 0)) {
+    return (
+      &lt;div className="bg-white rounded-lg shadow p-6"&gt;
+        &lt;div className="flex flex-col items-center justify-center py-12"&gt;
+          &lt;BarChart3 className="w-16 h-16 text-gray-400 mb-4" /&gt;
+          &lt;p className="text-gray-600"&gt;No transactions in this period&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    );
+  }
+
+  return (
+    &lt;div className="bg-white rounded-lg shadow p-6"&gt;
+      &lt;h2 className="text-xl font-semibold mb-4"&gt;Income vs Expenses Trend&lt;/h2&gt;
+      &lt;ResponsiveContainer width="100%" height={400}&gt;
+        &lt;BarChart data={chartData}&gt;
+          &lt;CartesianGrid strokeDasharray="3 3" /&gt;
+          &lt;XAxis dataKey="date" /&gt;
+          &lt;YAxis tickFormatter={(value) => formatCurrency(value)} /&gt;
+          &lt;Tooltip content={&lt;CustomTooltip /&gt;} /&gt;
+          &lt;Legend /&gt;
+          &lt;Bar dataKey="income" fill="#10B981" name="Income" /&gt;
+          &lt;Bar dataKey="expenses" fill="#EF4444" name="Expenses" /&gt;
+        &lt;/BarChart&gt;
+      &lt;/ResponsiveContainer&gt;
+    &lt;/div&gt;
+  );
+};
+      </code>
+    </example>
+    <example id="recent-transactions-widget">
+      <description>RecentTransactionsWidget component structure</description>
+      <code>
+import React, { useMemo } from 'react';
+import { Link } from 'react-router-dom';
+import { format, parseISO } from 'date-fns';
+import { useAppContext } from '../../context/AppContext';
+import { getCategoryById } from '../../constants/categories';
+import { formatCurrency } from '../../utils/formatCurrency';
+import { Receipt } from 'lucide-react';
+import type { Period } from '../../models/Period';
+
+interface RecentTransactionsWidgetProps {
+  period?: Period;
+  limit?: number;
+}
+
+export const RecentTransactionsWidget: React.FC&lt;RecentTransactionsWidgetProps&gt; = ({
+  period,
+  limit = 5
+}) => {
+  const { transactions, selectedPeriod } = useAppContext();
+  const activePeriod = period || selectedPeriod;
+
+  const recentTransactions = useMemo(() => {
+    // Filter by period and sort by date descending
+    const filtered = transactions
+      .filter(t => isWithinPeriod(t.date, activePeriod))
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .slice(0, limit);
+
+    return filtered;
+  }, [transactions, activePeriod, limit]);
+
+  if (recentTransactions.length === 0) {
+    return (
+      &lt;div className="bg-white rounded-lg shadow p-6"&gt;
+        &lt;h2 className="text-xl font-semibold mb-4"&gt;Recent Transactions&lt;/h2&gt;
+        &lt;div className="flex flex-col items-center justify-center py-8"&gt;
+          &lt;Receipt className="w-12 h-12 text-gray-400 mb-2" /&gt;
+          &lt;p className="text-gray-600"&gt;No transactions in this period&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    );
+  }
+
+  return (
+    &lt;div className="bg-white rounded-lg shadow p-6"&gt;
+      &lt;div className="flex items-center justify-between mb-4"&gt;
+        &lt;h2 className="text-xl font-semibold"&gt;Recent Transactions&lt;/h2&gt;
+        &lt;Link to="/transactions" className="text-blue-600 hover:text-blue-800"&gt;
+          View All
+        &lt;/Link&gt;
+      &lt;/div&gt;
+      &lt;div className="space-y-3"&gt;
+        {recentTransactions.map(transaction => {
+          const category = getCategoryById(transaction.category);
+          return (
+            &lt;div key={transaction.id} className="flex items-center justify-between border-b pb-2"&gt;
+              &lt;div className="flex-1"&gt;
+                &lt;p className="text-sm text-gray-600"&gt;
+                  {format(parseISO(transaction.date), 'MMM d')}
+                &lt;/p&gt;
+                &lt;p className="font-medium truncate"&gt;{transaction.description}&lt;/p&gt;
+                &lt;p className="text-xs text-gray-500"&gt;{category?.name}&lt;/p&gt;
+              &lt;/div&gt;
+              &lt;div className={`font-semibold ${
+                transaction.type === 'income' ? 'text-green-600' : 'text-red-600'
+              }`}&gt;
+                {transaction.type === 'income' ? '+' : '-'}
+                {formatCurrency(transaction.amount)}
+              &lt;/div&gt;
+            &lt;/div&gt;
+          );
+        })}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+};
+      </code>
+    </example>
+    <example id="dashboard-integration">
+      <description>Dashboard.tsx integration pattern</description>
+      <code>
+import { IncomeTrendChart } from '../components/dashboard/IncomeTrendChart';
+import { RecentTransactionsWidget } from '../components/dashboard/RecentTransactionsWidget';
+
+const Dashboard: React.FC = () => {
+  const { selectedPeriod } = useAppContext();
+
+  return (
+    &lt;div className="max-w-7xl mx-auto"&gt;
+      {/* Header with Period Selector */}
+      &lt;div className="flex items-center justify-between px-4 mb-6"&gt;
+        &lt;h1 className="text-3xl font-bold text-gray-900"&gt;Dashboard&lt;/h1&gt;
+        &lt;PeriodSelector /&gt;
+      &lt;/div&gt;
+
+      {/* Summary Statistics Cards */}
+      &lt;SummaryCards period={selectedPeriod} /&gt;
+
+      {/* Expense Breakdown Chart - Story 4.3 */}
+      &lt;div className="mt-6"&gt;
+        &lt;ExpenseBreakdownChart period={selectedPeriod} /&gt;
+      &lt;/div&gt;
+
+      {/* Income vs Expenses Trend Chart - Story 4.4 */}
+      &lt;div className="mt-6"&gt;
+        &lt;IncomeTrendChart period={selectedPeriod} /&gt;
+      &lt;/div&gt;
+
+      {/* Recent Transactions Widget - Story 4.5 */}
+      &lt;div className="mt-6"&gt;
+        &lt;RecentTransactionsWidget period={selectedPeriod} limit={5} /&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+};
+      </code>
+    </example>
+  </codeExamples>
+
+  <criticalNotes>
+    <note priority="high">Dashboard.tsx is modified by BOTH stories. Implement sequentially (4.4 first, then 4.5) to avoid merge conflicts. Final Dashboard should have: SummaryCards → ExpenseBreakdownChart → IncomeTrendChart → RecentTransactionsWidget.</note>
+    <note priority="high">calculationService.ts needs calculateTrendData function added. This is critical business logic - must have ≥90% test coverage.</note>
+    <note priority="high">Adaptive granularity is critical for Story 4.4. Must test with periods of varying lengths: ≤31 days (daily), ≤90 days (weekly), >90 days (monthly).</note>
+    <note priority="medium">Recharts already installed from Story 4.3. Verify with npm list recharts before starting. Expected version: ^2.15.0.</note>
+    <note priority="medium">Both components must use useMemo for performance. Chart must render in <2 seconds per NFR requirement.</note>
+    <note priority="medium">Recent transactions widget must update automatically when transactions change via AppContext. Test by adding/editing/deleting transaction and verifying widget updates.</note>
+    <note priority="low">Consider adding loading state to IncomeTrendChart if calculateTrendData takes >100ms with large datasets.</note>
+    <note priority="low">"View All" link in RecentTransactionsWidget navigates to /transactions. Verify route exists from Epic 3.</note>
+  </criticalNotes>
+</story-context>

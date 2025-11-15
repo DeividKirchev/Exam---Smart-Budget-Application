@@ -299,3 +299,92 @@
 
 **60.**
 `dev stories 3.4 and 3.5. They have a unified context file @.bmad-ephemeral/stories/3-4-and-3-5-unified.context.xml`
+
+**61.**
+`Create context for epic 4 YOLO`
+
+
+**62.**
+`create story 4.1`
+
+---
+
+**63.**
+`create story context`
+
+---
+
+**64.**
+`Add the current prompts to @prompts.md`
+
+---
+
+**64.**
+`Create context for story 4.1 YOLO`
+
+---
+
+**65.**
+
+`dev story 4.1`
+
+
+---
+
+**66.**
+
+`context story 4.2`
+
+---
+
+**67.**
+
+`develop story 4.2`
+
+---
+
+**68.**
+
+`context story 4.3`
+
+**69.**
+
+`develop story 4.2`
+
+---
+
+**70.**
+
+`draft next story`
+
+---
+
+**71.**
+
+`draft next story`
+
+---
+
+**72.**
+
+`Create mutual dual-context for 4.4 and 4.5`
+
+---
+
+**73.**
+
+`Develop stories 4.4 and 4.5. They have mutual context at @.bmad-ephemeral/stories/4-4-and-4-5-unified.context.xml YOLO`
+
+---
+
+**74.**
+
+`Error reported: Uncaught SyntaxError: The requested module '/node_modules/.vite/deps/recharts.js?v=72347f2f' does not provide an export named 'TooltipProps' (at IncomeTrendChart.tsx:20:3)`
+
+---
+
+**75.**
+
+`npm run lint output showing 6 ESLint errors`
+
+---

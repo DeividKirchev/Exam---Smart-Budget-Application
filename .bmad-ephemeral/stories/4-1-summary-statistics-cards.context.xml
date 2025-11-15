@@ -1,0 +1,261 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>4</epicId>
+    <storyId>1</storyId>
+    <title>Summary Statistics Cards</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-15</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>.bmad-ephemeral/stories/4-1-summary-statistics-cards.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a user</asA>
+    <iWant>to see summary statistics for my finances</iWant>
+    <soThat>I can quickly understand my financial position</soThat>
+    <tasks>
+      <task id="1" status="pending">Create Period interface model (simplified for Story 4.1)</task>
+      <task id="2" status="pending">Create calculationService with core functions (calculateTotalIncome, calculateTotalExpenses, calculateNetBalance)</task>
+      <task id="3" status="pending">Create formatCurrency utility</task>
+      <task id="4" status="pending">Create SummaryCards component file and structure</task>
+      <task id="5" status="pending">Implement calculation logic in component with useMemo</task>
+      <task id="6" status="pending">Implement Total Income card</task>
+      <task id="7" status="pending">Implement Total Expenses card</task>
+      <task id="8" status="pending">Implement Net Balance card with conditional styling</task>
+      <task id="9" status="pending">Implement responsive grid layout</task>
+      <task id="10" status="pending">Create SummaryCards tests</task>
+      <task id="11" status="pending">Create calculationService tests</task>
+      <task id="12" status="pending">Create formatCurrency tests</task>
+      <task id="13" status="pending">Integrate SummaryCards in Dashboard page</task>
+      <task id="14" status="pending">Manual testing</task>
+      <task id="15" status="pending">TypeScript compilation and verification</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="1" priority="high">SummaryCards Component Created - Component displays three cards in grid layout (Total Income, Total Expenses, Net Balance), each with label, amount, and icon. Cards responsive (stacked on mobile, grid on desktop) with Tailwind CSS.</criterion>
+    <criterion id="2" priority="high">Total Income Card - Displays total income for selected period, formatted as USD currency, green accent color, TrendingUp or DollarSign icon from lucide-react</criterion>
+    <criterion id="3" priority="high">Total Expenses Card - Displays total expenses for selected period, formatted as USD currency, red/orange accent color, TrendingDown or ShoppingCart icon from lucide-react</criterion>
+    <criterion id="4" priority="high">Net Balance Card - Displays net balance (Income - Expenses), formatted as USD currency, color changes based on balance (positive=green, negative=red, zero=gray), Wallet or PiggyBank icon from lucide-react</criterion>
+    <criterion id="5" priority="high">Calculation Service Created - Implements calculateTotalIncome, calculateTotalExpenses, calculateNetBalance functions with optional period filtering. Handles empty arrays, accurate rounding to 2 decimals.</criterion>
+    <criterion id="6" priority="high">Currency Formatting Utility - Function formatCurrency(amount: number): string using Intl.NumberFormat with USD currency, format $1,234.56</criterion>
+    <criterion id="7" priority="medium">Period Integration (Simplified) - SummaryCards accepts optional period prop for future integration. If no period, calculate across all transactions.</criterion>
+    <criterion id="8" priority="high">Real-Time Updates - Summary cards update automatically when transactions change using AppContext. Uses useMemo with dependencies [transactions, period].</criterion>
+    <criterion id="9" priority="medium">Edge Case Handling - Handles zero transactions, all income (no expenses), all expenses (no income), large amounts, fractional cents rounding</criterion>
+    <criterion id="10" priority="high">Component Tests - Test file created with ≥85% coverage. Tests rendering, amounts, formatting, color changes, empty data, updates, period filtering.</criterion>
+    <criterion id="11" priority="high">Calculation Service Tests - Test file created with ≥90% coverage (critical business logic). Tests all calculation functions, period filtering, empty arrays, rounding accuracy.</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>SmartBudget System Architecture</title>
+        <section>Financial Calculation Patterns</section>
+        <snippet>Defines standard formulas for calculateTotalIncome, calculateTotalExpenses, calculateNetBalance. All calculations must use these exact formulas to prevent agent inconsistencies. Use useMemo for expensive calculations.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>SmartBudget System Architecture</title>
+        <section>Component Patterns</section>
+        <snippet>Functional components with TypeScript. Use React.FC with explicit prop types. Extract reusable stateful logic into custom hooks. Service layer pattern for business logic.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-4.md</path>
+        <title>Epic Technical Specification: Dashboard and Analytics</title>
+        <section>Services and Modules</section>
+        <snippet>calculationService.ts module responsibilities: Financial calculations and aggregations. Input: transactions[], period. Output: totalIncome, totalExpenses, netBalance, expensesByCategory, trendData.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-4.md</path>
+        <title>Epic Technical Specification: Dashboard and Analytics</title>
+        <section>Data Models and Contracts</section>
+        <snippet>Period interface (simplified for Story 4.1): { startDate: string (ISO 8601), endDate: string (ISO 8601) }. Full Period model with type and label will be added in Story 4-2.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-4.md</path>
+        <title>Epic Technical Specification: Dashboard and Analytics</title>
+        <section>Calculation Service Contracts</section>
+        <snippet>calculateTotalIncome(transactions: Transaction[], period?: Period): number, calculateTotalExpenses(transactions: Transaction[], period?: Period): number, calculateNetBalance(transactions: Transaction[], period?: Period): number</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-4.md</path>
+        <title>Epic Technical Specification: Dashboard and Analytics</title>
+        <section>Component Props Interfaces</section>
+        <snippet>SummaryCardsProps: { period?: Period; } - Period optional for Story 4.1, will be required in future stories for period filtering integration.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-4.md</path>
+        <title>Epic Technical Specification: Dashboard and Analytics</title>
+        <section>Performance Requirements</section>
+        <snippet>Calculations complete in &lt;50ms for up to 1000 transactions. useMemo prevents recalculation on unrelated state changes. Component re-renders only when transactions or period changes.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>smartbudget/src/models/Transaction.ts</path>
+        <kind>interface</kind>
+        <symbol>Transaction</symbol>
+        <lines>23-68</lines>
+        <reason>Transaction interface that SummaryCards will consume from AppContext. Defines structure of transactions array used in calculations.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/context/AppContext.tsx</path>
+        <kind>context</kind>
+        <symbol>AppContext, useAppContext</symbol>
+        <lines>1-491</lines>
+        <reason>Global state management providing transactions array to SummaryCards. Component will consume transactions via useAppContext() hook. Provides real-time updates when transactions change.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/pages/Dashboard.tsx</path>
+        <kind>component</kind>
+        <symbol>Dashboard</symbol>
+        <lines>1-14</lines>
+        <reason>Dashboard page where SummaryCards component will be integrated. Currently placeholder, will import and render SummaryCards at top of dashboard in Task 13.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/constants/categories.ts</path>
+        <kind>constants</kind>
+        <symbol>CATEGORIES, getCategoryById</symbol>
+        <lines>1-167</lines>
+        <reason>Predefined categories with colors that will be used for category matching and color coding in future chart components. Provides getCategoryById helper function.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package>react</package>
+        <version>^18.3.1</version>
+        <usage>Core framework for SummaryCards component</usage>
+      </node>
+      <node>
+        <package>react-dom</package>
+        <version>^18.3.1</version>
+        <usage>React DOM renderer</usage>
+      </node>
+      <node>
+        <package>date-fns</package>
+        <version>^4.1.0</version>
+        <usage>Date manipulation for period filtering (parseISO, isWithinInterval)</usage>
+      </node>
+      <node>
+        <package>lucide-react</package>
+        <version>^0.553.0</version>
+        <usage>Icons for summary cards (TrendingUp, TrendingDown, Wallet)</usage>
+      </node>
+      <node>
+        <package>typescript</package>
+        <version>~5.9.3</version>
+        <usage>Type safety for all component props and function signatures</usage>
+      </node>
+      <node>
+        <package>vitest</package>
+        <version>^4.0.9</version>
+        <usage>Test runner for unit and component tests</usage>
+      </node>
+      <node>
+        <package>@testing-library/react</package>
+        <version>^16.3.0</version>
+        <usage>Component testing utilities</usage>
+      </node>
+      <node>
+        <package>@testing-library/jest-dom</package>
+        <version>^6.9.1</version>
+        <usage>DOM matchers for testing assertions</usage>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint type="pattern" priority="critical">All financial calculations must use standardized formulas from architecture.md Financial Calculation Patterns section. Do NOT create custom calculation logic - use exact formulas provided.</constraint>
+    <constraint type="pattern" priority="critical">Use useMemo for all calculations with dependencies [transactions, period] to prevent unnecessary recalculations on unrelated state changes</constraint>
+    <constraint type="styling" priority="high">Use Tailwind CSS classes for all styling. Grid layout: grid grid-cols-1 gap-4 (mobile), md:grid-cols-3 (desktop ≥768px). NO custom CSS files.</constraint>
+    <constraint type="data-access" priority="critical">Access transactions array via useAppContext() hook. DO NOT access localStorage directly. AppContext is single source of truth.</constraint>
+    <constraint type="typescript" priority="high">All components and functions must have explicit TypeScript types. Use React.FC&lt;PropsInterface&gt; pattern for components.</constraint>
+    <constraint type="testing" priority="high">Component tests ≥85% coverage, calculation service tests ≥90% coverage. Test edge cases: empty arrays, zero amounts, large numbers.</constraint>
+    <constraint type="naming" priority="medium">Components: PascalCase.tsx, Services: camelCase.ts, Event handlers: handle prefix (handleSubmit), State setters: set prefix (setAmount)</constraint>
+    <constraint type="formatting" priority="high">Use Intl.NumberFormat for currency formatting. Format: $1,234.56 (dollar sign, comma thousands separator, 2 decimals). Handles negative: -$123.45</constraint>
+    <constraint type="performance" priority="high">Calculations must complete in &lt;50ms for up to 1000 transactions. No blocking operations. Memoize all expensive operations.</constraint>
+    <constraint type="layer" priority="medium">Service layer separation: Business logic in calculationService.ts, NOT in components. Components call service functions.</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>Transaction</name>
+      <kind>TypeScript Interface</kind>
+      <signature>interface Transaction { id: string; amount: number; date: string; category: string; type: 'income' | 'expense'; description: string; createdAt: string; updatedAt: string; }</signature>
+      <path>smartbudget/src/models/Transaction.ts</path>
+    </interface>
+    <interface>
+      <name>Period (Simplified)</name>
+      <kind>TypeScript Interface</kind>
+      <signature>interface Period { startDate: string; endDate: string; } // Full model with type and label in Story 4-2</signature>
+      <path>smartbudget/src/models/Period.ts (to be created)</path>
+    </interface>
+    <interface>
+      <name>useAppContext</name>
+      <kind>React Hook</kind>
+      <signature>function useAppContext(): { transactions: Transaction[]; categories: Category[]; selectedPeriod: Period; addTransaction: (...) =&gt; Promise&lt;Transaction&gt;; ... }</signature>
+      <path>smartbudget/src/context/AppContext.tsx</path>
+    </interface>
+    <interface>
+      <name>SummaryCardsProps</name>
+      <kind>Component Props</kind>
+      <signature>interface SummaryCardsProps { period?: Period; } // Optional for Story 4.1</signature>
+      <path>smartbudget/src/components/dashboard/SummaryCards.tsx (to be created)</path>
+    </interface>
+    <interface>
+      <name>calculateTotalIncome</name>
+      <kind>Function Signature</kind>
+      <signature>(transactions: Transaction[], period?: Period): number</signature>
+      <path>smartbudget/src/services/calculationService.ts (to be created)</path>
+    </interface>
+    <interface>
+      <name>calculateTotalExpenses</name>
+      <kind>Function Signature</kind>
+      <signature>(transactions: Transaction[], period?: Period): number</signature>
+      <path>smartbudget/src/services/calculationService.ts (to be created)</path>
+    </interface>
+    <interface>
+      <name>calculateNetBalance</name>
+      <kind>Function Signature</kind>
+      <signature>(transactions: Transaction[], period?: Period): number</signature>
+      <path>smartbudget/src/services/calculationService.ts (to be created)</path>
+    </interface>
+    <interface>
+      <name>formatCurrency</name>
+      <kind>Function Signature</kind>
+      <signature>(amount: number): string // Returns formatted string like "$1,234.56"</signature>
+      <path>smartbudget/src/utils/formatCurrency.ts (to be created)</path>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      <standard>Use Vitest as test runner (already configured in vite.config.ts)</standard>
+      <standard>Use React Testing Library for component tests with @testing-library/jest-dom matchers</standard>
+      <standard>Place test files adjacent to source: ComponentName.test.tsx or serviceName.test.ts</standard>
+      <standard>Coverage targets: calculationService.ts ≥90% (critical business logic), SummaryCards.tsx ≥85% (UI component)</standard>
+      <standard>Test naming pattern: describe('ModuleName', () =&gt; { it('does specific thing', () =&gt; { ... }); });</standard>
+      <standard>Mock AppContext for component tests using custom wrapper with AppContext.Provider</standard>
+      <standard>Test edge cases: empty arrays (return 0), zero amounts, negative balances, large numbers (&gt;$1,000,000), fractional cents rounding</standard>
+      <standard>Run tests with: npm run test (single run), npm run test:watch (watch mode), npm run test:coverage (coverage report)</standard>
+    </standards>
+    <locations>
+      <location>smartbudget/src/components/dashboard/SummaryCards.test.tsx</location>
+      <location>smartbudget/src/services/calculationService.test.ts</location>
+      <location>smartbudget/src/utils/formatCurrency.test.ts</location>
+    </locations>
+    <ideas>
+      <idea ac="1,2,3,4">Component Rendering Tests - Verify SummaryCards renders three cards with correct labels (Total Income, Total Expenses, Net Balance). Verify icons display correctly (TrendingUp, TrendingDown, Wallet).</idea>
+      <idea ac="2,3,4,6">Currency Formatting Tests - Test amounts formatted as USD currency ($1,234.56). Test negative amounts (-$123.45). Test zero ($0.00). Test large amounts ($1,000,000.00).</idea>
+      <idea ac="4">Conditional Styling Tests - Test Net Balance color: green when positive (&gt;0), red when negative (&lt;0), gray when zero (=0).</idea>
+      <idea ac="5">Calculation Logic Tests - Test calculateTotalIncome sums only income transactions. Test calculateTotalExpenses sums only expense transactions. Test calculateNetBalance = income - expenses.</idea>
+      <idea ac="5,7">Period Filtering Tests - Test calculations filter by period.startDate and period.endDate when period provided. Test calculations use all transactions when period is undefined.</idea>
+      <idea ac="8">Real-Time Update Tests - Test component updates when transactions array changes in AppContext. Verify useMemo dependencies [transactions, period] trigger recalculation.</idea>
+      <idea ac="9">Edge Case Tests - Test empty transactions array (all cards show $0.00). Test all income/no expenses scenario. Test all expenses/no income scenario. Test fractional cent rounding (10.999 → $11.00).</idea>
+      <idea ac="11">Rounding Accuracy Tests - Test amounts rounded to 2 decimal places (10.001 → $10.00, 10.999 → $11.00). Test Math.round((value * 100) / 100) formula.</idea>
+      <idea ac="1">Responsive Layout Tests - Test grid layout at mobile width (&lt;768px: grid-cols-1). Test grid layout at desktop width (≥768px: md:grid-cols-3).</idea>
+      <idea ac="10,11">Coverage Tests - Run npm run test:coverage to verify ≥85% for SummaryCards, ≥90% for calculationService. Ensure all AC-related code paths tested.</idea>
+    </ideas>
+  </tests>
+</story-context>

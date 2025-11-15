@@ -1,0 +1,303 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>2</storyId>
+    <title>Transaction List View with Sorting</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-15</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>.bmad-ephemeral/stories/3-2-transaction-list-view-with-sorting.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>user</asA>
+    <iWant>to see all my transactions in a list</iWant>
+    <soThat>I can review my financial history</soThat>
+    <tasks>
+      - Create TransactionsList page component
+      - Fetch transactions from AppContext
+      - Display transaction data (Date, Description, Category, Amount, Type)
+      - Implement default sorting by date descending
+      - Add clickable column headers for sorting (Date, Amount, Category)
+      - Implement sort toggle (asc/desc/default)
+      - Add visual sort direction indicators
+      - Handle empty state with helpful message
+      - Implement loading state with spinner
+      - Handle error state with retry button
+      - Create responsive layouts (table desktop, cards mobile)
+      - Add color coding (green income, red expenses)
+      - Integrate category visual badges
+      - Add "Add Transaction" button
+      - Add Edit/Delete action buttons (placeholders)
+      - Create comprehensive unit tests (≥85% coverage)
+      - Add /transactions route
+      - TypeScript compilation verification
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    1. TransactionsList Page Component Created - File at src/pages/TransactionsList.tsx, fetches from AppContext
+    2. Transaction Data Display - Shows Date (formatted), Description, Category (with badge), Amount ($, color-coded), Type indicator
+    3. Default Sorting - Transactions sorted by date descending (most recent first) by default
+    4. Column Header Sorting - Clickable headers for Date/Amount/Category, toggle asc/desc, visual indicators
+    5. Empty State Handling - Shows "No transactions yet" message with "Add Transaction" button when empty
+    6. Responsive Layout - Table on desktop (≥768px), card layout on mobile (&lt;768px), touch-friendly targets
+    7. Transaction Actions - Edit and Delete buttons on each transaction (navigate to edit, placeholder delete)
+    8. Add Transaction Button - Prominent button at top navigates to /transactions/new
+    9. Loading State - Shows spinner while loading=true from AppContext
+    10. Error Handling - Displays error message with Retry button when error exists
+    11. Page Header and Navigation - Page title "Transactions", consistent with app layout
+    12. Unit Tests - Test file with ≥85% coverage testing rendering, sorting, states, navigation
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>FR-1.2 View Transactions</section>
+        <snippet>Users can view all transactions in a list format. List displays date, description, category, and amount for each transaction. Transactions can be sorted by date, amount, or category. Color coding helps distinguish income (green) from expenses (red). Pagination required if more than 50 transactions.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>System Architecture</title>
+        <section>Page Components</section>
+        <snippet>Page components in src/pages/ directory. TransactionsList is a page-level component that orchestrates child components and connects to AppContext. Uses React Router for navigation. Responsive design with Tailwind CSS breakpoints.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>System Architecture</title>
+        <section>Responsive Design</section>
+        <snippet>Mobile-first approach. Breakpoints: sm (640px), md (768px), lg (1024px), xl (1280px). Use Tailwind responsive prefixes. Desktop uses table layouts, mobile uses card layouts for better UX on small screens.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>TransactionList Component Specification</section>
+        <snippet>TransactionsList page fetches transactions from AppContext. Implements client-side sorting with three-way toggle (asc/desc/default). Default sort: date descending. Sortable columns: Date, Amount, Category. Visual indicators show active sort column and direction.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>Responsive Layout Strategy</section>
+        <snippet>Desktop (≥768px): Table layout with columns. Mobile (&lt;768px): Card-based layout, one transaction per card. Tablet (768-1023px): Compact table or cards. Touch targets minimum 44x44px on mobile. Use Tailwind responsive classes: hidden md:table for desktop table, md:hidden for mobile cards.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>Color Coding and Visual System</section>
+        <snippet>Income amounts: text-green-600. Expense amounts: text-red-600. Category badges use category.color from categories constant. Each transaction shows category with colored badge (lighter shade of category color). Type badges: Income (green), Expense (red/orange).</snippet>
+      </doc>
+    </docs>
+    <code>
+      <file>
+        <path>src/models/Transaction.ts</path>
+        <kind>type definition</kind>
+        <symbol>Transaction</symbol>
+        <lines>full file</lines>
+        <reason>Defines Transaction interface with all fields for display: id, amount, type, category, date, description. Date field is ISO string that needs formatting for display.</reason>
+      </file>
+      <file>
+        <path>src/models/Category.ts</path>
+        <kind>type definition</kind>
+        <symbol>Category</symbol>
+        <lines>full file</lines>
+        <reason>Defines Category interface for looking up category details: id, name, type, color, icon. Used for category badge rendering.</reason>
+      </file>
+      <file>
+        <path>src/context/AppContext.tsx</path>
+        <kind>context provider</kind>
+        <symbol>useAppContext</symbol>
+        <lines>full file</lines>
+        <reason>Provides useAppContext() hook with transactions array, loading state, error state, and refreshData() method. Primary data source for the list.</reason>
+      </file>
+      <file>
+        <path>src/constants/categories.ts</path>
+        <kind>constants</kind>
+        <symbol>getCategoryById</symbol>
+        <lines>full file</lines>
+        <reason>Provides getCategoryById() helper to look up category details for each transaction. Returns Category object with name, color, icon for badge rendering.</reason>
+      </file>
+      <file>
+        <path>smartbudget/src/components/transactions/TransactionForm.tsx</path>
+        <kind>component</kind>
+        <symbol>TransactionForm</symbol>
+        <lines>full file</lines>
+        <reason>NEW from Story 3.1. Reference for understanding form integration. Edit button will navigate to route that renders this form in edit mode. Form structure informs list actions.</reason>
+      </file>
+      <file>
+        <path>smartbudget/src/App.tsx</path>
+        <kind>routing</kind>
+        <symbol>App</symbol>
+        <lines>full file</lines>
+        <reason>Main app component with React Router setup. Need to verify /transactions route exists or add it. Also check /transactions/new route from Story 3.1.</reason>
+      </file>
+    </code>
+    <dependencies>
+      <npm>
+        <package name="react" version="^18.3.0">Core React library for component development</package>
+        <package name="react-dom" version="^18.3.0">React DOM for rendering</package>
+        <package name="react-router-dom" version="^6.30.0">Client-side routing, useNavigate hook for navigation</package>
+        <package name="date-fns" version="^4.1.0">Date formatting and parsing. Use format() and parseISO() for date display</package>
+        <package name="lucide-react" version="^0.469.0">Icon library for Plus, Edit, Trash2, ArrowUp, ArrowDown icons</package>
+      </npm>
+      <devDependencies>
+        <package name="@types/react" version="^18.3.12">TypeScript definitions for React</package>
+        <package name="typescript" version="~5.6.2">TypeScript compiler for type checking</package>
+        <package name="vitest" version="latest">Test runner for unit tests</package>
+        <package name="@testing-library/react" version="latest">React Testing Library for component tests</package>
+        <package name="@testing-library/user-event" version="latest">User event simulation for click testing</package>
+        <package name="tailwindcss" version="^4.0.0">Utility-first CSS framework for responsive styling</package>
+      </devDependencies>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    - Must use AppContext via useAppContext() hook for all data access (no direct localStorage)
+    - Must use getCategoryById() from constants/categories.ts for category lookups
+    - Must use date-fns format() and parseISO() for date formatting (display as MM/DD/YYYY)
+    - Must use Tailwind CSS for all styling with responsive breakpoints
+    - Must follow TypeScript strict mode (all types properly defined)
+    - Must implement mobile-first responsive design (cards on mobile, table on desktop)
+    - Desktop breakpoint: md:768px (use md: prefix for desktop-only styles)
+    - Mobile: default styles, no prefix needed
+    - Sorting must be client-side using useMemo for performance
+    - Sort columns: Date, Amount, Category only (not Description or Type)
+    - Default sort: Date descending (most recent first)
+    - Sort toggle: First click asc, second click desc, third click returns to default
+    - Visual sort indicator must show on active column (ArrowUp for asc, ArrowDown for desc)
+    - Empty state must display when transactions.length === 0 (after loading complete)
+    - Loading state must display when loading === true from AppContext
+    - Error state must display when error !== null from AppContext
+    - Color coding: Income text-green-600, Expense text-red-600 (or similar green/red shades)
+    - Category badges must use category.color for background (lighter shade)
+    - Touch targets minimum 44x44px on mobile (buttons, clickable headers)
+    - "Add Transaction" button must navigate to /transactions/new
+    - Edit button must navigate to /transactions/:id/edit (route may need to be added)
+    - Delete button is placeholder for Story 3.4 (onClick can be empty or show alert)
+    - Test coverage must be ≥85%
+    - Must handle case where transaction.category references non-existent category ID gracefully
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>useAppContext</name>
+      <kind>React Hook</kind>
+      <signature>
+        function useAppContext(): {
+          transactions: Transaction[];
+          categories: Category[];
+          selectedPeriod: Period;
+          loading: boolean;
+          error: string | null;
+          addTransaction: (transaction: Omit&lt;Transaction, 'id' | 'createdAt' | 'updatedAt'&gt;) => Promise&lt;Transaction&gt;;
+          updateTransaction: (id: string, updates: Partial&lt;Transaction&gt;) => Promise&lt;Transaction&gt;;
+          deleteTransaction: (id: string) => Promise&lt;boolean&gt;;
+          setPeriod: (period: Period) => void;
+          clearError: () => void;
+          refreshData: () => Promise&lt;void&gt;;
+        }
+      </signature>
+      <path>src/context/AppContext.tsx</path>
+    </interface>
+    <interface>
+      <name>getCategoryById</name>
+      <kind>Helper Function</kind>
+      <signature>
+        function getCategoryById(id: string): Category | undefined
+      </signature>
+      <path>src/constants/categories.ts</path>
+    </interface>
+    <interface>
+      <name>useNavigate</name>
+      <kind>React Router Hook</kind>
+      <signature>
+        function useNavigate(): (path: string) => void
+      </signature>
+      <path>react-router-dom</path>
+    </interface>
+    <interface>
+      <name>format (date-fns)</name>
+      <kind>Date Formatting Function</kind>
+      <signature>
+        function format(date: Date | number, format: string): string
+      </signature>
+      <path>date-fns</path>
+    </interface>
+    <interface>
+      <name>parseISO (date-fns)</name>
+      <kind>Date Parsing Function</kind>
+      <signature>
+        function parseISO(dateString: string): Date
+      </signature>
+      <path>date-fns</path>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Testing Framework: Vitest + React Testing Library
+      Coverage Target: ≥85% for TransactionsList.tsx
+      Test File Location: src/pages/TransactionsList.test.tsx
+
+      Testing Approach:
+      - Unit test page component in isolation by mocking useAppContext hook
+      - Mock useNavigate hook to verify navigation calls
+      - Mock getCategoryById helper for category badge tests
+      - Use @testing-library/user-event for click interactions on sort headers
+      - Test all three states: loading, error, and loaded with data
+      - Test empty state separately
+      - Test sorting logic with various data sets
+      - Test responsive layout rendering (check for presence of md: classes)
+      - Verify color coding applied correctly
+
+      Mock Strategy:
+      - Mock useAppContext to return controlled transaction data for different test scenarios
+      - Mock useNavigate to spy on navigation calls
+      - Mock getCategoryById to return test category data
+      - Mock date-fns format and parseISO if needed for deterministic date tests
+
+      Data Setup:
+      - Create test transaction fixtures with varying dates, amounts, categories
+      - Include both income and expense transactions for color coding tests
+      - Include transactions with different categories for badge tests
+    </standards>
+    <locations>
+      - src/pages/TransactionsList.test.tsx (new test file)
+      - Run tests: npm run test
+      - Check coverage: npm run test:coverage
+    </locations>
+    <ideas>
+      <test ac="1">Test component renders TransactionsList page</test>
+      <test ac="1">Test component fetches transactions from useAppContext on mount</test>
+      <test ac="2">Test displays all transaction fields (date, description, category, amount, type)</test>
+      <test ac="2">Test date formatted as MM/DD/YYYY</test>
+      <test ac="2">Test amount formatted with $ symbol and 2 decimals</test>
+      <test ac="2">Test category badge displays category name</test>
+      <test ac="2">Test income amounts display in green (text-green-600 class)</test>
+      <test ac="2">Test expense amounts display in red (text-red-600 class)</test>
+      <test ac="3">Test default sort is date descending (most recent first)</test>
+      <test ac="4">Test clicking Date header sorts transactions by date</test>
+      <test ac="4">Test clicking Amount header sorts transactions by amount</test>
+      <test ac="4">Test clicking Category header sorts transactions by category</test>
+      <test ac="4">Test clicking same header twice toggles sort direction (asc to desc)</test>
+      <test ac="4">Test clicking header third time returns to default sort</test>
+      <test ac="4">Test sort direction indicator (ArrowUp/ArrowDown) displays on active column</test>
+      <test ac="5">Test empty state displays when transactions array is empty</test>
+      <test ac="5">Test empty state shows "No transactions yet" message</test>
+      <test ac="5">Test empty state shows "Add Transaction" button</test>
+      <test ac="6">Test desktop table layout has md:table class</test>
+      <test ac="6">Test mobile card layout has md:hidden class</test>
+      <test ac="7">Test Edit button navigates to /transactions/:id/edit</test>
+      <test ac="7">Test Delete button exists (placeholder, may just render)</test>
+      <test ac="8">Test "Add Transaction" button navigates to /transactions/new</test>
+      <test ac="9">Test loading state displays spinner when loading=true</test>
+      <test ac="9">Test loading state shows "Loading transactions..." message</test>
+      <test ac="10">Test error state displays when error is set</test>
+      <test ac="10">Test error message is user-friendly</test>
+      <test ac="10">Test Retry button calls refreshData()</test>
+      <test ac="11">Test page displays "Transactions" title</test>
+      <test ac="12">Test coverage is ≥85%</test>
+    </ideas>
+  </tests>
+</story-context>

@@ -1,0 +1,300 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>1</storyId>
+    <title>Create Transaction Form Component</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-15</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>.bmad-ephemeral/stories/3-1-create-transaction-form-component.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>user</asA>
+    <iWant>to add a new transaction through a simple form</iWant>
+    <soThat>I can record my income or expenses quickly</soThat>
+    <tasks>
+      - Create TransactionForm component with dual-mode support (create/edit)
+      - Implement form fields (Amount, Type, Category, Date, Description)
+      - Add category filtering by transaction type
+      - Implement client-side validation for all fields
+      - Display inline validation error messages
+      - Handle form submission with AppContext integration
+      - Implement success handling and form reset
+      - Add edit mode with pre-population
+      - Implement cancel action
+      - Apply responsive design (desktop/mobile)
+      - Ensure accessibility compliance (ARIA, keyboard navigation)
+      - Create comprehensive unit tests (≥85% coverage)
+      - Create TransactionFormPage wrapper
+      - Add route for /transactions/new
+      - TypeScript compilation verification
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    1. Transaction Form Component Created - File at src/components/transactions/TransactionForm.tsx with dual-mode support
+    2. Form Fields Rendered - Amount (autofocus), Type (toggle), Category (dropdown), Date (picker), Description (textarea)
+    3. Category Filtering by Type - Dropdown filters categories based on income/expense type selection
+    4. Client-Side Validation - Amount (positive, 2 decimals), Date (not future), Category (required), Description (max 200 chars)
+    5. Validation Error Display - Inline error messages with user-friendly text, red borders on invalid fields
+    6. Form Submission - Validates, calls addTransaction/updateTransaction from AppContext, handles async errors
+    7. Success Handling - Calls onSave callback, clears form, shows success toast, refocuses amount field
+    8. Edit Mode Support - Pre-populates fields, changes submit button label, preserves transaction ID
+    9. Cancel Action - Cancel button calls onCancel callback, discards changes
+    10. Responsive Design - Two-column desktop layout, single-column mobile, touch-friendly targets
+    11. Accessibility - ARIA labels, semantic HTML, logical tab order, screen reader support
+    12. Unit Tests - Test file with ≥85% coverage testing all validation, modes, and user interactions
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>FR-1.1 Transaction Management</section>
+        <snippet>Users can add transactions through a simple form. Transaction entry should complete in under 30 seconds. Form includes amount, type (income/expense), category (from predefined list), date, and optional description. All inputs validated before submission.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>System Architecture</title>
+        <section>Component Architecture</section>
+        <snippet>Component-based architecture with reusable components in src/components/. Transaction-specific components in src/components/transactions/. State management via React Context API. Validation utilities in src/utils/. Tailwind CSS for styling with mobile-first responsive design.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>System Architecture</title>
+        <section>Project Structure</section>
+        <snippet>src/components/transactions/ for transaction-specific components. src/pages/ for page components. src/context/ for React Context providers. src/utils/ for validation helpers. src/models/ for TypeScript interfaces. src/constants/ for predefined data like categories.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>TransactionForm Component Specification</section>
+        <snippet>TransactionForm supports create and edit modes via props. Props interface: mode ('create'|'edit'), transaction (optional), onSave callback, onCancel callback. Form validates all inputs client-side. Integrates with AppContext for addTransaction/updateTransaction operations. Responsive design with Tailwind CSS.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>Form Validation Rules</section>
+        <snippet>Amount: Required, positive number, max 2 decimals, regex /^\d+(\.\d{1,2})?$/. Type: Required, 'income' or 'expense'. Category: Required, valid category ID. Date: Required, valid date, cannot be future date. Description: Optional, max 200 characters. Use validators from utils/validators.ts.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>Add Transaction Workflow</section>
+        <snippet>User navigates to /transactions/new → Form renders in create mode → User fills fields → Category filters by type → Validate on blur and submit → Call addTransaction() from AppContext → AppContext generates ID and timestamps → LocalStorage persists → Success toast → Navigate to list or reset form.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <file>
+        <path>src/models/Transaction.ts</path>
+        <kind>type definition</kind>
+        <symbol>Transaction</symbol>
+        <lines>full file</lines>
+        <reason>Defines Transaction interface with all required fields (id, amount, type, category, date, description, createdAt, updatedAt) for form data structure</reason>
+      </file>
+      <file>
+        <path>src/models/Category.ts</path>
+        <kind>type definition</kind>
+        <symbol>Category</symbol>
+        <lines>full file</lines>
+        <reason>Defines Category interface for category dropdown options with id, name, type, color, icon fields</reason>
+      </file>
+      <file>
+        <path>src/context/AppContext.tsx</path>
+        <kind>context provider</kind>
+        <symbol>useAppContext</symbol>
+        <lines>full file</lines>
+        <reason>Provides useAppContext() hook with addTransaction and updateTransaction methods for form submission integration. Critical dependency for state management.</reason>
+      </file>
+      <file>
+        <path>src/constants/categories.ts</path>
+        <kind>constants</kind>
+        <symbol>getCategoriesByType</symbol>
+        <lines>full file</lines>
+        <reason>Provides CATEGORIES constant and getCategoriesByType() helper function for filtering categories by income/expense type in dropdown</reason>
+      </file>
+      <file>
+        <path>src/utils/validators.ts</path>
+        <kind>utility functions</kind>
+        <symbol>validateTransactionData, validateAmount, validateDate</symbol>
+        <lines>full file</lines>
+        <reason>Contains validation functions for transaction data. Use validateTransactionData() for full validation, validateAmount() and validateDate() for individual field validation</reason>
+      </file>
+      <file>
+        <path>smartbudget/src/App.tsx</path>
+        <kind>routing</kind>
+        <symbol>App</symbol>
+        <lines>full file</lines>
+        <reason>Main app component with React Router setup. Need to add route for /transactions/new to render TransactionFormPage</reason>
+      </file>
+    </code>
+    <dependencies>
+      <npm>
+        <package name="react" version="^18.3.0">Core React library for component development</package>
+        <package name="react-dom" version="^18.3.0">React DOM for rendering</package>
+        <package name="react-router-dom" version="^6.30.0">Client-side routing for /transactions/new route</package>
+        <package name="date-fns" version="^4.1.0">Date manipulation and formatting for date picker and validation</package>
+        <package name="lucide-react" version="^0.469.0">Icon library for form field icons and buttons</package>
+      </npm>
+      <devDependencies>
+        <package name="@types/react" version="^18.3.12">TypeScript definitions for React</package>
+        <package name="typescript" version="~5.6.2">TypeScript compiler for type checking</package>
+        <package name="vitest" version="latest">Test runner for unit tests</package>
+        <package name="@testing-library/react" version="latest">React Testing Library for component tests</package>
+        <package name="@testing-library/user-event" version="latest">User event simulation for testing</package>
+        <package name="tailwindcss" version="^4.0.0">Utility-first CSS framework for styling</package>
+      </devDependencies>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    - Must use AppContext via useAppContext() hook for all transaction operations (no direct localStorage access)
+    - Must use getCategoriesByType() helper from constants/categories.ts for category filtering
+    - Must use validators from utils/validators.ts for all validation logic
+    - Must use Tailwind CSS for all styling (no inline styles or CSS modules)
+    - Must follow TypeScript strict mode (all types properly defined)
+    - Must implement mobile-first responsive design (single column mobile, two-column desktop)
+    - Form component must be reusable for both create and edit modes (single component, not duplicated)
+    - Must handle async operations with proper loading states
+    - Must implement proper error handling with user-friendly messages
+    - Submit button must show loading spinner during async operations
+    - Category dropdown must dynamically filter based on transaction type
+    - Amount field must autofocus on mount for quick data entry
+    - Date picker must default to today and prevent future dates
+    - Description must enforce 200 character limit
+    - All form fields must have proper ARIA labels and semantic HTML
+    - Tab order must be logical and keyboard accessible
+    - Validation must trigger on blur and on submit attempt
+    - Edit mode must preserve transaction ID (never change)
+    - Test coverage must be ≥85%
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>TransactionFormProps</name>
+      <kind>Component Props Interface</kind>
+      <signature>
+        interface TransactionFormProps {
+          mode: 'create' | 'edit';
+          transaction?: Transaction;      // Required if mode='edit'
+          onSave: (transaction: Transaction) => void;
+          onCancel: () => void;
+        }
+      </signature>
+      <path>src/components/transactions/TransactionForm.tsx</path>
+    </interface>
+    <interface>
+      <name>useAppContext</name>
+      <kind>React Hook</kind>
+      <signature>
+        function useAppContext(): {
+          transactions: Transaction[];
+          categories: Category[];
+          selectedPeriod: Period;
+          loading: boolean;
+          error: string | null;
+          addTransaction: (transaction: Omit&lt;Transaction, 'id' | 'createdAt' | 'updatedAt'&gt;) => Promise&lt;Transaction&gt;;
+          updateTransaction: (id: string, updates: Partial&lt;Transaction&gt;) => Promise&lt;Transaction&gt;;
+          deleteTransaction: (id: string) => Promise&lt;boolean&gt;;
+          setPeriod: (period: Period) => void;
+          clearError: () => void;
+          refreshData: () => Promise&lt;void&gt;;
+        }
+      </signature>
+      <path>src/context/AppContext.tsx</path>
+    </interface>
+    <interface>
+      <name>getCategoriesByType</name>
+      <kind>Helper Function</kind>
+      <signature>
+        function getCategoriesByType(type: 'income' | 'expense'): Category[]
+      </signature>
+      <path>src/constants/categories.ts</path>
+    </interface>
+    <interface>
+      <name>validateTransactionData</name>
+      <kind>Validation Function</kind>
+      <signature>
+        function validateTransactionData(transaction: Partial&lt;Transaction&gt;): {
+          valid: boolean;
+          errors: Record&lt;string, string&gt;;
+        }
+      </signature>
+      <path>src/utils/validators.ts</path>
+    </interface>
+    <interface>
+      <name>validateAmount</name>
+      <kind>Validation Function</kind>
+      <signature>
+        function validateAmount(value: string | number): { valid: boolean; error?: string }
+      </signature>
+      <path>src/utils/validators.ts</path>
+    </interface>
+    <interface>
+      <name>validateDate</name>
+      <kind>Validation Function</kind>
+      <signature>
+        function validateDate(value: string): { valid: boolean; error?: string }
+      </signature>
+      <path>src/utils/validators.ts</path>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Testing Framework: Vitest + React Testing Library
+      Coverage Target: ≥85% for TransactionForm.tsx
+      Test File Location: src/components/transactions/TransactionForm.test.tsx
+
+      Testing Approach:
+      - Unit test component in isolation by mocking useAppContext hook
+      - Mock getCategoriesByType helper for category filtering tests
+      - Use @testing-library/user-event for user interaction simulation
+      - Test both create and edit modes separately
+      - Test all validation rules with valid and invalid inputs
+      - Test async submission with loading states
+      - Verify error message display for validation failures
+      - Test cancel button callback
+      - Test form reset after successful create
+
+      Mock Strategy:
+      - Mock useAppContext to return test data and spy on addTransaction/updateTransaction calls
+      - Mock getCategoriesByType to return controlled category lists
+      - Mock date-fns functions if needed for date validation tests
+    </standards>
+    <locations>
+      - src/components/transactions/TransactionForm.test.tsx (new test file)
+      - Run tests: npm run test
+      - Check coverage: npm run test:coverage
+    </locations>
+    <ideas>
+      <test ac="1">Test component renders in create mode with default empty form</test>
+      <test ac="1">Test component renders in edit mode with pre-populated transaction data</test>
+      <test ac="2">Test all form fields are present (amount, type, category, date, description)</test>
+      <test ac="2">Test amount field has autofocus on mount</test>
+      <test ac="2">Test date field defaults to today's date</test>
+      <test ac="3">Test category dropdown filters to income categories when type='income'</test>
+      <test ac="3">Test category dropdown filters to expense categories when type='expense'</test>
+      <test ac="3">Test selected category resets when type changes to incompatible value</test>
+      <test ac="4">Test amount validation rejects negative numbers</test>
+      <test ac="4">Test amount validation rejects more than 2 decimal places</test>
+      <test ac="4">Test amount validation accepts valid positive decimals</test>
+      <test ac="4">Test date validation rejects future dates</test>
+      <test ac="4">Test date validation accepts today and past dates</test>
+      <test ac="4">Test description enforces 200 character limit</test>
+      <test ac="5">Test inline error messages display for invalid amount</test>
+      <test ac="5">Test field borders turn red for invalid fields</test>
+      <test ac="6">Test form submission prevented when validation fails</test>
+      <test ac="6">Test form calls addTransaction on valid create mode submit</test>
+      <test ac="8">Test form calls updateTransaction on valid edit mode submit</test>
+      <test ac="6">Test loading spinner shows during async submission</test>
+      <test ac="7">Test success callback called with created transaction</test>
+      <test ac="7">Test form resets after successful create</test>
+      <test ac="9">Test cancel button calls onCancel callback</test>
+      <test ac="10">Test responsive layout classes applied</test>
+      <test ac="11">Test ARIA labels present on form fields</test>
+    </ideas>
+  </tests>
+</story-context>

@@ -9,19 +9,16 @@
  */
 
 /* eslint-disable react-refresh/only-export-components */
-import React, {
-  createContext,
-  useContext,
-  useReducer,
-  useEffect,
-  ReactNode,
-} from 'react';
+import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import type { ReactNode } from 'react';
 import type { Transaction } from '../models/Transaction';
 import type { Category } from '../models/Category';
 import type { Period } from '../models/Period';
+import type { FilterCriteria } from '../models/FilterCriteria';
 import { storageService } from '../services/storageService';
 import { CATEGORIES } from '../constants/categories';
 import { validateTransactionData } from '../utils/validators';
+import { DEFAULT_FILTERS } from '../models/FilterCriteria';
 
 /**
  * Application context value interface
@@ -42,6 +39,9 @@ export interface AppContextValue {
 
   /** Error message for user feedback (null when no error) */
   error: string | null;
+
+  /** Current filter criteria for transactions */
+  filters: FilterCriteria;
 
   /**
    * Adds a new transaction
@@ -86,6 +86,17 @@ export interface AppContextValue {
    * @returns Promise that resolves when data is refreshed
    */
   refreshData: () => Promise<void>;
+
+  /**
+   * Updates the filter criteria
+   * @param filters - New filter criteria to apply
+   */
+  setFilters: (filters: FilterCriteria) => void;
+
+  /**
+   * Resets filters to default state
+   */
+  clearFilters: () => void;
 }
 
 /**
@@ -97,6 +108,7 @@ interface State {
   selectedPeriod: Period;
   loading: boolean;
   error: string | null;
+  filters: FilterCriteria;
 }
 
 /**
@@ -110,7 +122,9 @@ type Action =
   | { type: 'SET_PERIOD'; payload: Period }
   | { type: 'SET_LOADING'; payload: boolean }
   | { type: 'SET_ERROR'; payload: string | null }
-  | { type: 'CLEAR_ERROR' };
+  | { type: 'CLEAR_ERROR' }
+  | { type: 'SET_FILTERS'; payload: FilterCriteria }
+  | { type: 'CLEAR_FILTERS' };
 
 /**
  * Default period for initial state
@@ -167,6 +181,27 @@ function appReducer(state: State, action: Action): State {
     case 'CLEAR_ERROR':
       return { ...state, error: null };
 
+    case 'SET_FILTERS':
+      // Persist filters to localStorage
+      try {
+        localStorage.setItem(
+          'smartbudget_filters',
+          JSON.stringify(action.payload)
+        );
+      } catch (error) {
+        console.error('Failed to persist filters:', error);
+      }
+      return { ...state, filters: action.payload };
+
+    case 'CLEAR_FILTERS':
+      // Clear filters from localStorage
+      try {
+        localStorage.removeItem('smartbudget_filters');
+      } catch (error) {
+        console.error('Failed to clear filters:', error);
+      }
+      return { ...state, filters: DEFAULT_FILTERS };
+
     default:
       return state;
   }
@@ -203,6 +238,23 @@ interface AppProviderProps {
  * ```
  */
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
+  // Load saved filters from localStorage
+  const loadSavedFilters = (): FilterCriteria => {
+    try {
+      const saved = localStorage.getItem('smartbudget_filters');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        // Validate structure
+        if (parsed && typeof parsed === 'object' && 'dateRange' in parsed) {
+          return parsed;
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load saved filters:', error);
+    }
+    return DEFAULT_FILTERS;
+  };
+
   // Initialize state with useReducer
   const [state, dispatch] = useReducer(appReducer, {
     transactions: [],
@@ -210,6 +262,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     selectedPeriod: getDefaultPeriod(),
     loading: true,
     error: null,
+    filters: loadSavedFilters(),
   });
 
   // Load initial data on mount
@@ -252,8 +305,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     try {
       // Validate transaction data
       const validation = validateTransactionData(transaction as Transaction);
-      if (!validation.isValid) {
-        const errorMsg = `Validation failed: ${validation.errors.join(', ')}`;
+      if (!validation.valid) {
+        const errorMsg = `Validation failed: ${Object.values(validation.errors).join(', ')}`;
         dispatch({ type: 'SET_ERROR', payload: errorMsg });
         throw new Error(errorMsg);
       }
@@ -291,8 +344,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       // Merge updates with existing data for validation
       const merged = { ...existing, ...updates };
       const validation = validateTransactionData(merged);
-      if (!validation.isValid) {
-        const errorMsg = `Validation failed: ${validation.errors.join(', ')}`;
+      if (!validation.valid) {
+        const errorMsg = `Validation failed: ${Object.values(validation.errors).join(', ')}`;
         dispatch({ type: 'SET_ERROR', payload: errorMsg });
         throw new Error(errorMsg);
       }
@@ -371,6 +424,20 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     }
   };
 
+  /**
+   * Updates the filter criteria
+   */
+  const setFilters = (filters: FilterCriteria): void => {
+    dispatch({ type: 'SET_FILTERS', payload: filters });
+  };
+
+  /**
+   * Resets filters to default state
+   */
+  const clearFilters = (): void => {
+    dispatch({ type: 'CLEAR_FILTERS' });
+  };
+
   // Create context value object
   const value: AppContextValue = {
     transactions: state.transactions,
@@ -378,12 +445,15 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     selectedPeriod: state.selectedPeriod,
     loading: state.loading,
     error: state.error,
+    filters: state.filters,
     addTransaction,
     updateTransaction,
     deleteTransaction,
     setPeriod,
     clearError,
     refreshData,
+    setFilters,
+    clearFilters,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

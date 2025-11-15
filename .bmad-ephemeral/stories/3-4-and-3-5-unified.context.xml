@@ -1,0 +1,724 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/unified" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyIds>
+      <storyId>4</storyId>
+      <storyId>5</storyId>
+    </storyIds>
+    <titles>
+      <title>Delete Transaction with Confirmation</title>
+      <title>Transaction Filtering &amp; Search</title>
+    </titles>
+    <status>drafted</status>
+    <generatedAt>2025-11-15</generatedAt>
+    <generator>BMAD SM Agent - Unified Context</generator>
+    <sourceStoryPaths>
+      <path>.bmad-ephemeral/stories/3-4-delete-transaction-with-confirmation.md</path>
+      <path>.bmad-ephemeral/stories/3-5-transaction-filtering-search.md</path>
+    </sourceStoryPaths>
+    <note>This unified context combines two closely related stories for efficient implementation. Both stories enhance the TransactionsList page with delete and filtering capabilities.</note>
+  </metadata>
+
+  <stories>
+    <story id="3.4">
+      <asA>user</asA>
+      <iWant>to delete a transaction with confirmation</iWant>
+      <soThat>I can remove mistakes without accidental deletions</soThat>
+      <tasks>
+        - Create reusable ConfirmDialog component
+        - Implement dialog accessibility (ARIA, focus management)
+        - Add Delete button to TransactionsList
+        - Implement delete click handler
+        - Implement delete confirmation handler
+        - Implement delete cancel handler
+        - Handle delete errors gracefully
+        - Render ConfirmDialog in TransactionsList
+        - Style Delete button with danger styling
+        - Implement backdrop and dialog transitions
+        - Prevent body scroll when dialog open
+        - Create ConfirmDialog tests
+        - Update TransactionsList tests for delete
+        - Manual end-to-end testing
+        - TypeScript compilation verification
+      </tasks>
+    </story>
+    <story id="3.5">
+      <asA>user</asA>
+      <iWant>to filter and search transactions</iWant>
+      <soThat>I can find specific transactions quickly</soThat>
+      <tasks>
+        - Define FilterCriteria interface and default state
+        - Add filter state to AppContext
+        - Create FilterPanel component structure
+        - Implement date range filter UI
+        - Implement category multi-select filter
+        - Implement type filter UI
+        - Implement search input with debouncing
+        - Implement Clear All Filters button
+        - Add active filter indicators
+        - Implement filtering logic (client-side)
+        - Integrate FilterPanel in TransactionsList
+        - Handle empty filtered results
+        - Implement filter state persistence
+        - Optimize filtering performance
+        - Style FilterPanel component
+        - Create FilterPanel tests
+        - Update TransactionsList tests for filtering
+        - Manual end-to-end testing
+        - TypeScript compilation verification
+      </tasks>
+    </story>
+  </stories>
+
+  <acceptanceCriteria>
+    <story3_4>
+      AC-3.4.1: Delete button in transaction list with Trash2 icon and danger styling
+      AC-3.4.2: ConfirmDialog component created as reusable modal with props interface
+      AC-3.4.3: Confirmation dialog displays with title, message, and two buttons
+      AC-3.4.4: Cancel action closes dialog without deleting
+      AC-3.4.5: Confirm action calls deleteTransaction from AppContext
+      AC-3.4.6: Successful deletion removes transaction and shows success toast
+      AC-3.4.7: Delete errors are caught and displayed to user
+      AC-3.4.8: Transaction not found edge case handled
+      AC-3.4.9: Keyboard accessibility (Tab, Enter, Escape)
+      AC-3.4.10: Visual feedback with hover states and transitions
+      AC-3.4.11: Mobile responsive dialog with touch-friendly targets
+      AC-3.4.12: Unit tests with ≥85% coverage
+    </story3_4>
+    <story3_5>
+      AC-3.5.1: FilterPanel component created above TransactionsList
+      AC-3.5.2: Date range filter with presets (All Time, This Month, Last Month, Custom)
+      AC-3.5.3: Category multi-select filter with visual badges
+      AC-3.5.4: Type filter toggle (All, Income Only, Expense Only)
+      AC-3.5.5: Search input with debouncing (300ms) and clear button
+      AC-3.5.6: Filters combine with AND logic
+      AC-3.5.7: Clear All Filters button resets to defaults
+      AC-3.5.8: Active filter indicators show count and removable badges
+      AC-3.5.9: Filter state persists in localStorage
+      AC-3.5.10: Empty results handled with helpful message
+      AC-3.5.11: Performance optimized (useMemo, debouncing, &lt;200ms filtering)
+      AC-3.5.12: Integration tests with ≥85% coverage
+    </story3_5>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>FR-1.4 Delete Transaction</section>
+        <snippet>Users can delete transactions with confirmation dialog. Confirmation required to prevent accidental deletion. Message: "Are you sure you want to delete this transaction? This action cannot be undone." Delete action permanently removes from storage.</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>FR-1.5 Filter Transactions</section>
+        <snippet>Users can filter transactions by date range (preset options and custom range), category (single or multiple), type (all/income/expense), and search by description (case-insensitive substring). Filters combine with AND logic. Active filters visually indicated. Clear Filters button resets all.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>System Architecture</title>
+        <section>Component Architecture</section>
+        <snippet>Reusable components in src/components/common/ for shared UI elements like dialogs. Transaction-specific components in src/components/transactions/. State management via AppContext. All components follow mobile-first responsive design with Tailwind CSS.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>ConfirmDialog Component Specification</section>
+        <snippet>Reusable modal component for confirmations. Props: isOpen, title, message, onConfirm, onCancel, variant ('danger'|'warning'|'info'). Accessible with ARIA attributes, focus trap, keyboard support (Escape to close). Blocks background interaction with semi-transparent backdrop.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>Delete Transaction Workflow</section>
+        <snippet>User clicks Delete → ConfirmDialog opens → User cancels (no action) OR confirms → Call deleteTransaction(id) → AppContext removes from state and localStorage → Dialog closes → Transaction removed from list → Success toast. Dashboard recalculates automatically.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>FilterCriteria Model</section>
+        <snippet>FilterCriteria interface: { dateRange: { preset, start, end }, categories: string[], type: 'all'|'income'|'expense', searchText: string }. Default state: all filters inactive. Stored in AppContext global state and localStorage for persistence.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>Filter Transaction Workflow</section>
+        <snippet>FilterPanel displays above list → User sets filters → Filters update AppContext → List re-renders with filtered data → Active filters show badges → Clear Filters resets all. Client-side filtering using useMemo for performance. Search debounced 300ms.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-3.md</path>
+        <title>Epic 3 Technical Specification</title>
+        <section>Filtering Logic</section>
+        <snippet>AND combination: all conditions must match. Date range: isWithinInterval using date-fns. Category: transaction.category in filters.categories[]. Type: transaction.type === filters.type (if not 'all'). Search: case-insensitive substring on description.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <file>
+        <path>src/models/Transaction.ts</path>
+        <kind>type definition</kind>
+        <symbol>Transaction</symbol>
+        <lines>full file</lines>
+        <reason>Transaction interface with id, amount, type, category, date, description fields. Required for filtering logic and delete operations.</reason>
+      </file>
+      <file>
+        <path>src/models/Category.ts</path>
+        <kind>type definition</kind>
+        <symbol>Category</symbol>
+        <lines>full file</lines>
+        <reason>Category interface for multi-select filter. Includes id, name, type, color, icon for visual display in filter dropdown.</reason>
+      </file>
+      <file>
+        <path>src/context/AppContext.tsx</path>
+        <kind>context provider</kind>
+        <symbol>useAppContext</symbol>
+        <lines>full file</lines>
+        <reason>Provides deleteTransaction() method for Story 3.4. Will need to add filters state, setFilters(), clearFilters() for Story 3.5. Critical state management dependency.</reason>
+      </file>
+      <file>
+        <path>src/constants/categories.ts</path>
+        <kind>constants</kind>
+        <symbol>CATEGORIES, getCategoriesByType</symbol>
+        <lines>full file</lines>
+        <reason>Category data for multi-select filter dropdown. getCategoriesByType() helper for filtering categories by income/expense type.</reason>
+      </file>
+      <file>
+        <path>smartbudget/src/pages/TransactionsList.tsx</path>
+        <kind>page component</kind>
+        <symbol>TransactionsList</symbol>
+        <lines>full file</lines>
+        <reason>Main integration point for both stories. Will add Delete button (3.4) and FilterPanel (3.5). Apply filtering logic before rendering list.</reason>
+      </file>
+      <file>
+        <path>smartbudget/src/components/transactions/TransactionForm.tsx</path>
+        <kind>component</kind>
+        <symbol>TransactionForm</symbol>
+        <lines>full file</lines>
+        <reason>Reference for toast notification pattern (reuse for delete success). Shows success message approach used in previous stories.</reason>
+      </file>
+    </code>
+    <dependencies>
+      <npm>
+        <package name="react" version="^18.3.0">Core React library for component development</package>
+        <package name="react-dom" version="^18.3.0">React DOM for rendering</package>
+        <package name="date-fns" version="^4.1.0">Date manipulation for filter date range calculations (startOfMonth, endOfMonth, isWithinInterval, parseISO)</package>
+        <package name="lucide-react" version="^0.469.0">Icons: Trash2 (delete), Search, X (clear), Filter, ChevronDown</package>
+      </npm>
+      <devDependencies>
+        <package name="@types/react" version="^18.3.12">TypeScript definitions for React</package>
+        <package name="typescript" version="~5.6.2">TypeScript compiler for type checking</package>
+        <package name="vitest" version="latest">Test runner for unit and integration tests</package>
+        <package name="@testing-library/react" version="latest">React Testing Library for component testing</package>
+        <package name="@testing-library/user-event" version="latest">User event simulation for click, type, keyboard interactions</package>
+        <package name="tailwindcss" version="^4.0.0">Utility-first CSS framework for styling dialog, filter panel, responsive layouts</package>
+      </devDependencies>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <story3_4>
+      - ConfirmDialog must be reusable (not specific to delete transactions only)
+      - Must use semantic HTML dialog or div with role="dialog"
+      - Must implement focus trap (focus stays in dialog when open)
+      - Must return focus to trigger element when dialog closes
+      - Escape key must close dialog (call onCancel)
+      - Backdrop click must close dialog (call onCancel)
+      - Dialog must block background interaction with semi-transparent overlay
+      - Delete button must use Lucide Trash2 icon
+      - Delete button must have danger styling (red color)
+      - Must use deleteTransaction() from AppContext (no direct localStorage)
+      - Success toast message: "Transaction deleted"
+      - Error message: "Failed to delete transaction. Please try again."
+      - Dialog must be mobile responsive (full width on small screens)
+      - Touch targets minimum 44x44px on mobile
+      - Must prevent body scroll when dialog open
+      - Test coverage ≥85% for ConfirmDialog and delete flow
+    </story3_4>
+    <story3_5>
+      - Must define FilterCriteria TypeScript interface in src/models/
+      - Filter state must be stored in AppContext (global state)
+      - Filter state must persist to localStorage
+      - Filtering must be client-side (no API calls)
+      - Must use useMemo for filtered results to optimize performance
+      - Search input must be debounced (300ms delay)
+      - Filters must combine with AND logic (all conditions must match)
+      - Date range calculations must use date-fns (startOfMonth, endOfMonth, subMonths)
+      - Date comparison must use date-fns isWithinInterval and parseISO
+      - Category filter must support multiple selections
+      - Type filter changing must clear incompatible category selections
+      - Search must be case-insensitive substring match on description
+      - Clear All Filters must reset to default state (all filters inactive)
+      - Active filters must be visually indicated (count badge, removable pills)
+      - Empty results must show helpful message with Clear Filters button
+      - Filtering must perform &lt;200ms for up to 1000 transactions
+      - FilterPanel must be responsive (stacked mobile, horizontal desktop)
+      - Must use Tailwind CSS for all styling
+      - Test coverage ≥85% for FilterPanel and filtering logic
+    </story3_5>
+    <general>
+      - Both stories modify TransactionsList.tsx (coordinate changes)
+      - Must follow TypeScript strict mode
+      - Must maintain existing list sorting functionality (don't break)
+      - Must maintain existing empty state handling
+      - All new components must be accessible (ARIA labels, keyboard nav)
+      - All changes must not affect Stories 3.1, 3.2, 3.3 implementations
+    </general>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>ConfirmDialogProps</name>
+      <kind>Component Props Interface</kind>
+      <signature>
+        interface ConfirmDialogProps {
+          isOpen: boolean;
+          title: string;
+          message: string;
+          confirmLabel?: string;          // Default: "Confirm"
+          cancelLabel?: string;           // Default: "Cancel"
+          onConfirm: () => void;
+          onCancel: () => void;
+          variant?: 'danger' | 'warning' | 'info';  // Default: 'info'
+        }
+      </signature>
+      <path>src/components/common/ConfirmDialog.tsx</path>
+    </interface>
+    <interface>
+      <name>FilterCriteria</name>
+      <kind>Type Definition</kind>
+      <signature>
+        interface FilterCriteria {
+          dateRange: {
+            preset: 'all' | 'thisMonth' | 'lastMonth' | 'custom';
+            start: string | null;        // ISO date string or null
+            end: string | null;          // ISO date string or null
+          };
+          categories: string[];          // Array of category IDs
+          type: 'all' | 'income' | 'expense';
+          searchText: string;
+        }
+      </signature>
+      <path>src/models/FilterCriteria.ts</path>
+    </interface>
+    <interface>
+      <name>useAppContext (extended)</name>
+      <kind>React Hook</kind>
+      <signature>
+        function useAppContext(): {
+          // Existing from Story 2.4
+          transactions: Transaction[];
+          categories: Category[];
+          loading: boolean;
+          error: string | null;
+          addTransaction: (transaction: Omit&lt;Transaction, 'id' | 'createdAt' | 'updatedAt'&gt;) => Promise&lt;Transaction&gt;;
+          updateTransaction: (id: string, updates: Partial&lt;Transaction&gt;) => Promise&lt;Transaction&gt;;
+          deleteTransaction: (id: string) => Promise&lt;boolean&gt;;  // USED IN STORY 3.4
+          clearError: () => void;
+          refreshData: () => Promise&lt;void&gt;;
+
+          // NEW FOR STORY 3.5
+          filters: FilterCriteria;
+          setFilters: (filters: FilterCriteria) => void;
+          clearFilters: () => void;
+        }
+      </signature>
+      <path>src/context/AppContext.tsx</path>
+    </interface>
+    <interface>
+      <name>filterTransactions</name>
+      <kind>Utility Function</kind>
+      <signature>
+        function filterTransactions(
+          transactions: Transaction[],
+          filters: FilterCriteria
+        ): Transaction[]
+      </signature>
+      <path>src/utils/filterTransactions.ts OR inline in TransactionsList.tsx</path>
+    </interface>
+    <interface>
+      <name>useDebounce</name>
+      <kind>Custom Hook</kind>
+      <signature>
+        function useDebounce&lt;T&gt;(value: T, delay: number): T
+      </signature>
+      <path>src/hooks/useDebounce.ts OR inline in FilterPanel.tsx</path>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Testing Framework: Vitest + React Testing Library
+      Coverage Target: ≥85% for all new components and modified files
+
+      Story 3.4 Test Files:
+      - src/components/common/ConfirmDialog.test.tsx (NEW)
+      - src/pages/TransactionsList.test.tsx (MODIFIED - add delete tests)
+
+      Story 3.5 Test Files:
+      - src/components/transactions/FilterPanel.test.tsx (NEW)
+      - src/pages/TransactionsList.test.tsx (MODIFIED - add filtering tests)
+      - src/utils/filterTransactions.test.ts (NEW - if utility extracted)
+
+      Testing Approach:
+      - Mock useAppContext to return test data and spy on method calls
+      - Use @testing-library/user-event for user interactions
+      - Test both stories independently and integrated together
+      - Verify delete + filtering work together without conflicts
+
+      Mock Strategy:
+      - Mock deleteTransaction to simulate success and error scenarios
+      - Mock setFilters and clearFilters for filter state updates
+      - Create test transaction fixtures with varying data for filtering
+      - Mock date-fns functions for deterministic date filtering tests
+    </standards>
+    <locations>
+      - Run all tests: npm run test
+      - Check coverage: npm run test:coverage
+      - Target: All modified and new files ≥85% coverage
+    </locations>
+    <testIdeas>
+      <story3_4>
+        <test ac="3.4.1">Test Delete button renders for each transaction with Trash2 icon</test>
+        <test ac="3.4.2">Test ConfirmDialog renders when isOpen=true</test>
+        <test ac="3.4.2">Test ConfirmDialog does not render when isOpen=false</test>
+        <test ac="3.4.3">Test dialog displays title, message, Cancel and Delete buttons</test>
+        <test ac="3.4.4">Test Cancel button calls onCancel callback</test>
+        <test ac="3.4.4">Test backdrop click calls onCancel</test>
+        <test ac="3.4.4">Test Escape key calls onCancel</test>
+        <test ac="3.4.5">Test Delete button calls onConfirm callback</test>
+        <test ac="3.4.5">Test clicking Delete in list opens dialog with correct transaction ID</test>
+        <test ac="3.4.6">Test confirming delete calls deleteTransaction with correct ID</test>
+        <test ac="3.4.6">Test successful delete removes transaction from list</test>
+        <test ac="3.4.6">Test successful delete shows success toast</test>
+        <test ac="3.4.7">Test delete error displays error message</test>
+        <test ac="3.4.9">Test Tab key navigation within dialog</test>
+        <test ac="3.4.9">Test Enter key on Delete button confirms</test>
+        <test ac="3.4.10">Test variant='danger' applies red styling to confirm button</test>
+        <test ac="3.4.11">Test dialog is responsive on mobile viewport</test>
+      </story3_4>
+      <story3_5>
+        <test ac="3.5.1">Test FilterPanel renders all filter controls</test>
+        <test ac="3.5.2">Test date range preset selection updates filters</test>
+        <test ac="3.5.2">Test custom date range inputs update filters</test>
+        <test ac="3.5.2">Test invalid date range shows error</test>
+        <test ac="3.5.3">Test category multi-select adds category to filters</test>
+        <test ac="3.5.3">Test removing category badge updates filters</test>
+        <test ac="3.5.4">Test type filter updates filters.type</test>
+        <test ac="3.5.4">Test type change clears incompatible categories</test>
+        <test ac="3.5.5">Test search input updates filters.searchText</test>
+        <test ac="3.5.5">Test search is debounced (300ms)</test>
+        <test ac="3.5.5">Test clear X button clears search</test>
+        <test ac="3.5.6">Test filtering by date range shows correct results</test>
+        <test ac="3.5.6">Test filtering by category shows correct results</test>
+        <test ac="3.5.6">Test filtering by type shows correct results</test>
+        <test ac="3.5.6">Test searching by description shows correct results (case-insensitive)</test>
+        <test ac="3.5.6">Test multiple filters combine with AND logic</test>
+        <test ac="3.5.7">Test Clear All Filters button resets to defaults</test>
+        <test ac="3.5.8">Test active filter count displays correctly</test>
+        <test ac="3.5.8">Test active filter badges render</test>
+        <test ac="3.5.9">Test filter state persists in localStorage</test>
+        <test ac="3.5.10">Test empty results shows appropriate message</test>
+        <test ac="3.5.10">Test filtered count displays (Showing X of Y)</test>
+      </story3_5>
+      <integration>
+        <test>Test delete works correctly when filters are active</test>
+        <test>Test deleting filtered transaction updates filtered count</test>
+        <test>Test filter state persists after delete operation</test>
+      </integration>
+    </testIdeas>
+  </tests>
+
+  <implementationStrategy>
+    <phase1>
+      <name>Story 3.4 - Delete Transaction</name>
+      <steps>
+        1. Create ConfirmDialog component (src/components/common/ConfirmDialog.tsx)
+        2. Implement dialog UI with backdrop, title, message, buttons
+        3. Add accessibility features (focus trap, keyboard handlers, ARIA)
+        4. Add transitions and styling
+        5. Create ConfirmDialog tests
+        6. Modify TransactionsList to add Delete button
+        7. Implement delete handlers (handleDeleteClick, handleDeleteConfirm, handleDeleteCancel)
+        8. Integrate ConfirmDialog in TransactionsList
+        9. Update TransactionsList tests for delete functionality
+        10. Manual testing and verification
+      </steps>
+    </phase1>
+    <phase2>
+      <name>Story 3.5 - Filtering &amp; Search</name>
+      <steps>
+        1. Define FilterCriteria interface (src/models/FilterCriteria.ts)
+        2. Update AppContext to add filters state, setFilters, clearFilters
+        3. Implement filter persistence in AppContext (localStorage)
+        4. Create FilterPanel component structure
+        5. Implement date range filter UI
+        6. Implement category multi-select UI
+        7. Implement type filter UI
+        8. Implement search input with debouncing
+        9. Implement Clear All Filters button
+        10. Add active filter indicators
+        11. Create filterTransactions utility function
+        12. Integrate FilterPanel in TransactionsList
+        13. Apply filtering before rendering list
+        14. Handle empty filtered results
+        15. Create FilterPanel tests
+        16. Create filterTransactions utility tests
+        17. Update TransactionsList tests for filtering
+        18. Performance testing and optimization
+        19. Manual testing and verification
+      </steps>
+    </phase2>
+    <integration>
+      <note>Both stories modify TransactionsList.tsx. Implement in sequence (3.4 then 3.5) to avoid conflicts. After both implemented, test delete + filtering work together correctly.</note>
+    </integration>
+  </implementationStrategy>
+
+  <fileStructure>
+    <newFiles>
+      <file>src/components/common/ConfirmDialog.tsx</file>
+      <file>src/components/common/ConfirmDialog.test.tsx</file>
+      <file>src/models/FilterCriteria.ts</file>
+      <file>src/components/transactions/FilterPanel.tsx</file>
+      <file>src/components/transactions/FilterPanel.test.tsx</file>
+      <file>src/utils/filterTransactions.ts (optional - can be inline)</file>
+      <file>src/utils/filterTransactions.test.ts (if utility created)</file>
+      <file>src/hooks/useDebounce.ts (optional - can be inline)</file>
+    </newFiles>
+    <modifiedFiles>
+      <file>src/context/AppContext.tsx (add filters state for 3.5)</file>
+      <file>src/pages/TransactionsList.tsx (add Delete button for 3.4, integrate FilterPanel for 3.5)</file>
+      <file>src/pages/TransactionsList.test.tsx (add tests for both stories)</file>
+    </modifiedFiles>
+  </fileStructure>
+
+  <keyDecisions>
+    <decision id="1">
+      <question>Should filterTransactions be a utility function or inline in TransactionsList?</question>
+      <recommendation>Create utility function for reusability and testability</recommendation>
+      <rationale>Easier to unit test independently. Can be reused if filtering needed elsewhere (e.g., dashboard). Keeps TransactionsList component cleaner.</rationale>
+    </decision>
+    <decision id="2">
+      <question>Should useDebounce be a custom hook or inline?</question>
+      <recommendation>Create custom hook for reusability</recommendation>
+      <rationale>Debouncing is common pattern. Custom hook can be reused for other inputs. Cleaner than inline implementation.</rationale>
+    </decision>
+    <decision id="3">
+      <question>Where to store DEFAULT_FILTERS constant?</question>
+      <recommendation>In FilterCriteria.ts alongside interface</recommendation>
+      <rationale>Keeps related types and constants together. Easy to import where needed.</rationale>
+    </decision>
+    <decision id="4">
+      <question>Should ConfirmDialog use HTML5 dialog element or div?</question>
+      <recommendation>Use div with role="dialog" for broader browser support</recommendation>
+      <rationale>HTML5 dialog has limited browser support. div with proper ARIA is more compatible and provides same accessibility.</rationale>
+    </decision>
+  </keyDecisions>
+
+  <learningsFromPreviousStories>
+    <learning source="Story 2.4">
+      <item>AppContext already has deleteTransaction(id) method returning Promise&lt;boolean&gt;</item>
+      <item>Use reducer pattern for adding filters state: case 'SET_FILTERS', case 'CLEAR_FILTERS'</item>
+      <item>Sync state changes to localStorage in reducer</item>
+      <item>Load initial state from localStorage on context initialization</item>
+    </learning>
+    <learning source="Story 3.1">
+      <item>Toast notification pattern already established - reuse for delete success</item>
+      <item>date-fns library used for date manipulation - use for filter date calculations</item>
+      <item>Validation pattern: inline errors with user-friendly messages</item>
+    </learning>
+    <learning source="Story 3.2">
+      <item>TransactionsList already uses useMemo for sorting - add filtering in same pattern</item>
+      <item>Desktop table, mobile card layout - FilterPanel should follow same responsive approach</item>
+      <item>Empty state handling already implemented - extend for filtered empty results</item>
+      <item>List fetches transactions from AppContext - filtering will work on same data source</item>
+    </learning>
+    <learning source="Story 2.3">
+      <item>Categories available from AppContext or constants</item>
+      <item>getCategoriesByType() helper exists for filtering by income/expense</item>
+      <item>Category has id, name, type, color, icon - use for visual multi-select</item>
+    </learning>
+  </learningsFromPreviousStories>
+
+  <codeExamples>
+    <example id="filtering-with-memo">
+      <description>Pattern for applying both filtering and sorting with useMemo</description>
+      <code>
+// In TransactionsList.tsx
+const { transactions, filters } = useAppContext();
+
+// Step 1: Filter
+const filteredTransactions = useMemo(
+  () => filterTransactions(transactions, filters),
+  [transactions, filters]
+);
+
+// Step 2: Sort (existing from Story 3.2)
+const sortedAndFiltered = useMemo(
+  () => sortTransactions(filteredTransactions, sortBy, sortOrder),
+  [filteredTransactions, sortBy, sortOrder]
+);
+
+// Step 3: Render
+return (
+  &lt;&gt;
+    &lt;FilterPanel /&gt;
+    {sortedAndFiltered.length === 0 ? (
+      &lt;EmptyState /&gt;
+    ) : (
+      &lt;TransactionList transactions={sortedAndFiltered} /&gt;
+    )}
+  &lt;/&gt;
+);
+      </code>
+    </example>
+    <example id="date-range-calculation">
+      <description>Calculate date ranges for filter presets</description>
+      <code>
+import { startOfMonth, endOfMonth, subMonths, format } from 'date-fns';
+
+// This Month
+const thisMonthStart = format(startOfMonth(new Date()), 'yyyy-MM-dd');
+const thisMonthEnd = format(new Date(), 'yyyy-MM-dd');
+
+// Last Month
+const lastMonth = subMonths(new Date(), 1);
+const lastMonthStart = format(startOfMonth(lastMonth), 'yyyy-MM-dd');
+const lastMonthEnd = format(endOfMonth(lastMonth), 'yyyy-MM-dd');
+
+// Update filters
+setFilters({
+  ...filters,
+  dateRange: {
+    preset: 'thisMonth',
+    start: thisMonthStart,
+    end: thisMonthEnd,
+  },
+});
+      </code>
+    </example>
+    <example id="filter-transaction-logic">
+      <description>Client-side filtering logic with AND combination</description>
+      <code>
+import { parseISO, isWithinInterval } from 'date-fns';
+
+function filterTransactions(
+  transactions: Transaction[],
+  filters: FilterCriteria
+): Transaction[] {
+  return transactions.filter((transaction) => {
+    // Date range filter
+    if (filters.dateRange.start && filters.dateRange.end) {
+      const transactionDate = parseISO(transaction.date);
+      const inRange = isWithinInterval(transactionDate, {
+        start: parseISO(filters.dateRange.start),
+        end: parseISO(filters.dateRange.end),
+      });
+      if (!inRange) return false;
+    }
+
+    // Category filter
+    if (filters.categories.length > 0) {
+      if (!filters.categories.includes(transaction.category)) return false;
+    }
+
+    // Type filter
+    if (filters.type !== 'all') {
+      if (transaction.type !== filters.type) return false;
+    }
+
+    // Search filter
+    if (filters.searchText) {
+      const searchLower = filters.searchText.toLowerCase();
+      const descLower = transaction.description.toLowerCase();
+      if (!descLower.includes(searchLower)) return false;
+    }
+
+    return true; // Passed all filters
+  });
+}
+      </code>
+    </example>
+    <example id="debounce-hook">
+      <description>Custom useDebounce hook for search input</description>
+      <code>
+import { useState, useEffect } from 'react';
+
+function useDebounce&lt;T&gt;(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
+// Usage in FilterPanel
+const [searchInput, setSearchInput] = useState(filters.searchText);
+const debouncedSearch = useDebounce(searchInput, 300);
+
+useEffect(() => {
+  setFilters({ ...filters, searchText: debouncedSearch });
+}, [debouncedSearch]);
+      </code>
+    </example>
+    <example id="confirm-dialog-usage">
+      <description>How to use ConfirmDialog in TransactionsList</description>
+      <code>
+// State
+const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+const [transactionToDelete, setTransactionToDelete] = useState&lt;string | null&gt;(null);
+
+// Handlers
+const handleDeleteClick = (id: string) => {
+  setTransactionToDelete(id);
+  setDeleteDialogOpen(true);
+};
+
+const handleDeleteConfirm = async () => {
+  if (!transactionToDelete) return;
+
+  try {
+    await deleteTransaction(transactionToDelete);
+    toast.success('Transaction deleted');
+    setDeleteDialogOpen(false);
+    setTransactionToDelete(null);
+  } catch (error) {
+    toast.error('Failed to delete transaction. Please try again.');
+  }
+};
+
+const handleDeleteCancel = () => {
+  setDeleteDialogOpen(false);
+  setTransactionToDelete(null);
+};
+
+// Render
+&lt;ConfirmDialog
+  isOpen={deleteDialogOpen}
+  title="Delete Transaction"
+  message="Are you sure you want to delete this transaction? This action cannot be undone."
+  confirmLabel="Delete"
+  cancelLabel="Cancel"
+  variant="danger"
+  onConfirm={handleDeleteConfirm}
+  onCancel={handleDeleteCancel}
+/&gt;
+      </code>
+    </example>
+  </codeExamples>
+
+  <criticalNotes>
+    <note priority="high">TransactionsList.tsx is modified by BOTH stories. Implement sequentially (3.4 first, then 3.5) to avoid merge conflicts. Final file should have both Delete buttons AND FilterPanel integrated.</note>
+    <note priority="high">AppContext.tsx needs filters state added for Story 3.5. Ensure this doesn't break existing functionality from Stories 2.4, 3.1, 3.2, 3.3.</note>
+    <note priority="medium">Filter state persistence to localStorage requires JSON.stringify/parse. Handle errors gracefully if localStorage unavailable or JSON parse fails.</note>
+    <note priority="medium">Date filtering requires parseISO from date-fns. Ensure transaction.date is stored as ISO string (YYYY-MM-DD) for reliable parsing.</note>
+    <note priority="medium">Search debouncing prevents excessive re-renders. Don't skip this optimization or performance will suffer with large transaction lists.</note>
+    <note priority="low">ConfirmDialog is designed as reusable component. Can be used for future confirmations beyond delete (e.g., clear all data, reset settings).</note>
+  </criticalNotes>
+</story-context>

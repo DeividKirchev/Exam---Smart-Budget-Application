@@ -67,7 +67,7 @@ export function loadTransactions(): Transaction[] {
     const validTransactions = parsed.filter(transaction => {
       const validation = validateTransactionData(transaction);
 
-      if (!validation.isValid) {
+      if (!validation.valid) {
         console.warn(
           `StorageService: Invalid transaction filtered out:`,
           validation.errors

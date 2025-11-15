@@ -24,11 +24,11 @@ vi.mock('../utils/validators', () => ({
     // Basic validation mock - checks for required fields
     if (!transaction.id || !transaction.amount || !transaction.date) {
       return {
-        isValid: false,
-        errors: ['Missing required fields'],
+        valid: false,
+        errors: { general: 'Missing required fields' },
       };
     }
-    return { isValid: true, errors: [] };
+    return { valid: true, errors: {} };
   }),
 }));
 

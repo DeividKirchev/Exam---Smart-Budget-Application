@@ -54,7 +54,7 @@ vi.mock('../constants/categories', () => ({
 
 // Mock validators
 vi.mock('../utils/validators', () => ({
-  validateTransactionData: vi.fn(() => ({ isValid: true, errors: [] })),
+  validateTransactionData: vi.fn(() => ({ valid: true, errors: {} })),
 }));
 
 describe('AppContext', () => {
@@ -64,8 +64,8 @@ describe('AppContext', () => {
     // Reset validator mock to default valid state
     const { validateTransactionData } = await import('../utils/validators');
     vi.mocked(validateTransactionData).mockReturnValue({
-      isValid: true,
-      errors: [],
+      valid: true,
+      errors: {},
     });
 
     // Reset storage service mocks to default behavior

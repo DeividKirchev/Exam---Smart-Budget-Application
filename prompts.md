@@ -236,3 +236,66 @@
 `implement story 2.4`
 
 ---
+
+**48.**
+`/bmad:bmm:agents:sm Context epic-3`
+
+---
+
+**49.**
+`*epic-tech-context YOLO`
+
+---
+
+**50.**
+`draft story 3.1`
+
+---
+
+**51.**
+`story context`
+
+---
+
+**52.**
+`draft next story`
+
+---
+
+**53.**
+`dev story 3.1`
+
+---
+
+**54.**
+`context story 3.2`
+
+---
+
+**55.**
+`draft next story`
+
+---
+
+**56.**
+`dev story 3.2 - Make sure I can view the results`
+
+---
+
+**57.**
+`draft 3-4`
+
+---
+
+**58.**
+`draft 3.5`
+
+---
+
+**59.**
+`Create a unified double context file for 3.4 and 3.5`
+
+---
+
+**60.**
+`dev stories 3.4 and 3.5. They have a unified context file @.bmad-ephemeral/stories/3-4-and-3-5-unified.context.xml`

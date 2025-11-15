@@ -1,0 +1,376 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>1</storyId>
+    <title>Define Data Models & TypeScript Interfaces</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-15</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>.bmad-ephemeral/stories/2-1-define-data-models-typescript-interfaces.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>developer</asA>
+    <iWant>clear data models for Transactions, Categories, and Periods with TypeScript interfaces and validation utilities</iWant>
+    <soThat>data structure is consistent and type-safe throughout the application</soThat>
+    <tasks>
+      <task id="1" ac="1">
+        <description>Create Transaction interface</description>
+        <subtasks>
+          <subtask>Create src/models/Transaction.ts file</subtask>
+          <subtask>Define Transaction interface with all 8 fields</subtask>
+          <subtask>Add JSDoc comments explaining each field</subtask>
+          <subtask>Add inline comments for validation constraints</subtask>
+          <subtask>Export interface as named export</subtask>
+        </subtasks>
+      </task>
+      <task id="2" ac="2">
+        <description>Create Category interface</description>
+        <subtasks>
+          <subtask>Create src/models/Category.ts file</subtask>
+          <subtask>Define Category interface with all 5 fields</subtask>
+          <subtask>Use strict literal types for type field</subtask>
+          <subtask>Add JSDoc comments</subtask>
+          <subtask>Export interface</subtask>
+        </subtasks>
+      </task>
+      <task id="3" ac="3">
+        <description>Create Period types and interface</description>
+        <subtasks>
+          <subtask>Create src/models/Period.ts file</subtask>
+          <subtask>Define PeriodType as union of 4 string literals</subtask>
+          <subtask>Define Period interface with 4 fields</subtask>
+          <subtask>Add JSDoc comments</subtask>
+          <subtask>Export both type and interface</subtask>
+        </subtasks>
+      </task>
+      <task id="4" ac="4">
+        <description>Create validation utilities</description>
+        <subtasks>
+          <subtask>Create src/utils/validators.ts file</subtask>
+          <subtask>Implement validateAmount() with all business rules</subtask>
+          <subtask>Implement validateDate() with format and range checks</subtask>
+          <subtask>Implement validateCategory() with whitelist validation</subtask>
+          <subtask>Implement sanitizeDescription() with XSS prevention</subtask>
+          <subtask>Implement validateTransactionData() orchestrating all validators</subtask>
+          <subtask>Add JSDoc comments to all functions</subtask>
+          <subtask>Export all validators as named exports</subtask>
+        </subtasks>
+      </task>
+      <task id="5" ac="5">
+        <description>Verify TypeScript compilation</description>
+        <subtasks>
+          <subtask>Run npm run type-check (or equivalent tsc command)</subtask>
+          <subtask>Fix any compilation errors</subtask>
+          <subtask>Verify strict mode enabled in tsconfig.json</subtask>
+          <subtask>Ensure no any types used</subtask>
+        </subtasks>
+      </task>
+      <task id="6" ac="6">
+        <description>Write unit tests for validators</description>
+        <subtasks>
+          <subtask>Create src/utils/validators.test.ts file</subtask>
+          <subtask>Write tests for validateAmount(): valid amounts, negative, zero, NaN, Infinity, &gt;2 decimals</subtask>
+          <subtask>Write tests for validateDate(): valid dates, invalid format, far future, past dates</subtask>
+          <subtask>Write tests for validateCategory(): valid categories, invalid ID, wrong type</subtask>
+          <subtask>Write tests for sanitizeDescription(): clean text, XSS attempts (&lt;script&gt;), quotes, max length</subtask>
+          <subtask>Write tests for validateTransactionData(): complete valid object, multiple errors</subtask>
+          <subtask>Run npm run test and verify all tests pass</subtask>
+          <subtask>Run npm run test:coverage and verify ≥90% coverage for validators.ts</subtask>
+        </subtasks>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="1">
+      <title>Transaction Interface Created</title>
+      <requirements>
+        <requirement>Interface includes all 8 required fields: id, amount, date, category, type, description, createdAt, updatedAt</requirement>
+        <requirement>All fields have correct TypeScript types as specified in tech-spec-epic-2.md#data-models-and-contracts</requirement>
+        <requirement>Interface exported from src/models/Transaction.ts and importable throughout app</requirement>
+        <requirement>Comments document field purposes and constraints</requirement>
+      </requirements>
+    </criterion>
+    <criterion id="2">
+      <title>Category Interface Created</title>
+      <requirements>
+        <requirement>Interface includes all 5 required fields: id, name, type, color, icon</requirement>
+        <requirement>Types correctly specified (type as 'income' | 'expense', color as string hex code)</requirement>
+        <requirement>Interface exported from src/models/Category.ts</requirement>
+        <requirement>Comments explain each field's purpose</requirement>
+      </requirements>
+    </criterion>
+    <criterion id="3">
+      <title>Period Type and Interface Defined</title>
+      <requirements>
+        <requirement>PeriodType defined as union: 'this-month' | 'last-month' | 'last-3-months' | 'custom'</requirement>
+        <requirement>Period interface includes: type, startDate, endDate, label</requirement>
+        <requirement>All date fields use ISO 8601 string format</requirement>
+        <requirement>Interface exported from src/models/Period.ts</requirement>
+      </requirements>
+    </criterion>
+    <criterion id="4">
+      <title>Validation Utilities Created</title>
+      <requirements>
+        <requirement>validators.ts created in src/utils/ with all validation functions</requirement>
+        <requirement>validateAmount(): Rejects negative, NaN, Infinity, &gt;2 decimals, zero</requirement>
+        <requirement>validateDate(): Rejects invalid dates, dates &gt;1 year in future</requirement>
+        <requirement>validateCategory(): Validates category ID exists in predefined list, type matches</requirement>
+        <requirement>sanitizeDescription(): HTML entity encodes &lt; &gt; " ' characters, trims, enforces 200 char max</requirement>
+        <requirement>validateTransactionData(): Runs all validators, returns comprehensive validation result</requirement>
+        <requirement>Each validator returns { valid: boolean; error?: string } or similar structure</requirement>
+      </requirements>
+    </criterion>
+    <criterion id="5">
+      <title>Type Definitions Compile</title>
+      <requirements>
+        <requirement>All TypeScript interfaces compile without errors</requirement>
+        <requirement>TypeScript strict mode enabled (verify in tsconfig.json)</requirement>
+        <requirement>No any types used except where absolutely necessary</requirement>
+        <requirement>JSDoc comments on all interfaces explaining purpose</requirement>
+      </requirements>
+    </criterion>
+    <criterion id="6">
+      <title>Validation Functions Tested</title>
+      <requirements>
+        <requirement>Unit tests written for all validators (using Vitest)</requirement>
+        <requirement>Tests cover valid inputs, invalid inputs, edge cases</requirement>
+        <requirement>Test coverage ≥90% for validators.ts</requirement>
+        <requirement>Example tests: negative amount, NaN, &gt;2 decimals, invalid date, XSS attempts in description</requirement>
+      </requirements>
+    </criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>FR-4.2 Data Structure</section>
+        <snippet>Transaction data must include id, amount, date, category, type, description, timestamps. All fields required with strict validation (positive amounts, valid dates, sanitized descriptions).</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>NFR-2.2 Data Validation</section>
+        <snippet>Amounts validated positive with max 2 decimals. Dates validated not more than 1 year in future. Descriptions sanitized against XSS (HTML entity encoding for &lt; &gt; " ').</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>System Architecture</title>
+        <section>Data Architecture - Data Models</section>
+        <snippet>Transaction interface: id (UUID v4), amount (number, &gt;0, 2 decimals), date (ISO 8601 YYYY-MM-DD), category (FK to Category.id), type ('income' | 'expense'), description (string, max 200 chars), createdAt/updatedAt (ISO 8601 timestamps).</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>System Architecture</title>
+        <section>Data Architecture - Category Model</section>
+        <snippet>Category interface: id (string), name (string), type ('income' | 'expense'), color (hex code), icon (Lucide icon name). 12 predefined categories: 4 income (green family), 8 expense (red/orange family).</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>System Architecture</title>
+        <section>Data Architecture - Period Model</section>
+        <snippet>PeriodType: 'this-month' | 'last-month' | 'last-3-months' | 'custom'. Period interface: type, startDate (ISO 8601), endDate (ISO 8601), label (human-readable).</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/tech-spec-epic-2.md</path>
+        <title>Epic 2 Tech Spec - Data Layer &amp; State Management</title>
+        <section>Data Models and Contracts</section>
+        <snippet>Complete TypeScript interface definitions with validation constraints. Amount: must be &gt;0, finite, max 2 decimals. Date: ISO 8601 format, not &gt;1 year future. Category: must exist in predefined list. Description: max 200 chars, HTML entity encoded.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/tech-spec-epic-2.md</path>
+        <title>Epic 2 Tech Spec - Data Layer &amp; State Management</title>
+        <section>APIs and Interfaces - Validator Utilities</section>
+        <snippet>validators.validateAmount(), validateDate(), validateCategory(), sanitizeDescription(), validateTransactionData() - all return { valid: boolean; error?: string }. XSS prevention via HTML entity encoding.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/tech-spec-epic-2.md</path>
+        <title>Epic 2 Tech Spec - Data Layer &amp; State Management</title>
+        <section>Test Strategy Summary</section>
+        <snippet>Story 2.1 testing: Unit tests for validators with valid/invalid inputs, edge cases (boundary values, null, undefined, malformed). Coverage target: 90% for validators.ts (pure functions, easy to test).</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>Epics Document</title>
+        <section>Epic 2 - Data Layer &amp; State Management</section>
+        <snippet>Story 2.1: Define Data Models &amp; TypeScript Interfaces. Create Transaction, Category, Period interfaces with validation utilities. Foundation for all subsequent data operations.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>System Architecture</title>
+        <section>Consistency Rules - Naming Conventions</section>
+        <snippet>Files: PascalCase for model files (Transaction.ts, Category.ts). Interfaces: PascalCase. Functions: camelCase (validateAmount). Constants: UPPER_SNAKE_CASE for validation rules.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>System Architecture</title>
+        <section>Security Architecture</section>
+        <snippet>NFR-2.1 XSS Prevention: sanitizeDescription() implements HTML entity encoding for &lt; &gt; " ' characters. All user input sanitized before storage and display.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>smartbudget/src/vite-env.d.ts</path>
+        <kind>type-definitions</kind>
+        <symbol>ImportMetaEnv</symbol>
+        <lines>1-10</lines>
+        <reason>Reference for TypeScript environment type patterns. Story 2.1 follows similar pattern for declaring TypeScript interfaces.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/tsconfig.json</path>
+        <kind>config</kind>
+        <symbol>compilerOptions</symbol>
+        <lines>N/A</lines>
+        <reason>TypeScript strict mode configuration. AC-5 requires verifying strict mode enabled in tsconfig.json.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package name="typescript" version="~5.9.3">TypeScript compiler for type checking and interface definitions</package>
+        <package name="vitest" version="TBD">Unit testing framework for validators.ts (AC-6). To be installed in Story 2.1.</package>
+        <package name="@testing-library/react" version="TBD">React testing utilities for component tests (future). To be installed in Story 2.1.</package>
+        <package name="@testing-library/jest-dom" version="TBD">Custom matchers for testing (future). To be installed in Story 2.1.</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>TypeScript strict mode must be enabled (verify in tsconfig.json) - no any types except where absolutely necessary</constraint>
+    <constraint>All interfaces use PascalCase naming (Transaction, Category, Period, ValidationResult)</constraint>
+    <constraint>All validation functions use camelCase naming (validateAmount, sanitizeDescription)</constraint>
+    <constraint>Validation return type pattern: { valid: boolean; error?: string } for consistency across all validators</constraint>
+    <constraint>File organization: Models in src/models/, validators in src/utils/validators.ts</constraint>
+    <constraint>Amount validation: Must reject negative, NaN, Infinity, zero, and values with &gt;2 decimal places</constraint>
+    <constraint>Date validation: Must reject invalid dates and dates &gt;1 year in future (per PRD NFR-2.2)</constraint>
+    <constraint>Description sanitization: HTML entity encode &lt; &gt; " ' characters, trim whitespace, enforce 200 char max</constraint>
+    <constraint>Category validation: Must validate against predefined categories list (will be defined in Story 2.3)</constraint>
+    <constraint>JSDoc comments required on all interfaces and functions explaining purpose and constraints</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>Transaction</name>
+      <kind>TypeScript interface</kind>
+      <signature>
+        interface Transaction {
+          id: string;
+          amount: number;
+          date: string;
+          category: string;
+          type: 'income' | 'expense';
+          description: string;
+          createdAt: string;
+          updatedAt: string;
+        }
+      </signature>
+      <path>src/models/Transaction.ts</path>
+    </interface>
+    <interface>
+      <name>Category</name>
+      <kind>TypeScript interface</kind>
+      <signature>
+        interface Category {
+          id: string;
+          name: string;
+          type: 'income' | 'expense';
+          color: string;
+          icon: string;
+        }
+      </signature>
+      <path>src/models/Category.ts</path>
+    </interface>
+    <interface>
+      <name>PeriodType</name>
+      <kind>TypeScript type alias</kind>
+      <signature>type PeriodType = 'this-month' | 'last-month' | 'last-3-months' | 'custom';</signature>
+      <path>src/models/Period.ts</path>
+    </interface>
+    <interface>
+      <name>Period</name>
+      <kind>TypeScript interface</kind>
+      <signature>
+        interface Period {
+          type: PeriodType;
+          startDate: string;
+          endDate: string;
+          label: string;
+        }
+      </signature>
+      <path>src/models/Period.ts</path>
+    </interface>
+    <interface>
+      <name>ValidationResult</name>
+      <kind>TypeScript interface</kind>
+      <signature>
+        type ValidationResult = {
+          valid: boolean;
+          error?: string;
+        };
+      </signature>
+      <path>src/utils/validators.ts</path>
+    </interface>
+    <interface>
+      <name>validateAmount</name>
+      <kind>Validation function</kind>
+      <signature>validateAmount(amount: number): ValidationResult</signature>
+      <path>src/utils/validators.ts</path>
+    </interface>
+    <interface>
+      <name>validateDate</name>
+      <kind>Validation function</kind>
+      <signature>validateDate(date: string): ValidationResult</signature>
+      <path>src/utils/validators.ts</path>
+    </interface>
+    <interface>
+      <name>validateCategory</name>
+      <kind>Validation function</kind>
+      <signature>validateCategory(categoryId: string, type: 'income' | 'expense'): ValidationResult</signature>
+      <path>src/utils/validators.ts</path>
+    </interface>
+    <interface>
+      <name>sanitizeDescription</name>
+      <kind>Sanitization function</kind>
+      <signature>sanitizeDescription(input: string): string</signature>
+      <path>src/utils/validators.ts</path>
+    </interface>
+    <interface>
+      <name>validateTransactionData</name>
+      <kind>Validation function</kind>
+      <signature>validateTransactionData(data: Partial&lt;Transaction&gt;): { valid: boolean; errors: Record&lt;string, string&gt; }</signature>
+      <path>src/utils/validators.ts</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+      Use Vitest for unit testing (included with Vite from Epic 1). Target coverage: ≥90% for validators.ts (pure functions, easy to test). Test both success and failure cases. Include edge cases and boundary conditions. Use describe/it/expect pattern from Vitest. Import validators using named imports: import { validateAmount, validateDate, sanitizeDescription } from './validators';
+    </standards>
+    <locations>
+      <location>src/utils/validators.test.ts</location>
+      <location>src/test/setup.ts (should exist from Epic 1)</location>
+    </locations>
+    <ideas>
+      <test ac="1">Test Transaction interface compiles without errors by creating a valid Transaction object in TypeScript</test>
+      <test ac="2">Test Category interface compiles without errors by creating a valid Category object in TypeScript</test>
+      <test ac="3">Test Period type and interface compile without errors by creating valid Period objects</test>
+      <test ac="4">Test validateAmount() rejects negative amounts: validateAmount(-10) returns { valid: false, error: "..." }</test>
+      <test ac="4">Test validateAmount() rejects NaN: validateAmount(NaN) returns { valid: false, error: "..." }</test>
+      <test ac="4">Test validateAmount() rejects Infinity: validateAmount(Infinity) returns { valid: false, error: "..." }</test>
+      <test ac="4">Test validateAmount() rejects zero: validateAmount(0) returns { valid: false, error: "..." }</test>
+      <test ac="4">Test validateAmount() rejects &gt;2 decimals: validateAmount(10.123) returns { valid: false, error: "..." }</test>
+      <test ac="4">Test validateAmount() accepts valid amounts: validateAmount(10.50) returns { valid: true }</test>
+      <test ac="4">Test validateDate() rejects invalid dates: validateDate("invalid") returns { valid: false, error: "..." }</test>
+      <test ac="4">Test validateDate() rejects far future dates: validateDate("2027-01-01") returns { valid: false, error: "..." }</test>
+      <test ac="4">Test validateDate() accepts valid recent dates: validateDate("2025-11-15") returns { valid: true }</test>
+      <test ac="4">Test validateCategory() rejects invalid IDs: validateCategory("fake-category", "income") returns { valid: false, error: "..." }</test>
+      <test ac="4">Test validateCategory() rejects type mismatches: validateCategory("salary", "expense") returns { valid: false, error: "..." }</test>
+      <test ac="4">Test sanitizeDescription() encodes XSS attempts: sanitizeDescription("&lt;script&gt;alert('xss')&lt;/script&gt;") returns sanitized string</test>
+      <test ac="4">Test sanitizeDescription() enforces 200 char max: sanitizeDescription(300 char string) returns 200 char string</test>
+      <test ac="4">Test validateTransactionData() returns comprehensive validation result with all field errors</test>
+      <test ac="5">Run npm run type-check (or tsc --noEmit) and verify 0 compilation errors</test>
+      <test ac="6">Run npm run test and verify all validator tests pass</test>
+      <test ac="6">Run npm run test:coverage and verify ≥90% coverage for validators.ts</test>
+    </ideas>
+  </tests>
+</story-context>

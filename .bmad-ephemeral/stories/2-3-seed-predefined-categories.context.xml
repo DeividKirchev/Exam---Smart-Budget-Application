@@ -1,0 +1,287 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>3</storyId>
+    <title>Seed Predefined Categories</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-15</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>.bmad-ephemeral/stories/2-3-seed-predefined-categories.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a system</asA>
+    <iWant>predefined income and expense categories loaded on first run</iWant>
+    <soThat>users have immediate category options without manual setup (FR-2.1)</soThat>
+    <tasks>
+- [ ] **Task 1: Create categories constant file** (AC: 1)
+  - [ ] Create file `src/constants/categories.ts`
+  - [ ] Import Category interface from `src/models/Category.ts`
+  - [ ] Add JSDoc module comment explaining purpose
+
+- [ ] **Task 2: Define income categories array** (AC: 2)
+  - [ ] Create income categories array with 4 entries:
+    - [ ] Salary (id: 'salary', green: #10B981, icon: 'Wallet')
+    - [ ] Freelance (id: 'freelance', green: #059669, icon: 'Briefcase')
+    - [ ] Investment (id: 'investment', green: #047857, icon: 'TrendingUp')
+    - [ ] Other Income (id: 'other-income', green: #065F46, icon: 'PiggyBank')
+  - [ ] Verify all have type: 'income'
+  - [ ] Add JSDoc comments for income section
+
+- [ ] **Task 3: Define expense categories array** (AC: 3)
+  - [ ] Create expense categories array with 8 entries:
+    - [ ] Rent/Mortgage (id: 'rent', red: #EF4444, icon: 'Home')
+    - [ ] Transport (id: 'transport', red: #DC2626, icon: 'Car')
+    - [ ] Food/Groceries (id: 'food', red: #B91C1C, icon: 'ShoppingCart')
+    - [ ] Entertainment (id: 'entertainment', red: #991B1B, icon: 'Film')
+    - [ ] Utilities (id: 'utilities', amber: #F59E0B, icon: 'Lightbulb')
+    - [ ] Healthcare (id: 'healthcare', amber: #D97706, icon: 'Heart')
+    - [ ] Shopping (id: 'shopping', amber: #B45309, icon: 'ShoppingBag')
+    - [ ] Other Expense (id: 'other-expense', amber: #92400E, icon: 'MoreHorizontal')
+  - [ ] Verify all have type: 'expense'
+  - [ ] Add JSDoc comments for expense section
+
+- [ ] **Task 4: Combine and export CATEGORIES constant** (AC: 4, 8)
+  - [ ] Merge income and expense arrays into CATEGORIES
+  - [ ] Export as: `export const CATEGORIES = [...incomeCategories, ...expenseCategories] as const satisfies readonly Category[];`
+  - [ ] Verify total count is 12 categories
+  - [ ] Add comprehensive JSDoc comment for CATEGORIES constant
+
+- [ ] **Task 5: Implement getCategoryById helper** (AC: 5)
+  - [ ] Create function: `export function getCategoryById(id: string): Category | undefined`
+  - [ ] Use `CATEGORIES.find(cat => cat.id === id)`
+  - [ ] Return undefined if not found
+  - [ ] Add JSDoc with parameter description and example usage
+
+- [ ] **Task 6: Implement getCategoriesByType helper** (AC: 5)
+  - [ ] Create function: `export function getCategoriesByType(type: 'income' | 'expense'): Category[]`
+  - [ ] Use `CATEGORIES.filter(cat => cat.type === type)`
+  - [ ] Add JSDoc with parameter description and example usage
+
+- [ ] **Task 7: Update validators to use CATEGORIES** (AC: 9)
+  - [ ] Open `src/utils/validators.ts`
+  - [ ] Import CATEGORIES: `import { CATEGORIES } from '../constants/categories';`
+  - [ ] Remove hardcoded PREDEFINED_CATEGORIES object
+  - [ ] Update validateCategory() to use: `CATEGORIES.find(c => c.id === categoryId && c.type === type)`
+  - [ ] Ensure all validator tests still pass after change
+
+- [ ] **Task 8: Create unit tests for categories** (AC: 10)
+  - [ ] Create file `src/constants/categories.test.ts`
+  - [ ] Import CATEGORIES, getCategoryById, getCategoriesByType
+  - [ ] Test: CATEGORIES array length is 12
+  - [ ] Test: 4 income categories exist with correct type and green colors
+  - [ ] Test: 8 expense categories exist with correct type and red/orange colors
+  - [ ] Test: getCategoryById() returns correct category for valid IDs
+  - [ ] Test: getCategoryById() returns undefined for invalid ID
+  - [ ] Test: getCategoriesByType('income') returns 4 categories
+  - [ ] Test: getCategoriesByType('expense') returns 8 categories
+  - [ ] Test: All category IDs are unique (no duplicates)
+  - [ ] Test: All color codes match hex format (#RRGGBB)
+  - [ ] Run `npm run test` and verify all tests pass
+
+- [ ] **Task 9: Verify icon names with Lucide React** (AC: 7)
+  - [ ] Check lucide-react documentation or package exports
+  - [ ] Confirm all icon names are valid: Wallet, Briefcase, TrendingUp, PiggyBank, Home, Car, ShoppingCart, Film, Lightbulb, Heart, ShoppingBag, MoreHorizontal
+  - [ ] Ensure proper PascalCase format for icon names
+
+- [ ] **Task 10: Run existing validator tests** (AC: 9)
+  - [ ] Run `npm run test src/utils/validators.test.ts`
+  - [ ] Verify validateCategory() tests still pass after CATEGORIES integration
+  - [ ] Fix any broken tests due to category ID changes (if any)
+
+- [ ] **Task 11: TypeScript compilation** (AC: 1, 4, 8)
+  - [ ] Run `npm run build` or `tsc --noEmit`
+  - [ ] Verify no TypeScript errors
+  - [ ] Ensure Category interface imports work correctly
+  - [ ] Fix any type errors
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+1. **Category Constant File Created**
+   - File created at `src/constants/categories.ts` with predefined category array
+   - Exports `CATEGORIES` constant as read-only Category[] array
+   - Exports `getCategoryById()` helper function to retrieve category by ID
+   - Exports `getCategoriesByType()` helper function to filter categories by type ('income' | 'expense')
+   - All exports have comprehensive JSDoc comments
+
+2. **Income Categories Defined**
+   - Category: Salary (id: 'salary', type: 'income', color: '#10B981', icon: 'Wallet')
+   - Category: Freelance (id: 'freelance', type: 'income', color: '#059669', icon: 'Briefcase')
+   - Category: Investment (id: 'investment', type: 'income', color: '#047857', icon: 'TrendingUp')
+   - Category: Other Income (id: 'other-income', type: 'income', color: '#065F46', icon: 'PiggyBank')
+   - All income categories use green color palette (#10B981 family - emerald shades)
+   - Total: 4 income categories
+
+3. **Expense Categories Defined**
+   - Category: Rent/Mortgage (id: 'rent', type: 'expense', color: '#EF4444', icon: 'Home')
+   - Category: Transport (id: 'transport', type: 'expense', color: '#DC2626', icon: 'Car')
+   - Category: Food/Groceries (id: 'food', type: 'expense', color: '#B91C1C', icon: 'ShoppingCart')
+   - Category: Entertainment (id: 'entertainment', type: 'expense', color: '#991B1B', icon: 'Film')
+   - Category: Utilities (id: 'utilities', type: 'expense', color: '#F59E0B', icon: 'Lightbulb')
+   - Category: Healthcare (id: 'healthcare', type: 'expense', color: '#D97706', icon: 'Heart')
+   - Category: Shopping (id: 'shopping', type: 'expense', color: '#B45309', icon: 'ShoppingBag')
+   - Category: Other Expense (id: 'other-expense', type: 'expense', color: '#92400E', icon: 'MoreHorizontal')
+   - Expense categories use red/orange color palette (#EF4444 red family, #F59E0B amber family)
+   - Total: 8 expense categories
+
+4. **Category Data Structure Compliance**
+   - Each category object matches Category interface from Story 2.1
+   - All category IDs use kebab-case (e.g., 'other-income', 'food')
+   - All colors are valid hex codes (#RRGGBB format)
+   - All icon names are valid Lucide React icon component names
+
+5. **Helper Functions Implemented**
+   - `getCategoryById(id: string): Category | undefined` - Returns category by ID or undefined
+   - `getCategoriesByType(type: 'income' | 'expense'): Category[]` - Filters categories by type
+   - Both functions include JSDoc comments with examples
+   - Functions use type-safe TypeScript implementations
+
+6. **Visual Consistency Enforced**
+   - Income categories: All green shades for positive financial events
+   - Expense categories: Red/orange shades for outgoing money
+   - Color progression: Darker shades for less common categories within each type
+   - Icon selection: Clear, recognizable Lucide icons matching category purpose
+
+7. **Category Icons Verified**
+   - All icons are valid Lucide React component names
+   - Icon names match exactly with lucide-react exports (e.g., 'Wallet' not 'wallet')
+   - Icons visually represent their category (e.g., 'ShoppingCart' for Food, 'Home' for Rent)
+   - No duplicate icons unless semantically appropriate
+
+8. **Import/Export Structure**
+   - Category interface imported from `src/models/Category.ts`
+   - CATEGORIES exported as `as const satisfies readonly Category[]` for type safety
+   - Named exports for all helper functions
+   - File can be imported in validators, components, and context providers
+
+9. **Integration with Validators**
+   - Update `src/utils/validators.ts` to import CATEGORIES from constants file
+   - Replace hardcoded PREDEFINED_CATEGORIES with imported CATEGORIES
+   - Ensure `validateCategory()` function uses new constant
+   - No functional change to validation logic, only data source
+
+10. **Unit Tests for Categories**
+    - Test file created at `src/constants/categories.test.ts`
+    - Test CATEGORIES array has exactly 12 entries (4 income + 8 expense)
+    - Test all income categories have type='income' and green colors
+    - Test all expense categories have type='expense' and red/orange colors
+    - Test getCategoryById() returns correct category
+    - Test getCategoryById() returns undefined for non-existent ID
+    - Test getCategoriesByType('income') returns exactly 4 categories
+    - Test getCategoriesByType('expense') returns exactly 8 categories
+    - Test all category IDs are unique
+    - Test all color codes are valid hex format (#RRGGBB)
+    - Coverage target: 100% for categories.ts (simple constant file)
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>SmartBudget Product Requirements Document</title>
+        <section>FR-2.1 Transaction Categorization &amp; Predefined Categories List</section>
+        <snippet>Requirement for predefined income and expense categories. Users categorize every transaction using a category dropdown. 4 income categories (Salary, Freelance, Investment, Other Income) and 8 expense categories (Rent, Transport, Food, Entertainment, Utilities, Healthcare, Shopping, Other Expense).</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>System Architecture - Data Relationships &amp; Predefined Categories</title>
+        <section>Data Relationships, Predefined Categories, Color Scheme</section>
+        <snippet>Category → Transaction is One-to-Many relationship. 12-category system (4 income + 8 expense) with specified IDs, colors, and Lucide icon names. Income uses #10B981 green family, Expense uses #EF4444 red and #F59E0B amber families. Constants stored in /src/constants/ folder.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Data Layer &amp; State Management</title>
+        <section>Category Interface, Predefined Categories, Color Palette</section>
+        <snippet>Complete Category interface with id (kebab-case), name, type, color (hex), icon (Lucide name). Specific category list: Income (salary, freelance, investment, other-income) with emerald green shades. Expense (rent, transport, food, entertainment, utilities, healthcare, shopping, other-expense) with red/amber shades. Icons stored as strings matching Lucide React component names.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>smartbudget/src/models/Category.ts</path>
+        <kind>interface</kind>
+        <symbol>Category</symbol>
+        <lines>1-53</lines>
+        <reason>Required import for type safety in categories.ts. Defines Category interface with id (string), name (string), type ('income' | 'expense'), color (hex string), and icon (Lucide name string). CATEGORIES constant must satisfy this interface structure.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/utils/validators.ts</path>
+        <kind>validation utility</kind>
+        <symbol>validateCategory, PREDEFINED_CATEGORIES</symbol>
+        <lines>111-153</lines>
+        <reason>Contains validateCategory() function with hardcoded PREDEFINED_CATEGORIES object (lines 116-119). This story will update validators.ts to import CATEGORIES from constants/categories.ts instead. The validateCategory() logic will remain the same, only the data source changes.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package name="lucide-react">^0.553.0 (already installed)</package>
+        <package name="typescript">~5.9.3 (already installed)</package>
+        <package name="vitest">^4.0.9 (already installed, for testing)</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    - **Read-Only Constants**: CATEGORIES array is read-only in MVP. No user customization of categories allowed.
+    - **Type Safety**: CATEGORIES must be exported as `as const satisfies readonly Category[]` for compile-time type checking.
+    - **Naming Conventions**: File use camelCase (categories.ts), constant use UPPER_CASE (CATEGORIES), IDs use kebab-case ('other-income').
+    - **Visual Consistency**: Income categories MUST use green color palette (#10B981 emerald family). Expense categories MUST use red (#EF4444) and amber (#F59E0B) families.
+    - **Icon Validation**: All icon names must be valid Lucide React component names in PascalCase (e.g., 'Wallet', 'ShoppingCart').
+    - **Data Structure**: Each category must include exactly 5 fields: id, name, type, color, icon. No additional fields allowed.
+    - **Uniqueness**: All category IDs must be unique across both income and expense categories.
+    - **Hex Color Format**: All colors must be 7-character hex codes (#RRGGBB format, uppercase letters preferred).
+    - **JSDoc Comments**: All exports (CATEGORIES, getCategoryById, getCategoriesByType) require comprehensive JSDoc with examples.
+    - **Integration Constraint**: validators.ts update must not break existing tests. Regression testing required.
+    - **Test Coverage**: 100% coverage required for categories.ts (simple constant file with no branches).
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>CATEGORIES</name>
+      <kind>constant</kind>
+      <signature>export const CATEGORIES: readonly Category[] = [...] as const satisfies readonly Category[];</signature>
+      <path>smartbudget/src/constants/categories.ts</path>
+      <description>Read-only array of 12 predefined categories (4 income + 8 expense) with id, name, type, color, and icon properties. Used by validators, components, and AppContext.</description>
+    </interface>
+    <interface>
+      <name>getCategoryById</name>
+      <kind>function</kind>
+      <signature>export function getCategoryById(id: string): Category | undefined</signature>
+      <path>smartbudget/src/constants/categories.ts</path>
+      <description>Retrieves a category by its unique ID. Returns the matching Category object or undefined if not found. Used for lookup operations in forms and validators.</description>
+    </interface>
+    <interface>
+      <name>getCategoriesByType</name>
+      <kind>function</kind>
+      <signature>export function getCategoriesByType(type: 'income' | 'expense'): Category[]</signature>
+      <path>smartbudget/src/constants/categories.ts</path>
+      <description>Filters categories by type (income or expense). Returns array of matching categories. Used to populate category dropdowns in transaction forms.</description>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>Use Vitest testing framework (included with Vite from Epic 1). Test files use .test.ts suffix and locate in same directory as implementation. Coverage target: 100% for categories.ts (simple constant file, no complex logic). Run tests with 'npm run test' and coverage with 'npm run test:coverage'. Follow AAA pattern (Arrange-Act-Assert). Use descriptive test names starting with 'should'.</standards>
+    <locations>smartbudget/src/constants/categories.test.ts (to be created)</locations>
+    <ideas>
+      <test ac="1">Test CATEGORIES constant is exported and accessible</test>
+      <test ac="2">Test CATEGORIES array has exactly 12 entries</test>
+      <test ac="2">Test exactly 4 income categories exist with type='income'</test>
+      <test ac="2">Test all income categories have green color palette (starts with #0 or #1)</test>
+      <test ac="2">Test income category IDs: salary, freelance, investment, other-income</test>
+      <test ac="3">Test exactly 8 expense categories exist with type='expense'</test>
+      <test ac="3">Test expense categories have red/amber colors (#E, #D, #B, #9, #F for expense)</test>
+      <test ac="3">Test expense category IDs: rent, transport, food, entertainment, utilities, healthcare, shopping, other-expense</test>
+      <test ac="4">Test each category has exactly 5 properties (id, name, type, color, icon)</test>
+      <test ac="4">Test all category IDs use kebab-case format (contains hyphens where needed)</test>
+      <test ac="4">Test all colors match hex format #RRGGBB (7 characters, starts with #)</test>
+      <test ac="5">Test getCategoryById('salary') returns salary category</test>
+      <test ac="5">Test getCategoryById('non-existent') returns undefined</test>
+      <test ac="5">Test getCategoryById with empty string returns undefined</test>
+      <test ac="5">Test getCategoriesByType('income') returns array of 4 categories</test>
+      <test ac="5">Test getCategoriesByType('expense') returns array of 8 categories</test>
+      <test ac="5">Test getCategoriesByType returns only categories matching the requested type</test>
+      <test ac="9">Test CATEGORIES can be imported in validators.ts</test>
+      <test ac="10">Test all category IDs are unique (no duplicates)</test>
+      <test ac="10">Test all icon names are strings (not components)</test>
+      <test ac="10">Test color format validation for all categories</test>
+    </ideas>
+  </tests>
+</story-context>

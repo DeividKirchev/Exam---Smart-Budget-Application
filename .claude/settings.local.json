@@ -28,7 +28,10 @@
       "Bash(cat:*)",
       "Bash(npm run prepare:*)",
       "Bash(prompts.md)",
-      "Bash(npm audit:*)"
+      "Bash(npm audit:*)",
+      "Bash(\"d:\\Projects\\React Udemy\\Mine\\AI First\\Exam - Smart Budget Application\\prompts.md\")",
+      "Bash(npm run test:*)",
+      "Bash(npm run test:coverage:*)"
     ],
     "deny": [],
     "ask": []

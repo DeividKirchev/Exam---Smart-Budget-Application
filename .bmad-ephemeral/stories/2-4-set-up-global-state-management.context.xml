@@ -1,0 +1,284 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>4</storyId>
+    <title>Set Up Global State Management</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-15</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>.bmad-ephemeral/stories/2-4-set-up-global-state-management.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a developer</asA>
+    <iWant>centralized state management for transactions and UI state</iWant>
+    <soThat>data flows consistently across all components without prop drilling</soThat>
+    <tasks>
+- [ ] **Task 1: Create AppContext file and imports** (AC: 1)
+  - [ ] Create file `src/context/AppContext.tsx`
+  - [ ] Import React, createContext, useContext, useReducer, useEffect
+  - [ ] Import Transaction, Category, Period types from models
+  - [ ] Import storageService from services/storageService
+  - [ ] Import CATEGORIES from constants/categories
+  - [ ] Import validators from utils/validators
+  - [ ] Add JSDoc module comment explaining purpose
+
+- [ ] **Task 2: Define AppContextValue interface** (AC: 1, 2)
+  - [ ] Create AppContextValue interface with all state properties and methods
+  - [ ] Add JSDoc comments for each property and method
+
+- [ ] **Task 3: Create AppContext with createContext** (AC: 1)
+  - [ ] Create context: `const AppContext = createContext<AppContextValue | undefined>(undefined);`
+  - [ ] Initialize with undefined to enforce useAppContext hook usage
+
+- [ ] **Task 4: Define state and action types for reducer** (AC: 6)
+  - [ ] Create State interface with transactions, categories, selectedPeriod, loading, error
+  - [ ] Create Action type union: SET_TRANSACTIONS | ADD_TRANSACTION | UPDATE_TRANSACTION | DELETE_TRANSACTION | SET_PERIOD | SET_LOADING | SET_ERROR | CLEAR_ERROR
+  - [ ] Define action payload types for each action
+
+- [ ] **Task 5: Implement reducer function** (AC: 6)
+  - [ ] Create reducer: `function appReducer(state: State, action: Action): State`
+  - [ ] Handle SET_TRANSACTIONS, ADD_TRANSACTION, UPDATE_TRANSACTION, DELETE_TRANSACTION, SET_PERIOD, SET_LOADING, SET_ERROR, CLEAR_ERROR
+  - [ ] Add default case returning current state
+
+- [ ] **Task 6: Implement AppProvider component** (AC: 7, 8)
+  - [ ] Create AppProvider with useReducer and initial state
+
+- [ ] **Task 7: Implement data loading useEffect** (AC: 7)
+  - [ ] Create useEffect with async loadInitialData() function
+  - [ ] Load transactions, settings, set CATEGORIES
+  - [ ] Handle errors and loading states
+
+- [ ] **Task 8: Implement addTransaction action** (AC: 3)
+  - [ ] Validate, call storageService, dispatch action, handle errors
+
+- [ ] **Task 9: Implement updateTransaction action** (AC: 3)
+  - [ ] Validate, call storageService, dispatch action, handle errors
+
+- [ ] **Task 10: Implement deleteTransaction action** (AC: 3)
+  - [ ] Call storageService, dispatch action, handle errors
+
+- [ ] **Task 11: Implement setPeriod action** (AC: 4)
+  - [ ] Dispatch SET_PERIOD, save to storageService settings
+
+- [ ] **Task 12: Implement utility actions** (AC: 5)
+  - [ ] clearError and refreshData functions
+
+- [ ] **Task 13: Create context value object and provider** (AC: 8)
+  - [ ] Return Provider with value object
+
+- [ ] **Task 14: Implement useAppContext hook** (AC: 9)
+  - [ ] Check context, throw error if undefined, return typed context
+
+- [ ] **Task 15: Create unit tests** (AC: 10)
+  - [ ] Mock storageService and CATEGORIES
+  - [ ] Test provider, hook, all actions, error handling
+  - [ ] Target ≥85% coverage
+
+- [ ] **Task 16: Integrate AppProvider in main App** (AC: 8)
+  - [ ] Wrap application with AppProvider
+
+- [ ] **Task 17: TypeScript compilation and verification** (AC: 1)
+  - [ ] Run build, fix any type errors
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+1. **AppContext Created with TypeScript**
+   - File created at `src/context/AppContext.tsx` with React Context implementation
+   - `AppContextValue` interface defined with all state properties and action methods
+   - Exports `AppProvider` component to wrap the application
+   - Exports `useAppContext` custom hook for consuming context
+   - All exports have comprehensive JSDoc comments
+
+2. **State Properties Defined**
+   - `transactions: Transaction[]` - Array of all transactions loaded from storage
+   - `categories: Category[]` - Array of predefined categories from CATEGORIES constant
+   - `selectedPeriod: Period` - Currently selected time period for filtering
+   - `loading: boolean` - Loading state for async operations
+   - `error: string | null` - Error message for user feedback (null when no error)
+
+3. **Transaction Action Methods Implemented**
+   - `addTransaction`, `updateTransaction`, `deleteTransaction` with validation and error handling
+   - All methods update local state after successful storage operation
+
+4. **Period Action Methods Implemented**
+   - `setPeriod(period: Period): void` - Updates selectedPeriod and persists to localStorage
+
+5. **Utility Action Methods Implemented**
+   - `clearError(): void` and `refreshData(): Promise<void>`
+
+6. **State Reducer Implementation**
+   - Uses useReducer hook with 8 action types
+   - Reducer is pure function with no side effects
+
+7. **Data Loading on Mount**
+   - useEffect loads transactions, settings, and CATEGORIES on mount
+   - Handles errors and loading states
+
+8. **Provider Integration**
+   - AppProvider wraps children with Context.Provider
+   - No prop drilling required
+
+9. **Custom Hook with Error Handling**
+   - useAppContext() throws error if used outside AppProvider
+
+10. **Unit Tests for AppContext**
+    - ≥85% coverage with comprehensive testing of all features
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>SmartBudget Product Requirements Document</title>
+        <section>FR-4 Data Persistence</section>
+        <snippet>State management requirements for maintaining transaction data, categories, and UI state across application. Data must persist across page refreshes and route changes.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>System Architecture - State Management &amp; Component Architecture</title>
+        <section>State Management, Provider Wrapping Strategy</section>
+        <snippet>React Context + useReducer pattern for centralized state. No Redux for MVP. AppContext provides single source of truth for application state. Service layer integration with storageService for persistence operations.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Data Layer &amp; State Management</title>
+        <section>AppContext API, Initialization Sequence, Transaction Action Workflow</section>
+        <snippet>Complete AppContext interface with transactions, categories, selectedPeriod, loading, error state properties. Action methods: addTransaction, updateTransaction, deleteTransaction, setPeriod, clearError, refreshData. Workflow: Component → AppContext → storageService → LocalStorage.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>smartbudget/src/models/Transaction.ts</path>
+        <kind>interface</kind>
+        <symbol>Transaction, Period</symbol>
+        <lines>1-69</lines>
+        <reason>Required type imports for AppContext state. Transaction interface for transactions array typing. Period type for selectedPeriod state property.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/models/Category.ts</path>
+        <kind>interface</kind>
+        <symbol>Category</symbol>
+        <lines>1-53</lines>
+        <reason>Required type import for categories array in AppContext state.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/services/storageService.ts</path>
+        <kind>service</kind>
+        <symbol>storageService</symbol>
+        <lines>1-303</lines>
+        <reason>AppContext calls storageService methods for all persistence operations: loadTransactions(), addTransaction(), updateTransaction(), deleteTransaction(), loadSettings(), saveSettings(). Complete integration required for CRUD workflows.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/constants/categories.ts</path>
+        <kind>constant</kind>
+        <symbol>CATEGORIES</symbol>
+        <lines>1-166</lines>
+        <reason>AppContext imports CATEGORIES constant for categories state initialization. No storage needed - static read-only array of 12 predefined categories.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/utils/validators.ts</path>
+        <kind>validation utility</kind>
+        <symbol>validateTransactionData</symbol>
+        <lines>1-241</lines>
+        <reason>AppContext action methods use validateTransactionData() to validate input before calling storageService. Ensures data integrity for add and update operations.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package name="react">^18.3.1 (already installed)</package>
+        <package name="typescript">~5.9.3 (already installed)</package>
+        <package name="vitest">^4.0.9 (already installed, for testing)</package>
+        <package name="@testing-library/react">^16.3.0 (already installed, for component testing)</package>
+        <package name="@testing-library/jest-dom">^6.9.1 (already installed, for test assertions)</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    - **No External State Libraries**: Use built-in React Context + useReducer. No Redux, Zustand, or other external state management libraries in MVP.
+    - **Service Layer Separation**: AppContext calls storageService for all persistence. Never access localStorage directly from context.
+    - **Immutable State Updates**: Reducer must update state immutably using spread operators and array methods (map, filter).
+    - **Error Handling**: All async actions must catch errors, set error state, and re-throw for component handling.
+    - **Type Safety**: All state, actions, and context values strictly typed with TypeScript interfaces.
+    - **Hook Enforcement**: useAppContext hook must throw error if used outside AppProvider to prevent undefined context access.
+    - **Validation First**: All transaction mutations (add, update) must validate data before calling storageService.
+    - **Loading States**: Set loading=true before async operations, loading=false after completion (in finally block).
+    - **Provider Wrapping**: AppProvider must wrap entire application in main.tsx/App.tsx to provide global access.
+    - **Test Coverage**: ≥85% coverage required for AppContext.tsx with mocked dependencies.
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>AppContextValue</name>
+      <kind>interface</kind>
+      <signature>export interface AppContextValue { transactions, categories, selectedPeriod, loading, error, addTransaction, updateTransaction, deleteTransaction, setPeriod, clearError, refreshData }</signature>
+      <path>smartbudget/src/context/AppContext.tsx</path>
+      <description>Complete context value interface with state properties and action methods. Consumed by all components via useAppContext() hook.</description>
+    </interface>
+    <interface>
+      <name>AppProvider</name>
+      <kind>component</kind>
+      <signature>export const AppProvider: React.FC&lt;{ children: React.ReactNode }&gt;</signature>
+      <path>smartbudget/src/context/AppContext.tsx</path>
+      <description>Context provider component that wraps the application. Initializes state with useReducer, loads data on mount, provides context value to children.</description>
+    </interface>
+    <interface>
+      <name>useAppContext</name>
+      <kind>hook</kind>
+      <signature>export function useAppContext(): AppContextValue</signature>
+      <path>smartbudget/src/context/AppContext.tsx</path>
+      <description>Custom hook for consuming AppContext. Throws error if used outside AppProvider. Returns typed AppContextValue for component use.</description>
+    </interface>
+    <interface>
+      <name>appReducer</name>
+      <kind>reducer</kind>
+      <signature>function appReducer(state: State, action: Action): State</signature>
+      <path>smartbudget/src/context/AppContext.tsx</path>
+      <description>Pure reducer function handling 8 action types for state updates. Used with useReducer hook in AppProvider.</description>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>Use Vitest + React Testing Library for component testing. Mock storageService using vi.mock(). Mock CATEGORIES import. Test files use .test.tsx suffix. Coverage target: ≥85% for AppContext.tsx. Run tests with 'npm run test' and coverage with 'npm run test:coverage'. Follow AAA pattern (Arrange-Act-Assert). Use async/await for testing async operations.</standards>
+    <locations>smartbudget/src/context/AppContext.test.tsx (to be created)</locations>
+    <ideas>
+      <test ac="1,8">Test AppProvider renders children successfully</test>
+      <test ac="9">Test useAppContext throws error when used outside provider</test>
+      <test ac="7">Test initial state loads transactions from storageService on mount</test>
+      <test ac="7">Test initial state loads categories from CATEGORIES constant</test>
+      <test ac="7">Test initial state loads selectedPeriod from storageService settings</test>
+      <test ac="7">Test loading state is true during initial load, false after completion</test>
+      <test ac="3">Test addTransaction calls validateTransactionData before storage</test>
+      <test ac="3">Test addTransaction calls storageService.addTransaction with validated data</test>
+      <test ac="3">Test addTransaction dispatches ADD_TRANSACTION action with returned transaction</test>
+      <test ac="3">Test addTransaction updates state with new transaction</test>
+      <test ac="3">Test addTransaction throws error and sets error state on validation failure</test>
+      <test ac="3">Test addTransaction sets error state on storageService failure</test>
+      <test ac="3">Test updateTransaction validates merged data before storage</test>
+      <test ac="3">Test updateTransaction calls storageService.updateTransaction</test>
+      <test ac="3">Test updateTransaction dispatches UPDATE_TRANSACTION action</test>
+      <test ac="3">Test updateTransaction updates state with modified transaction</test>
+      <test ac="3">Test updateTransaction sets error state on failure</test>
+      <test ac="3">Test deleteTransaction calls storageService.deleteTransaction</test>
+      <test ac="3">Test deleteTransaction dispatches DELETE_TRANSACTION on success</test>
+      <test ac="3">Test deleteTransaction removes transaction from state</test>
+      <test ac="3">Test deleteTransaction sets error state on failure</test>
+      <test ac="4">Test setPeriod dispatches SET_PERIOD action</test>
+      <test ac="4">Test setPeriod calls storageService.saveSettings with new period</test>
+      <test ac="4">Test setPeriod updates selectedPeriod in state</test>
+      <test ac="5">Test clearError resets error state to null</test>
+      <test ac="5">Test refreshData calls storageService.loadTransactions</test>
+      <test ac="5">Test refreshData dispatches SET_TRANSACTIONS with loaded data</test>
+      <test ac="5">Test refreshData sets loading states correctly</test>
+      <test ac="6">Test reducer SET_TRANSACTIONS action replaces transactions array</test>
+      <test ac="6">Test reducer ADD_TRANSACTION action appends transaction</test>
+      <test ac="6">Test reducer UPDATE_TRANSACTION action finds and replaces transaction</test>
+      <test ac="6">Test reducer DELETE_TRANSACTION action filters out transaction</test>
+      <test ac="6">Test reducer SET_PERIOD action updates selectedPeriod</test>
+      <test ac="6">Test reducer SET_LOADING action updates loading state</test>
+      <test ac="6">Test reducer SET_ERROR action updates error state</test>
+      <test ac="6">Test reducer CLEAR_ERROR action resets error to null</test>
+      <test ac="6">Test reducer returns current state for unknown action</test>
+    </ideas>
+  </tests>
+</story-context>

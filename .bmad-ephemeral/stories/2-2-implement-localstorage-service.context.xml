@@ -1,0 +1,363 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>2</storyId>
+    <title>Implement LocalStorage Service</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-15</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>.bmad-ephemeral/stories/2-2-implement-localstorage-service.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a developer</asA>
+    <iWant>a service layer to handle data persistence with LocalStorage</iWant>
+    <soThat>user data is saved and retrieved reliably across browser sessions</soThat>
+    <tasks>
+- [ ] **Task 1: Install uuid dependency** (AC: 4)
+  - [ ] Run `npm install uuid` to add UUID generation library
+  - [ ] Run `npm install --save-dev @types/uuid` for TypeScript types
+  - [ ] Verify package.json includes uuid dependency
+
+- [ ] **Task 2: Create storage service module** (AC: 1)
+  - [ ] Create file `src/services/storageService.ts`
+  - [ ] Define STORAGE_KEYS constant with 3 keys (TRANSACTIONS, SETTINGS, SCHEMA_VERSION)
+  - [ ] Import Transaction type from `src/models/Transaction.ts`
+  - [ ] Import validators from `src/utils/validators.ts`
+  - [ ] Add JSDoc comments for module description
+
+- [ ] **Task 3: Implement loadTransactions method** (AC: 2)
+  - [ ] Create loadTransactions() function returning Transaction[]
+  - [ ] Use localStorage.getItem(STORAGE_KEYS.TRANSACTIONS)
+  - [ ] Wrap JSON.parse() in try-catch for error handling
+  - [ ] Validate each loaded transaction using validateTransactionData()
+  - [ ] Filter out invalid transactions and log warnings
+  - [ ] Return empty array if no data or all corrupted
+  - [ ] Add JSDoc comments explaining behavior
+
+- [ ] **Task 4: Implement saveTransactions method** (AC: 3)
+  - [ ] Create saveTransactions(transactions: Transaction[]) function
+  - [ ] Use JSON.stringify() to serialize transactions array
+  - [ ] Wrap localStorage.setItem() in try-catch for QuotaExceededError
+  - [ ] Return { success: true } on success
+  - [ ] Return { success: false, error: "Storage limit reached. Please delete old transactions." } on quota exceeded
+  - [ ] Add JSDoc comments
+
+- [ ] **Task 5: Implement addTransaction method** (AC: 4)
+  - [ ] Import { v4 as uuidv4 } from 'uuid'
+  - [ ] Create addTransaction(transaction: Omit<Transaction, 'id' | 'createdAt' | 'updatedAt'>) function
+  - [ ] Generate UUID: const id = uuidv4()
+  - [ ] Generate timestamps: const now = new Date().toISOString()
+  - [ ] Create complete transaction object with id, createdAt, updatedAt
+  - [ ] Load current transactions using loadTransactions()
+  - [ ] Append new transaction to array
+  - [ ] Save using saveTransactions()
+  - [ ] Return complete Transaction object
+  - [ ] Add JSDoc comments
+
+- [ ] **Task 6: Implement updateTransaction method** (AC: 5)
+  - [ ] Create updateTransaction(id: string, updates: Partial<Transaction>) function
+  - [ ] Load transactions using loadTransactions()
+  - [ ] Find transaction: const index = transactions.findIndex(t => t.id === id)
+  - [ ] If not found (index === -1), throw Error("Transaction with id {{id}} not found")
+  - [ ] Merge updates: const updated = { ...transactions[index], ...updates, updatedAt: new Date().toISOString() }
+  - [ ] Replace transaction in array: transactions[index] = updated
+  - [ ] Save using saveTransactions()
+  - [ ] Return updated Transaction object
+  - [ ] Add JSDoc comments
+
+- [ ] **Task 7: Implement deleteTransaction method** (AC: 6)
+  - [ ] Create deleteTransaction(id: string) function returning boolean
+  - [ ] Load transactions using loadTransactions()
+  - [ ] Filter out transaction: const filtered = transactions.filter(t => t.id !== id)
+  - [ ] Check if transaction was found: const wasDeleted = filtered.length < transactions.length
+  - [ ] If wasDeleted, save filtered array using saveTransactions()
+  - [ ] Return wasDeleted boolean
+  - [ ] Add JSDoc comments
+
+- [ ] **Task 8: Implement settings methods** (AC: 7)
+  - [ ] Create loadSettings() function returning settings object
+  - [ ] Use localStorage.getItem(STORAGE_KEYS.SETTINGS)
+  - [ ] Parse JSON with try-catch, return default if not found or corrupted
+  - [ ] Default: { selectedPeriod: { type: 'this-month', startDate: ..., endDate: ..., label: 'This Month' } }
+  - [ ] Create saveSettings(settings: Record<string, any>) function
+  - [ ] Merge with existing settings, stringify, save to localStorage
+  - [ ] Add JSDoc comments
+
+- [ ] **Task 9: Add schema versioning** (AC: 8)
+  - [ ] Create getSchemaVersion() function returning number
+  - [ ] Use localStorage.getItem(STORAGE_KEYS.SCHEMA_VERSION)
+  - [ ] Default to version 1 if not found
+  - [ ] Create setSchemaVersion(version: number) function
+  - [ ] Call setSchemaVersion(1) in addTransaction if not already set
+  - [ ] Add comment noting this enables future data migrations
+
+- [ ] **Task 10: Export storage service** (AC: 1)
+  - [ ] Create storageService object with all methods
+  - [ ] Export as: export const storageService = { loadTransactions, saveTransactions, addTransaction, updateTransaction, deleteTransaction, loadSettings, saveSettings }
+  - [ ] Alternatively, export individual functions as named exports
+
+- [ ] **Task 11: Manual testing** (AC: 9)
+  - [ ] Test: Add transaction using addTransaction(), refresh browser, verify present
+  - [ ] Test: Update transaction using updateTransaction(), refresh, verify changes
+  - [ ] Test: Delete transaction using deleteTransaction(), refresh, verify removed
+  - [ ] Test: Close browser completely, reopen, verify all data intact
+  - [ ] Test: Open browser DevTools → Application → Local Storage → Verify smartbudget_transactions key exists
+  - [ ] Document test results in story completion notes
+
+- [ ] **Task 12: Write unit tests** (AC: 10)
+  - [ ] Create file `src/services/storageService.test.ts`
+  - [ ] Import storageService methods
+  - [ ] Mock localStorage: beforeEach(() => { localStorage.clear(); })
+  - [ ] Test loadTransactions() with valid data returns array
+  - [ ] Test loadTransactions() with no data returns empty array
+  - [ ] Test loadTransactions() with corrupted JSON returns empty array
+  - [ ] Test saveTransactions() saves data successfully
+  - [ ] Test saveTransactions() handles QuotaExceededError (mock setItem to throw)
+  - [ ] Test addTransaction() generates UUID and timestamps
+  - [ ] Test updateTransaction() updates existing transaction
+  - [ ] Test updateTransaction() throws error if transaction not found
+  - [ ] Test deleteTransaction() removes transaction
+  - [ ] Test deleteTransaction() returns false if transaction not found
+  - [ ] Test loadSettings() returns defaults if not found
+  - [ ] Test saveSettings() persists settings
+  - [ ] Run `npm run test` and verify all tests pass
+  - [ ] Run `npm run test:coverage` and verify ≥85% coverage
+
+- [ ] **Task 13: TypeScript compilation** (AC: 1)
+  - [ ] Run `npm run build` or `tsc --noEmit` to verify no TypeScript errors
+  - [ ] Fix any type errors
+  - [ ] Ensure strict mode compliance (no `any` types except where necessary)
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+1. **LocalStorage Service Created**
+   - Service module created at `src/services/storageService.ts` with all CRUD methods
+   - Exports storageService object with methods: loadTransactions(), saveTransactions(), addTransaction(), updateTransaction(), deleteTransaction(), loadSettings(), saveSettings()
+   - Storage keys defined as constants: STORAGE_KEYS.TRANSACTIONS = 'smartbudget_transactions', STORAGE_KEYS.SETTINGS = 'smartbudget_settings', STORAGE_KEYS.SCHEMA_VERSION = 'smartbudget_schema_version'
+   - All methods include comprehensive JSDoc comments explaining parameters, returns, and side effects
+
+2. **Load Transactions Method**
+   - loadTransactions() retrieves all transactions from localStorage
+   - JSON.parse() with error handling for corrupted data
+   - Validates each transaction using validators from Story 2.1 (validateTransactionData)
+   - Filters out invalid/corrupted transactions and logs warnings
+   - Returns Transaction[] array (empty array if no data or all corrupted)
+   - Does not throw errors to calling code - always returns array
+
+3. **Save Transactions Method**
+   - saveTransactions(transactions: Transaction[]) persists array to localStorage
+   - Uses JSON.stringify() to serialize data
+   - Handles QuotaExceededError with try-catch
+   - Returns { success: boolean; error?: string } result object
+   - On quota exceeded: returns { success: false, error: "Storage limit reached..." }
+   - On success: returns { success: true }
+
+4. **Add Transaction Method**
+   - addTransaction(transaction: Omit<Transaction, 'id' | 'createdAt' | 'updatedAt'>) creates new transaction
+   - Generates UUID v4 for transaction.id using uuid library
+   - Adds createdAt and updatedAt timestamps using new Date().toISOString()
+   - Loads current transactions, appends new transaction, saves updated array
+   - Returns complete Transaction object with all fields populated
+   - Validates transaction data before saving
+
+5. **Update Transaction Method**
+   - updateTransaction(id: string, updates: Partial<Transaction>) modifies existing transaction
+   - Loads transactions from storage, finds transaction by id
+   - Throws error if transaction not found: "Transaction with id {{id}} not found"
+   - Merges updates with existing transaction data
+   - Updates updatedAt timestamp to current time
+   - Saves updated transactions array
+   - Returns updated Transaction object
+
+6. **Delete Transaction Method**
+   - deleteTransaction(id: string) removes transaction by ID
+   - Loads transactions, filters out transaction with matching id
+   - Saves filtered array back to storage
+   - Returns boolean: true if transaction was found and deleted, false if not found
+   - Does not throw error if transaction doesn't exist
+
+7. **Settings Methods**
+   - loadSettings() retrieves user settings from localStorage
+   - Returns settings object with defaults if not found: { selectedPeriod: { type: 'this-month', ... } }
+   - saveSettings(settings: Record<string, any>) merges and persists settings
+   - Handles JSON parse/stringify errors gracefully
+
+8. **Error Handling and Data Integrity**
+   - Try-catch blocks around all localStorage operations
+   - QuotaExceededError caught and handled with user-friendly message
+   - JSON.parse() errors caught, logged, and return empty/default data
+   - Schema version tracked in localStorage for future migrations
+   - Invalid transactions filtered out on load without crashing
+   - Console warnings logged for corrupted data (development mode)
+
+9. **Data Survives Browser Refresh**
+   - Manual test: Add transaction → Refresh page → Verify transaction still present
+   - Manual test: Update transaction → Refresh page → Verify changes persisted
+   - Manual test: Delete transaction → Refresh page → Verify transaction removed
+   - Manual test: Close browser → Reopen → Verify data intact
+
+10. **Unit Tests for Storage Service**
+    - Test file created at `src/services/storageService.test.ts`
+    - Mock localStorage API for isolated testing (using vitest)
+    - Test loadTransactions() with valid data, corrupted data, no data
+    - Test saveTransactions() with normal data and QuotaExceededError
+    - Test addTransaction() generates UUID and timestamps correctly
+    - Test updateTransaction() updates existing transaction
+    - Test deleteTransaction() removes transaction
+    - Test loadSettings() and saveSettings() handle settings correctly
+    - Coverage target: ≥85% for storageService.ts
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>SmartBudget Product Requirements Document</title>
+        <section>FR-4 Data Persistence &amp; NFR-2 Security/Data Integrity</section>
+        <snippet>LocalStorage requirement for client-side data persistence. Zero data loss during normal operations. Transaction data must be validated and persist across browser sessions.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>System Architecture - Data Architecture</title>
+        <section>Data Architecture &amp; State Management Patterns</section>
+        <snippet>LocalStorage schema uses keys 'smartbudget_transactions', 'smartbudget_settings', 'smartbudget_schema_version' with JSON serialization. Service Layer Separation: All LocalStorage operations isolated in service module, never accessed directly from UI components. Error handling for QuotaExceededError and data corruption with graceful fallbacks.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Data Layer &amp; State Management</title>
+        <section>storageService API, Error Handling Patterns, UUID Generation, Timestamp Generation</section>
+        <snippet>Complete storageService API specification with methods: loadTransactions(), saveTransactions(), addTransaction(), updateTransaction(), deleteTransaction(), loadSettings(), saveSettings(). Error handling with try-catch for QuotaExceededError and JSON parse errors. UUID v4 format using uuid library. ISO 8601 timestamps using new Date().toISOString(). Schema validation on load using validators from Story 2.1.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>smartbudget/src/models/Transaction.ts</path>
+        <kind>interface</kind>
+        <symbol>Transaction</symbol>
+        <lines>1-69</lines>
+        <reason>Required import for storageService. Defines complete Transaction interface with all fields (id, amount, date, category, type, description, createdAt, updatedAt). StorageService will use this interface for type safety in all CRUD operations.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/utils/validators.ts</path>
+        <kind>validation utility</kind>
+        <symbol>validateTransactionData, validateAmount, validateDate, validateCategory, sanitizeDescription</symbol>
+        <lines>1-241</lines>
+        <reason>Required for data validation in loadTransactions() method. validateTransactionData() orchestrates all validators to ensure loaded transactions meet business rules. Used to filter out corrupted/invalid transactions on load without crashing the application.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package name="uuid">Not yet installed - Task 1 will add</package>
+        <package name="@types/uuid">Not yet installed - Task 1 will add (devDependency)</package>
+        <package name="react">^18.3.1 (already installed)</package>
+        <package name="typescript">~5.9.3 (already installed)</package>
+        <package name="vitest">^4.0.9 (already installed, for testing)</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    - **Service Layer Separation**: All LocalStorage operations MUST be isolated in storageService.ts. UI components never access localStorage directly.
+    - **Error Handling**: Never throw errors to calling code from load operations. Always return empty array or default values with graceful fallbacks.
+    - **Type Safety**: All methods strictly typed with TypeScript. No 'any' types except where absolutely necessary.
+    - **Naming Conventions**: camelCase for functions (loadTransactions, addTransaction), UPPER_SNAKE_CASE for constants (STORAGE_KEYS).
+    - **Data Validation**: All loaded data MUST pass validation using validateTransactionData() from utils/validators.ts. Invalid data filtered out, not rejected.
+    - **QuotaExceededError Handling**: Save operations MUST catch QuotaExceededError and return user-friendly error messages, never crash.
+    - **Timestamp Format**: All timestamps use ISO 8601 format via new Date().toISOString() (e.g., "2025-11-15T10:30:00.000Z").
+    - **UUID Format**: Transaction IDs use UUID v4 format via uuid library (e.g., "550e8400-e29b-41d4-a716-446655440000").
+    - **JSDoc Comments**: All public methods require comprehensive JSDoc explaining parameters, returns, and side effects.
+    - **Schema Versioning**: Track schema version in localStorage for future data migrations (start at version 1).
+    - **Test Coverage**: Unit tests must achieve ≥85% coverage for storageService.ts using Vitest.
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>storageService.loadTransactions</name>
+      <kind>function</kind>
+      <signature>loadTransactions(): Transaction[]</signature>
+      <path>smartbudget/src/services/storageService.ts</path>
+      <description>Retrieves all transactions from localStorage, validates each transaction, filters out invalid data, returns Transaction array (empty if none found).</description>
+    </interface>
+    <interface>
+      <name>storageService.saveTransactions</name>
+      <kind>function</kind>
+      <signature>saveTransactions(transactions: Transaction[]): { success: boolean; error?: string }</signature>
+      <path>smartbudget/src/services/storageService.ts</path>
+      <description>Persists transaction array to localStorage with JSON serialization. Returns success status. Catches QuotaExceededError and returns error message.</description>
+    </interface>
+    <interface>
+      <name>storageService.addTransaction</name>
+      <kind>function</kind>
+      <signature>addTransaction(transaction: Omit&lt;Transaction, 'id' | 'createdAt' | 'updatedAt'&gt;): Transaction</signature>
+      <path>smartbudget/src/services/storageService.ts</path>
+      <description>Creates new transaction with auto-generated UUID, timestamps. Loads current transactions, appends new one, saves to storage, returns complete Transaction object.</description>
+    </interface>
+    <interface>
+      <name>storageService.updateTransaction</name>
+      <kind>function</kind>
+      <signature>updateTransaction(id: string, updates: Partial&lt;Transaction&gt;): Transaction</signature>
+      <path>smartbudget/src/services/storageService.ts</path>
+      <description>Updates existing transaction by ID. Throws error if not found. Merges updates, updates updatedAt timestamp, saves, returns updated Transaction.</description>
+    </interface>
+    <interface>
+      <name>storageService.deleteTransaction</name>
+      <kind>function</kind>
+      <signature>deleteTransaction(id: string): boolean</signature>
+      <path>smartbudget/src/services/storageService.ts</path>
+      <description>Removes transaction by ID. Returns true if found and deleted, false if not found. Does not throw error.</description>
+    </interface>
+    <interface>
+      <name>storageService.loadSettings</name>
+      <kind>function</kind>
+      <signature>loadSettings(): Record&lt;string, any&gt;</signature>
+      <path>smartbudget/src/services/storageService.ts</path>
+      <description>Retrieves user settings from localStorage. Returns default settings if not found: { selectedPeriod: { type: 'this-month', ... } }.</description>
+    </interface>
+    <interface>
+      <name>storageService.saveSettings</name>
+      <kind>function</kind>
+      <signature>saveSettings(settings: Record&lt;string, any&gt;): void</signature>
+      <path>smartbudget/src/services/storageService.ts</path>
+      <description>Merges and persists settings to localStorage with JSON serialization. Handles errors gracefully.</description>
+    </interface>
+    <interface>
+      <name>STORAGE_KEYS</name>
+      <kind>constant</kind>
+      <signature>const STORAGE_KEYS = { TRANSACTIONS: 'smartbudget_transactions', SETTINGS: 'smartbudget_settings', SCHEMA_VERSION: 'smartbudget_schema_version' }</signature>
+      <path>smartbudget/src/services/storageService.ts</path>
+      <description>LocalStorage key constants for data persistence.</description>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>Use Vitest testing framework (included with Vite from Epic 1). Mock localStorage API for isolated testing using vi.fn(). Test files use .test.ts suffix and locate in same directory as implementation. Coverage target: ≥85% for storageService.ts. Run tests with 'npm run test' and coverage with 'npm run test:coverage'. Follow AAA pattern (Arrange-Act-Assert). Use descriptive test names starting with 'should'.</standards>
+    <locations>smartbudget/src/services/storageService.test.ts (to be created)</locations>
+    <ideas>
+      <test ac="1">Test STORAGE_KEYS constants are properly defined with correct values</test>
+      <test ac="2">Test loadTransactions() with valid data returns Transaction array</test>
+      <test ac="2">Test loadTransactions() with no data returns empty array</test>
+      <test ac="2">Test loadTransactions() with corrupted JSON returns empty array and logs warning</test>
+      <test ac="2">Test loadTransactions() filters out invalid transactions using validateTransactionData()</test>
+      <test ac="3">Test saveTransactions() successfully saves valid data to localStorage</test>
+      <test ac="3">Test saveTransactions() handles QuotaExceededError and returns error message</test>
+      <test ac="3">Test saveTransactions() returns { success: true } on successful save</test>
+      <test ac="4">Test addTransaction() generates UUID v4 format for id</test>
+      <test ac="4">Test addTransaction() adds createdAt and updatedAt timestamps in ISO 8601 format</test>
+      <test ac="4">Test addTransaction() loads existing transactions and appends new one</test>
+      <test ac="4">Test addTransaction() returns complete Transaction object with all fields</test>
+      <test ac="5">Test updateTransaction() successfully updates existing transaction</test>
+      <test ac="5">Test updateTransaction() throws error if transaction ID not found</test>
+      <test ac="5">Test updateTransaction() updates updatedAt timestamp</test>
+      <test ac="5">Test updateTransaction() merges partial updates with existing data</test>
+      <test ac="6">Test deleteTransaction() removes transaction and returns true</test>
+      <test ac="6">Test deleteTransaction() returns false if transaction not found</test>
+      <test ac="6">Test deleteTransaction() does not throw error for non-existent ID</test>
+      <test ac="7">Test loadSettings() returns default settings when not found</test>
+      <test ac="7">Test loadSettings() parses and returns existing settings</test>
+      <test ac="7">Test loadSettings() handles JSON parse errors gracefully</test>
+      <test ac="7">Test saveSettings() persists settings to localStorage</test>
+      <test ac="8">Test schema versioning functions getSchemaVersion() and setSchemaVersion()</test>
+      <test ac="8">Test error handling with try-catch blocks for all localStorage operations</test>
+    </ideas>
+  </tests>
+</story-context>

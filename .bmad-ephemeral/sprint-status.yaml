@@ -79,6 +79,6 @@ development_status:
   6-2-code-documentation-comments: skip
   6-3-readme-documentation: done
   6-4-create-summary-md-ai-impact-analysis: skip
-  6-5-deploy-application-to-production: ready-for-dev
+  6-5-deploy-application-to-production: done
   6-6-final-repository-polish: backlog
   epic-6-retrospective: optional

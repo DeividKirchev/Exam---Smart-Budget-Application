@@ -2,7 +2,6 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Live Demo](https://img.shields.io/badge/demo-live-success)](https://smartbudget-ai-first.netlify.app/)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/auto/deploy-status)](https://smartbudget-ai-first.netlify.app/)
 
 **[🚀 Live Demo](https://smartbudget-ai-first.netlify.app/)** | A modern, intuitive personal finance management application built with React and TypeScript. SmartBudget helps users track income, expenses, and budgets with beautiful visualizations and comprehensive analytics.
 

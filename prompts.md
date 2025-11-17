@@ -2,162 +2,162 @@
 
 ---
 
-**1.**  
+**1.**
 `5. project brief`
 
 ---
 
-**2.**  
+**2.**
 `/bmad:bmm:workflows:prd`
 
 ---
 
-**3.**  
+**3.**
 `YOLO`
 
 ---
 
-**4.**  
+**4.**
 `/bmad:bmm:workflows:create-epics-and-stories`
 
 ---
 
-**5.**  
+**5.**
 `/bmad:bmm:workflows:architecture`
 
 ---
 
-**6.**  
+**6.**
 `*validate-architecture`
 
 ---
 
-**7.**  
+**7.**
 `2 (Fix the 3 partial items first)`
 
 ---
 
-**8.**  
+**8.**
 `/bmad:bmm:workflows:solutioning-gate-check`
 
 ---
 
-**9.**  
+**9.**
 `I want to add something into the workflow of all agents in BMAD. After every prompt I want them to save it into prompts.md, no matter if it is a command, a prompt or anything. Where do I add that and how do I do that?`
 
 ---
 
-**10.**  
+**10.**
 `3 (Generate or update sprint-status.yaml from epic files)`
 
 ---
 
-**11.**  
+**11.**
 `*epic-tech-context`
 
 ---
 
-**12.**  
+**12.**
 `*create-story`
 
 ---
 
-**13.**  
+**13.**
 `Draft story 1`
 
 ---
 
-**14.**  
+**14.**
 `*create-story`
 
 ---
 
-**15.**  
+**15.**
 `*story-context 1.1`
 
 ---
 
-**16.**  
+**16.**
 `*story-context`
 
 ---
 
-**17.**  
+**17.**
 `*dev-story 1.1 YOLO`
 
 ---
 
-**18.**  
+**18.**
 `*create-story`
 
 ---
 
-**19.**  
+**19.**
 `continue`
 
 ---
 
-**20.**  
+**20.**
 `*story-context 1.2`
 
 ---
 
-**21.**  
+**21.**
 `*develop-story 1.2`
 
 ---
 
-**22.**  
+**22.**
 `*story-context 1.3`
 
 ---
 
-**23.**  
+**23.**
 `/bmad:bmm:agents:dev`
 
 ---
 
-**24.**  
+**24.**
 `Continue with implementing story 1.3`
 
 ---
 
-**25.**  
+**25.**
 `draft next story`
 
 ---
 
-**26.**  
+**26.**
 `draft next story`
 
 ---
 
-**27.**  
+**27.**
 `/bmad:bmm:agents:dev`
 
 ---
 
-**28.**  
+**28.**
 `implement story 1.4`
 
 ---
 
-**29.**  
+**29.**
 `Context story 1.5`
 
 ---
 
-**30.**  
+**30.**
 `/bmad:bmm:agents:dev`
 
 ---
 
-**31.**  
+**31.**
 `implement story 1.5`
 
 ---
 
-**32.**  
+**32.**
 `/bmad:bmm:agents:dev`
 
 ---
@@ -558,12 +558,27 @@
 
 ---
 
-**103.**
+**104.**
 `dev story 6-3`
 
 ---
+
+**105.**
+`Dev story 6-5 YOLO - Only stop if I need to do anything`
+
 ---
-Timestamp: 2025-11-17 16:42:57
-Agent: dev (Amelia)
-Input: Dev story 6-5 YOLO - Only stop if I need to do anything
+
+**106.**
+`draft story 6-6 YOLO`
+
+---
+
+**107.**
+`Dev story 6.6`
+
+---
+
+**108.**
+`continue, do not change summary.md`
+
 ---

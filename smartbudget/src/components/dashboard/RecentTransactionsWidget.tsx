@@ -12,10 +12,13 @@ import { Link } from 'react-router-dom';
 import { format, parseISO, isWithinInterval } from 'date-fns';
 import { Receipt, ArrowRight } from 'lucide-react';
 import { useAppContext } from '../../context/AppContext';
-import { getCategoryById } from '../../constants/categories';
 import { formatCurrency } from '../../utils/formatCurrency';
+import { CategoryBadge } from '../common/CategoryBadge';
+import { getCategoryById } from '../../constants/categories';
 import type { Period } from '../../models/Period';
 import type { Transaction } from '../../models/Transaction';
+import { EmptyState } from '../common/EmptyState';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 
 /**
  * Props for RecentTransactionsWidget component
@@ -58,29 +61,35 @@ const isTransactionInPeriod = (
  */
 export const RecentTransactionsWidget: React.FC<
   RecentTransactionsWidgetProps
-> = ({ period, limit = 5 }) => {
+> = ({ period, limit }) => {
   const { transactions, selectedPeriod } = useAppContext();
   const activePeriod = period || selectedPeriod;
+
+  // Responsive item count: 3-5 on mobile, 8 on desktop
+  const isMobile = useMediaQuery('(max-width: 767px)');
+  const responsiveLimit = limit || (isMobile ? 3 : 8);
 
   // Filter, sort, and limit transactions with memoization
   const recentTransactions = useMemo(() => {
     return transactions
       .filter(t => isTransactionInPeriod(t, activePeriod))
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      .slice(0, limit);
-  }, [transactions, activePeriod, limit]);
+      .slice(0, responsiveLimit);
+  }, [transactions, activePeriod, responsiveLimit]);
 
   // Render empty state
   if (recentTransactions.length === 0) {
     return (
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-xl font-semibold mb-4 text-gray-900">
+      <div className="bg-white rounded-lg shadow">
+        <h2 className="text-xl font-semibold p-6 pb-0 text-gray-900">
           Recent Transactions
         </h2>
-        <div className="flex flex-col items-center justify-center py-8">
-          <Receipt className="w-12 h-12 text-gray-400 mb-2" />
-          <p className="text-gray-600">No transactions in this period</p>
-        </div>
+        <EmptyState
+          icon={<Receipt size={48} />}
+          title="No recent transactions"
+          message="No transactions in this period"
+          className="py-8"
+        />
       </div>
     );
   }
@@ -123,9 +132,16 @@ export const RecentTransactionsWidget: React.FC<
                 <p className="font-medium text-gray-900 truncate">
                   {transaction.description}
                 </p>
-                <p className="text-xs text-gray-500">
-                  {category?.name || 'Unknown'}
-                </p>
+                <div className="mt-1">
+                  {category ? (
+                    <CategoryBadge
+                      categoryId={transaction.category}
+                      variant="compact"
+                    />
+                  ) : (
+                    <span className="text-xs text-gray-500">Unknown</span>
+                  )}
+                </div>
               </div>
 
               {/* Right side: Amount */}

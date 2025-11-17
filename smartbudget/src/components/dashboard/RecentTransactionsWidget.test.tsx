@@ -145,7 +145,7 @@ describe('RecentTransactionsWidget', () => {
         selectedPeriod: samplePeriod,
       });
 
-      renderWithRouter(<RecentTransactionsWidget />);
+      renderWithRouter(<RecentTransactionsWidget limit={5} />);
 
       // Should display only 5 out of 6 transactions
       expect(screen.getByText('Monthly salary')).toBeInTheDocument();
@@ -207,7 +207,7 @@ describe('RecentTransactionsWidget', () => {
         selectedPeriod: samplePeriod,
       });
 
-      renderWithRouter(<RecentTransactionsWidget />);
+      renderWithRouter(<RecentTransactionsWidget limit={5} />);
 
       expect(screen.getByText('Salary')).toBeInTheDocument();
       expect(screen.getByText('Rent/Mortgage')).toBeInTheDocument();

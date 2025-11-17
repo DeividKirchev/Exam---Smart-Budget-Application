@@ -1,0 +1,252 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>5</epicId>
+    <storyId>5.2</storyId>
+    <title>Category Visual System Implementation</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-16</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>.bmad-ephemeral/stories/5-2-category-visual-system.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a user</asA>
+    <iWant>categories to be visually distinguishable with colors and icons</iWant>
+    <soThat>I can quickly identify transaction types at a glance</soThat>
+    <tasks>
+      - Task 1: Create icon mapping utility (AC: #3)
+        - 1.1: Create file `/src/utils/iconMapper.ts`
+        - 1.2: Import all required Lucide React icons (Wallet, Briefcase, TrendingUp, PiggyBank, Home, Car, ShoppingCart, Film, Lightbulb, Heart, ShoppingBag, MoreHorizontal)
+        - 1.3: Create ICON_MAP object mapping icon names to Lucide components
+        - 1.4: Implement `getIconComponent(iconName: string)` function
+        - 1.5: Add fallback to `Circle` icon if icon name not found
+        - 1.6: Add TypeScript types for icon mapper
+
+      - Task 2: Update categories constant with icon properties (AC: #3)
+        - 2.1: Open `/src/constants/categories.ts`
+        - 2.2: Add `icon` property to each category in INCOME_CATEGORIES (ALREADY DONE - icons present)
+        - 2.3: Add `icon` property to each category in EXPENSE_CATEGORIES (ALREADY DONE - icons present)
+        - 2.4: Verify all icon names match ICON_MAP keys
+        - 2.5: Ensure color properties are already defined (VERIFIED - colors present)
+
+      - Task 3: Create CategoryBadge component (AC: #1)
+        - 3.1: Create file `/src/components/common/CategoryBadge.tsx`
+        - 3.2: Define CategoryBadgeProps interface with all required props
+        - 3.3: Import getIconComponent utility
+        - 3.4: Look up category from CATEGORIES constant using categoryId
+        - 3.5: Get icon component using getIconComponent(category.icon)
+        - 3.6: Implement variant logic (default, compact, large) for sizing
+        - 3.7: Conditionally render icon based on showIcon prop (default: true)
+        - 3.8: Conditionally render name based on showName prop (default: true)
+        - 3.9: Apply category color as background or text color
+        - 3.10: Style with Tailwind CSS (rounded badge, padding, flex layout)
+
+      - Task 4: Use CategoryBadge in transaction list (AC: #2)
+        - 4.1: Open `/src/pages/TransactionsList.tsx` and `/src/components/dashboard/RecentTransactionsWidget.tsx`
+        - 4.2: Import CategoryBadge component
+        - 4.3: Replace existing category display with CategoryBadge
+        - 4.4: Pass categoryId from transaction data
+        - 4.5: Use 'compact' variant for list view
+        - 4.6: Verify color consistency across all transactions
+
+      - Task 5: Use CategoryBadge in transaction form (AC: #2)
+        - 5.1: Open `/src/components/transactions/TransactionForm.tsx`
+        - 5.2: Import CategoryBadge component
+        - 5.3: Display CategoryBadge in category selector dropdown options
+        - 5.4: Show CategoryBadge for selected category
+        - 5.5: Use 'default' variant for form display
+        - 5.6: Ensure CategoryBadge updates when category selection changes
+
+      - Task 6: Use CategoryBadge in chart legends (AC: #2)
+        - 6.1: Open `/src/components/dashboard/ExpenseBreakdownChart.tsx`
+        - 6.2: Import CategoryBadge component
+        - 6.3: Use CategoryBadge in custom legend renderer
+        - 6.4: Pass categoryId to CategoryBadge for each legend item
+        - 6.5: Use 'compact' variant for chart legends
+        - 6.6: Verify colors match chart slice colors
+
+      - Task 7: Use CategoryBadge in dashboard widgets (AC: #2)
+        - 7.1: Identify dashboard widgets displaying categories (RecentTransactionsWidget already identified)
+        - 7.2: Import CategoryBadge component
+        - 7.3: Replace category text with CategoryBadge
+        - 7.4: Use appropriate variant based on widget size
+        - 7.5: Ensure consistent styling across all widgets
+
+      - Task 8: Verify color consistency across all views (AC: #2)
+        - 8.1: Open app and navigate to all views (Dashboard, Transactions List, Transaction Form)
+        - 8.2: Verify "food" category has same color (#B91C1C) everywhere
+        - 8.3: Verify "salary" category has same color (#10B981) everywhere
+        - 8.4: Repeat for all 12 categories
+        - 8.5: Document any color inconsistencies found
+
+      - Task 9: Test icon fallback mechanism (AC: #3)
+        - 9.1: Temporarily add category with invalid icon name
+        - 9.2: Verify Circle icon appears as fallback
+        - 9.3: Check console for warnings (if implemented)
+        - 9.4: Remove test category
+        - 9.5: Verify all valid icons render correctly
+
+      - Task 10: Accessibility and color contrast testing (AC: #1, #2)
+        - 10.1: Test color contrast for all category badges using browser DevTools
+        - 10.2: Ensure text is readable on colored backgrounds (WCAG AA)
+        - 10.3: Add aria-label to CategoryBadge for screen readers
+        - 10.4: Test keyboard navigation in category selector
+        - 10.5: Verify CategoryBadge is semantically meaningful
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    AC-5.2.1: CategoryBadge Component
+    - Component accepts categoryId prop, looks up category in constants
+    - Renders category icon from Lucide React
+    - Applies category color consistently
+    - Supports variant prop: 'default', 'compact', 'large'
+    - Shows icon and name based on showIcon/showName props
+
+    AC-5.2.2: Consistent Usage
+    - CategoryBadge used in transaction list items
+    - CategoryBadge used in transaction forms (category selector)
+    - CategoryBadge used in chart legends
+    - CategoryBadge used in dashboard widgets
+    - Category colors match across ALL views (same color for "food" everywhere)
+
+    AC-5.2.3: Icon Mapping
+    - All category icons defined in CATEGORIES constant (ALREADY COMPLETE)
+    - Icon mapper provides fallback icon if category icon not found
+    - Icons render as Lucide React SVG components
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc path=".bmad-ephemeral/stories/tech-spec-epic-5.md" title="Epic 5 Technical Specification" section="Story 5.2: Category Visual System">
+        Story 5.2 implements CategoryBadge component with icon+color for consistent category representation. Icon mapping utility centralizes Lucide icon imports. All 12 categories (4 income green tones, 8 expense red/amber tones) display consistently across transaction lists, forms, charts, and dashboard widgets.
+      </doc>
+
+      <doc path="docs/architecture.md" title="System Architecture" section="Technology Stack Details - UI & Styling">
+        Tailwind CSS 4.0 utility-first CSS framework with Lucide React icon library (tree-shakeable, modern). Component-based architecture with TypeScript. Custom hooks pattern for reusable logic. Consistent naming: PascalCase for components, camelCase for utilities.
+      </doc>
+
+      <doc path="docs/architecture.md" title="System Architecture" section="Predefined Categories">
+        SmartBudget MVP uses 12 predefined categories: 4 income (Salary, Freelance, Investment, Other Income) with green color palette, 8 expense (Rent, Transport, Food, Entertainment, Utilities, Healthcare, Shopping, Other) with red/amber palette. Each category has id, name, type, color (hex), icon (Lucide name).
+      </doc>
+
+      <doc path="docs/PRD.md" title="Product Requirements Document" section="FR-2.2: Category Display">
+        Categories must be visually distinguishable with consistent colors and icons across all views. Users should quickly identify transaction types at a glance. Color-coding helps with visual scanning and pattern recognition.
+      </doc>
+
+      <doc path="docs/PRD.md" title="Product Requirements Document" section="NFR-4.3: Accessibility">
+        Application must meet WCAG AA accessibility standards including sufficient color contrast (4.5:1 ratio for text). All UI elements must be accessible with keyboard navigation and screen readers.
+      </doc>
+    </docs>
+
+    <code>
+      <artifact path="smartbudget/src/constants/categories.ts" kind="constant" symbol="CATEGORIES" lines="1-167" reason="Existing category definitions with color and icon properties already defined. All 12 categories have color (hex) and icon (Lucide name) properties ready for CategoryBadge component.">
+        Contains CATEGORIES array with 4 income categories (green palette: #10B981, #059669, #047857, #065F46) and 8 expense categories (red/amber palette: #EF4444, #DC2626, #B91C1C, #991B1B, #F59E0B, #D97706, #B45309, #92400E). Icons: Wallet, Briefcase, TrendingUp, PiggyBank, Home, Car, ShoppingCart, Film, Lightbulb, Heart, ShoppingBag, MoreHorizontal. Also exports getCategoryById() and getCategoriesByType() helper functions.
+      </artifact>
+
+      <artifact path="smartbudget/src/components/transactions/TransactionForm.tsx" kind="component" symbol="TransactionForm" lines="" reason="Transaction form component where CategoryBadge will be integrated in category selector dropdown and selected category display">
+      </artifact>
+
+      <artifact path="smartbudget/src/pages/TransactionsList.tsx" kind="page" symbol="TransactionsList" lines="" reason="Transaction list page where CategoryBadge will replace text-based category display">
+      </artifact>
+
+      <artifact path="smartbudget/src/components/dashboard/RecentTransactionsWidget.tsx" kind="component" symbol="RecentTransactionsWidget" lines="" reason="Dashboard widget displaying recent transactions where CategoryBadge will be used for consistent category display">
+      </artifact>
+
+      <artifact path="smartbudget/src/components/dashboard/ExpenseBreakdownChart.tsx" kind="component" symbol="ExpenseBreakdownChart" lines="" reason="Pie chart component where CategoryBadge will be used in legend to match chart colors with category badges">
+      </artifact>
+
+      <artifact path="smartbudget/src/hooks/useMediaQuery.ts" kind="hook" symbol="useMediaQuery" lines="" reason="Custom responsive hook created in Story 5.1, demonstrates custom hook pattern that can be referenced for other utilities">
+      </artifact>
+    </code>
+
+    <dependencies>
+      <node>
+        <package name="lucide-react" version="^0.553.0" status="INSTALLED">Icon library for category icons - already installed in Story 5.1. Provides Wallet, Briefcase, TrendingUp, PiggyBank, Home, Car, ShoppingCart, Film, Lightbulb, Heart, ShoppingBag, MoreHorizontal, Circle (fallback)</package>
+        <package name="react" version="^18.3.0" status="INSTALLED">Core React library - use for component creation</package>
+        <package name="typescript" version="~5.6.0" status="INSTALLED">Type definitions for CategoryBadge component and icon mapper utility</package>
+        <package name="tailwindcss" version="^4.0.0" status="INSTALLED">CSS framework - use utility classes for badge styling (rounded-full, inline-flex, padding, etc.)</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    - Component-based architecture: CategoryBadge must be reusable across all features
+    - Separation of concerns: Styling via Tailwind classes only, no inline styles except for dynamic background color
+    - Consistent naming: PascalCase for components (CategoryBadge.tsx), camelCase for utilities (iconMapper.ts, getIconComponent)
+    - Type safety: All components and utilities must be fully typed with TypeScript interfaces
+    - Icon centralization: Icon mapper utility must centralize all Lucide icon imports to avoid importing entire library in components
+    - Color consistency: Category colors must be sourced from CATEGORIES constant, never hardcoded elsewhere
+    - Accessibility: CategoryBadge must include aria-label for screen readers, meet WCAG AA color contrast
+    - Performance: Import individual Lucide icons (import { Menu, X }) not wildcard imports for tree-shaking
+    - File organization: CategoryBadge goes in src/components/common/ (reusable), iconMapper in src/utils/
+    - Fallback mechanism: Icon mapper must provide Circle icon fallback for invalid icon names with console warning
+  </constraints>
+
+  <interfaces>
+    <interface name="CategoryBadgeProps" kind="component-props" signature="{ categoryId: string; variant?: 'default' | 'compact' | 'large'; showIcon?: boolean; showName?: boolean; className?: string; }" path="smartbudget/src/components/common/CategoryBadge.tsx">
+      Props interface for CategoryBadge component. categoryId required to lookup category from CATEGORIES constant. variant controls size (compact: text-xs px-2 py-1, default: text-sm px-3 py-1.5, large: text-base px-4 py-2). showIcon/showName control visibility (both default true). className for additional Tailwind classes.
+    </interface>
+
+    <interface name="getIconComponent" kind="utility-function" signature="getIconComponent(iconName: string): typeof LucideIcon" path="smartbudget/src/utils/iconMapper.ts">
+      Icon mapper utility function that takes icon name string (e.g., 'Wallet', 'ShoppingCart') and returns corresponding Lucide React icon component. Returns Circle icon as fallback if iconName not found in ICON_MAP. Logs console warning for missing icons.
+    </interface>
+
+    <interface name="CATEGORIES" kind="constant" signature="readonly Category[]" path="smartbudget/src/constants/categories.ts">
+      Array of 12 predefined categories. Each category object contains: id (string), name (string), type ('income' | 'expense'), color (hex string), icon (Lucide icon name string). Used by CategoryBadge to lookup category data.
+    </interface>
+
+    <interface name="getCategoryById" kind="utility-function" signature="getCategoryById(id: string): Category | undefined" path="smartbudget/src/constants/categories.ts">
+      Helper function to retrieve category by ID. Returns category object or undefined if not found. CategoryBadge should use CATEGORIES.find() or this helper.
+    </interface>
+
+    <interface name="LucideIcon" kind="react-component" signature="<IconComponent size={number} className={string} />" path="lucide-react">
+      All Lucide React icons share common props: size (number in px), className (string for Tailwind/CSS), color (optional). Icons are tree-shakeable SVG components. Import individually: import { Wallet, ShoppingCart } from 'lucide-react'.
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Manual testing required for visual consistency and accessibility. Use browser DevTools for color contrast testing (minimum 4.5:1 for WCAG AA). Test CategoryBadge renders correctly in all contexts: transaction lists, forms, charts, widgets. Verify all 12 category icons and colors display consistently. Test icon fallback mechanism with invalid icon name. Keyboard navigation testing for category selectors. Screen reader testing for aria-labels.
+    </standards>
+
+    <locations>
+      - Manual testing: Browser DevTools responsive mode and accessibility inspector
+      - Color contrast: Chrome DevTools Lighthouse or online WCAG contrast checker
+      - Visual regression: Compare CategoryBadge appearance across Dashboard, TransactionsList, TransactionForm, Charts
+      - Icon testing: Temporarily modify category icon name to trigger fallback, verify console warning
+    </locations>
+
+    <ideas>
+      AC-5.2.1: Test CategoryBadge Component
+      - Create test component with categoryId="salary" → verify green badge (#10B981) with Wallet icon and "Salary" text
+      - Test variant="compact" → verify smaller text (text-xs) and padding (px-2 py-1)
+      - Test variant="large" → verify larger text (text-base) and padding (px-4 py-2)
+      - Test showIcon={false} → verify only name displays
+      - Test showName={false} → verify only icon displays
+      - Test invalid categoryId → verify component handles gracefully (null or error message)
+
+      AC-5.2.2: Test Consistent Usage
+      - Open Dashboard → verify all category badges in RecentTransactionsWidget use same colors
+      - Navigate to TransactionsList → verify category badges match Dashboard colors
+      - Open TransactionForm → verify category selector shows badges with correct colors
+      - View ExpenseBreakdownChart → verify legend badges match chart slice colors
+      - Create transaction with "food" category → verify #B91C1C color in all views
+      - Create transaction with "salary" category → verify #10B981 color in all views
+      - Compare all 12 categories across 4 views → document any inconsistencies
+
+      AC-5.2.3: Test Icon Mapping
+      - Verify all 12 categories render correct icons: Wallet (salary), Briefcase (freelance), TrendingUp (investment), PiggyBank (other-income), Home (rent), Car (transport), ShoppingCart (food), Film (entertainment), Lightbulb (utilities), Heart (healthcare), ShoppingBag (shopping), MoreHorizontal (other-expense)
+      - Test fallback: Temporarily change category icon to "InvalidIcon" → verify Circle icon appears and console warning logged
+      - Restore valid icon → verify original icon returns
+      - Test icon sizes: compact (14px), default (16px), large (20px)
+
+      Accessibility Testing:
+      - Use Chrome DevTools color contrast checker on all 12 category badges
+      - Verify white text on all colored backgrounds meets 4.5:1 ratio (WCAG AA)
+      - Test screen reader announces category name from aria-label
+      - Keyboard navigate through category selector in TransactionForm
+      - Verify focus states visible on all category options
+    </ideas>
+  </tests>
+</story-context>

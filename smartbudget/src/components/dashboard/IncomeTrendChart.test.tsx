@@ -209,7 +209,7 @@ describe('IncomeTrendChart', () => {
       render(<IncomeTrendChart />);
 
       expect(
-        screen.getByText('No transactions in this period')
+        screen.getByText(/no data to display for this period/i)
       ).toBeInTheDocument();
       expect(screen.queryByTestId('bar-chart')).not.toBeInTheDocument();
     });
@@ -228,7 +228,7 @@ describe('IncomeTrendChart', () => {
       render(<IncomeTrendChart />);
 
       expect(
-        screen.getByText('No transactions in this period')
+        screen.getByText(/no data to display for this period/i)
       ).toBeInTheDocument();
     });
   });

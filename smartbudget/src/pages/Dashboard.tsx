@@ -10,29 +10,30 @@ const Dashboard: React.FC = () => {
   const { selectedPeriod } = useAppContext();
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8">
       {/* Header with Period Selector */}
-      <div className="flex items-center justify-between px-4 mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+          Dashboard
+        </h1>
         <PeriodSelector />
       </div>
 
       {/* Summary Statistics Cards - filtered by selected period */}
       <SummaryCards period={selectedPeriod} />
 
-      {/* Expense Breakdown Chart - Story 4.3 */}
-      <div className="mt-6">
+      {/* Charts - Stack vertically for better layout */}
+      <div className="mt-6 space-y-6">
+        {/* Income vs Expenses Trend Chart */}
+        <IncomeTrendChart period={selectedPeriod} />
+
+        {/* Expense Breakdown Chart */}
         <ExpenseBreakdownChart period={selectedPeriod} />
       </div>
 
-      {/* Income vs Expenses Trend Chart - Story 4.4 */}
+      {/* Recent Transactions Widget */}
       <div className="mt-6">
-        <IncomeTrendChart period={selectedPeriod} />
-      </div>
-
-      {/* Recent Transactions Widget - Story 4.5 */}
-      <div className="mt-6">
-        <RecentTransactionsWidget period={selectedPeriod} limit={5} />
+        <RecentTransactionsWidget period={selectedPeriod} />
       </div>
     </div>
   );

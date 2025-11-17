@@ -147,10 +147,7 @@ describe('ExpenseBreakdownChart', () => {
       render(<ExpenseBreakdownChart />);
 
       expect(
-        screen.getByText(/no expenses in this period/i)
-      ).toBeInTheDocument();
-      expect(
-        screen.getByText(/add some expense transactions/i)
+        screen.getByText(/no expenses to display for this period/i)
       ).toBeInTheDocument();
     });
 
@@ -175,7 +172,7 @@ describe('ExpenseBreakdownChart', () => {
       render(<ExpenseBreakdownChart />);
 
       expect(
-        screen.getByText(/no expenses in this period/i)
+        screen.getByText(/no expenses to display for this period/i)
       ).toBeInTheDocument();
     });
 

@@ -66,12 +66,12 @@ development_status:
   4-5-recent-transactions-widget: done
   epic-4-retrospective: optional
 
-  epic-5: backlog
-  5-1-implement-responsive-navigation: backlog
-  5-2-category-visual-system-implementation: backlog
-  5-3-responsive-dashboard-layout: backlog
-  5-4-form-ux-enhancements: backlog
-  5-5-error-states-empty-states: backlog
+  epic-5: contexted
+  5-1-implement-responsive-navigation: done
+  5-2-category-visual-system-implementation: done
+  5-3-responsive-dashboard-layout: done
+  5-4-form-ux-enhancements: done
+  5-5-error-states-empty-states: done
   epic-5-retrospective: optional
 
   epic-6: backlog

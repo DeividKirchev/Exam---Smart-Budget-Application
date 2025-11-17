@@ -4,28 +4,31 @@ import Dashboard from './pages/Dashboard';
 import TransactionsList from './pages/TransactionsList';
 import TransactionForm from './pages/TransactionForm';
 import NotFound from './pages/NotFound';
+import { ErrorBoundary } from './components/common/ErrorBoundary';
 import './App.css';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/transactions" element={<TransactionsList />} />
-          <Route
-            path="/transactions/new"
-            element={<TransactionForm mode="create" />}
-          />
-          <Route
-            path="/transactions/:id/edit"
-            element={<TransactionForm mode="edit" />}
-          />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Layout>
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/transactions" element={<TransactionsList />} />
+            <Route
+              path="/transactions/new"
+              element={<TransactionForm mode="create" />}
+            />
+            <Route
+              path="/transactions/:id/edit"
+              element={<TransactionForm mode="edit" />}
+            />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Layout>
+      </BrowserRouter>
+    </ErrorBoundary>
   );
 }
 

@@ -27,6 +27,7 @@ import {
 } from '../../utils/chartHelpers';
 import { formatCurrency } from '../../utils/formatCurrency';
 import type { Period } from '../../models/Period';
+import { EmptyState } from '../common/EmptyState';
 
 /**
  * ExpenseBreakdownChart component props
@@ -106,18 +107,17 @@ export const ExpenseBreakdownChart: React.FC<ExpenseBreakdownChartProps> = ({
   if (chartData.length === 0) {
     return (
       <div
-        className={`flex flex-col items-center justify-center p-12 bg-white border border-gray-200 rounded-lg ${className}`}
+        className={`bg-white border border-gray-200 rounded-lg min-h-[400px] ${className}`}
       >
-        <PieChartIcon
-          className="w-16 h-16 text-gray-400 mb-4"
-          aria-hidden="true"
+        <h3 className="text-lg font-semibold text-gray-900 p-6 pb-0">
+          Expense Breakdown
+        </h3>
+        <EmptyState
+          icon={<PieChartIcon size={48} />}
+          title="No expenses to display"
+          message="No expenses to display for this period. Try selecting a different date range."
+          className="min-h-[350px]"
         />
-        <p className="text-gray-600 text-lg font-medium">
-          No expenses in this period
-        </p>
-        <p className="text-gray-400 text-sm mt-2">
-          Add some expense transactions to see the breakdown
-        </p>
       </div>
     );
   }
@@ -125,7 +125,7 @@ export const ExpenseBreakdownChart: React.FC<ExpenseBreakdownChartProps> = ({
   // Render pie chart with data
   return (
     <div
-      className={`bg-white border border-gray-200 rounded-lg p-6 ${className}`}
+      className={`bg-white border border-gray-200 rounded-lg p-4 md:p-6 ${className}`}
     >
       <h3 className="text-lg font-semibold text-gray-900 mb-4">
         Expense Breakdown
@@ -138,7 +138,7 @@ export const ExpenseBreakdownChart: React.FC<ExpenseBreakdownChartProps> = ({
             nameKey="name"
             cx="50%"
             cy="50%"
-            outerRadius={120}
+            outerRadius={100}
             label={({ name, percentage }) => `${name}: ${percentage}%`}
             labelLine
           >

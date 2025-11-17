@@ -313,9 +313,11 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
               id="amount"
               name="amount"
               type="number"
+              inputMode="decimal"
               step="0.01"
               min="0.01"
               required
+              placeholder="0.00"
               value={amount}
               onChange={e => setAmount(e.target.value)}
               onBlur={e => handleBlur('amount', e.target.value)}
@@ -324,6 +326,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
               }`}
               aria-invalid={!!errors.amount}
               aria-describedby={errors.amount ? 'amount-error' : undefined}
+              aria-label="Transaction amount"
             />
             {errors.amount && (
               <p
@@ -394,6 +397,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
               }`}
               aria-invalid={!!errors.category}
               aria-describedby={errors.category ? 'category-error' : undefined}
+              aria-label="Transaction category"
             >
               <option value="">Select category</option>
               {filteredCategories.map(cat => (
@@ -435,6 +439,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
               }`}
               aria-invalid={!!errors.date}
               aria-describedby={errors.date ? 'date-error' : undefined}
+              aria-label="Transaction date"
             />
             {errors.date && (
               <p
@@ -454,7 +459,8 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
             htmlFor="description"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
-            Description
+            Description{' '}
+            <span className="text-gray-500 text-sm">(optional)</span>
           </label>
           <textarea
             id="description"

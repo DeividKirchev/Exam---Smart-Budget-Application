@@ -75,50 +75,58 @@ export const SummaryCards: React.FC<SummaryCardsProps> = ({ period }) => {
         : 'text-gray-500';
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {/* Total Income Card */}
-      <div className="bg-white border border-gray-200 rounded-lg shadow p-6">
+      <div className="bg-white border border-gray-200 rounded-lg shadow p-4 md:p-6">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm text-gray-600 mb-1">Total Income</p>
-            <p className="text-2xl font-bold text-green-600">
+            <p className="text-xs md:text-sm text-gray-600 mb-1">
+              Total Income
+            </p>
+            <p className="text-xl md:text-2xl lg:text-3xl font-bold text-green-600">
               {formatCurrency(totalIncome)}
             </p>
           </div>
-          <div className="bg-green-100 p-3 rounded-full">
-            <TrendingUp className="w-6 h-6 text-green-500" />
+          <div className="bg-green-100 p-2 md:p-3 rounded-full">
+            <TrendingUp className="w-5 h-5 md:w-6 md:h-6 text-green-500" />
           </div>
         </div>
       </div>
 
       {/* Total Expenses Card */}
-      <div className="bg-white border border-gray-200 rounded-lg shadow p-6">
+      <div className="bg-white border border-gray-200 rounded-lg shadow p-4 md:p-6">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm text-gray-600 mb-1">Total Expenses</p>
-            <p className="text-2xl font-bold text-red-600">
+            <p className="text-xs md:text-sm text-gray-600 mb-1">
+              Total Expenses
+            </p>
+            <p className="text-xl md:text-2xl lg:text-3xl font-bold text-red-600">
               {formatCurrency(totalExpenses)}
             </p>
           </div>
-          <div className="bg-red-100 p-3 rounded-full">
-            <TrendingDown className="w-6 h-6 text-red-500" />
+          <div className="bg-red-100 p-2 md:p-3 rounded-full">
+            <TrendingDown className="w-5 h-5 md:w-6 md:h-6 text-red-500" />
           </div>
         </div>
       </div>
 
       {/* Net Balance Card */}
-      <div className="bg-white border border-gray-200 rounded-lg shadow p-6">
+      <div className="bg-white border border-gray-200 rounded-lg shadow p-4 md:p-6">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm text-gray-600 mb-1">Net Balance</p>
-            <p className={`text-2xl font-bold ${balanceColorClass}`}>
+            <p className="text-xs md:text-sm text-gray-600 mb-1">Net Balance</p>
+            <p
+              className={`text-xl md:text-2xl lg:text-3xl font-bold ${balanceColorClass}`}
+            >
               {formatCurrency(netBalance)}
             </p>
           </div>
           <div
-            className={`${balanceIconColorClass === 'text-green-500' ? 'bg-green-100' : balanceIconColorClass === 'text-red-500' ? 'bg-red-100' : 'bg-gray-100'} p-3 rounded-full`}
+            className={`${balanceIconColorClass === 'text-green-500' ? 'bg-green-100' : balanceIconColorClass === 'text-red-500' ? 'bg-red-100' : 'bg-gray-100'} p-2 md:p-3 rounded-full`}
           >
-            <Wallet className={`w-6 h-6 ${balanceIconColorClass}`} />
+            <Wallet
+              className={`w-5 h-5 md:w-6 md:h-6 ${balanceIconColorClass}`}
+            />
           </div>
         </div>
       </div>

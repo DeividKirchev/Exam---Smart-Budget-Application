@@ -12,12 +12,23 @@ import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
 import { getCategoryById } from '../constants/categories';
-import { Plus, Edit, Trash2, ArrowUp, ArrowDown } from 'lucide-react';
+import {
+  Plus,
+  Edit,
+  Trash2,
+  ArrowUp,
+  ArrowDown,
+  FileX,
+  Filter,
+} from 'lucide-react';
 import { format } from 'date-fns';
 import type { Transaction } from '../models/Transaction';
 import { ConfirmDialog } from '../components/common/ConfirmDialog';
 import { FilterPanel } from '../components/transactions/FilterPanel';
 import { filterTransactions } from '../utils/filterTransactions';
+import { CategoryBadge } from '../components/common/CategoryBadge';
+import { EmptyState } from '../components/common/EmptyState';
+import { LoadingSpinner } from '../components/common/LoadingSpinner';
 
 type SortColumn = 'date' | 'amount' | 'category';
 type SortDirection = 'asc' | 'desc';
@@ -181,8 +192,6 @@ const TransactionsList: React.FC = () => {
    * Renders transaction row for desktop table
    */
   const renderTableRow = (transaction: Transaction) => {
-    const category = getCategoryById(transaction.category);
-
     return (
       <tr key={transaction.id} className="border-b hover:bg-gray-50">
         <td className="px-4 py-3 text-sm text-gray-900">
@@ -192,17 +201,7 @@ const TransactionsList: React.FC = () => {
           {transaction.description}
         </td>
         <td className="px-4 py-3">
-          {category && (
-            <span
-              className="px-2 py-1 text-xs rounded-full"
-              style={{
-                backgroundColor: `${category.color}20`,
-                color: category.color,
-              }}
-            >
-              {category.name}
-            </span>
-          )}
+          <CategoryBadge categoryId={transaction.category} variant="compact" />
         </td>
         <td
           className={`px-4 py-3 text-sm font-semibold ${getAmountColor(transaction.type)}`}
@@ -246,8 +245,6 @@ const TransactionsList: React.FC = () => {
    * Renders transaction card for mobile layout
    */
   const renderCard = (transaction: Transaction) => {
-    const category = getCategoryById(transaction.category);
-
     return (
       <div
         key={transaction.id}
@@ -270,17 +267,7 @@ const TransactionsList: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2 mb-3">
-          {category && (
-            <span
-              className="px-2 py-1 text-xs rounded-full"
-              style={{
-                backgroundColor: `${category.color}20`,
-                color: category.color,
-              }}
-            >
-              {category.name}
-            </span>
-          )}
+          <CategoryBadge categoryId={transaction.category} variant="compact" />
           <span
             className={`px-2 py-1 text-xs rounded-full ${
               transaction.type === 'income'
@@ -316,10 +303,7 @@ const TransactionsList: React.FC = () => {
   if (loading) {
     return (
       <div className="max-w-6xl mx-auto p-6">
-        <div className="flex flex-col items-center justify-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4" />
-          <p className="text-gray-600">Loading transactions...</p>
-        </div>
+        <LoadingSpinner message="Loading transactions..." />
       </div>
     );
   }
@@ -359,17 +343,15 @@ const TransactionsList: React.FC = () => {
           </button>
         </div>
 
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-12 text-center">
-          <p className="text-gray-600 text-lg mb-4">
-            No transactions yet. Add your first transaction!
-          </p>
-          <button
-            onClick={() => navigate('/transactions/new')}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Add Transaction
-          </button>
-        </div>
+        <EmptyState
+          icon={<FileX size={64} />}
+          title="No transactions yet"
+          message="Add your first transaction to get started!"
+          action={{
+            label: 'Add Transaction',
+            onClick: () => navigate('/transactions/new'),
+          }}
+        />
       </div>
     );
   }
@@ -385,9 +367,11 @@ const TransactionsList: React.FC = () => {
       )}
 
       {/* Header */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Transactions</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+            Transactions
+          </h1>
           {filteredTransactions.length !== transactions.length && (
             <p className="text-sm text-gray-600 mt-1">
               Showing {filteredTransactions.length} of {transactions.length}{' '}
@@ -397,10 +381,11 @@ const TransactionsList: React.FC = () => {
         </div>
         <button
           onClick={() => navigate('/transactions/new')}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 whitespace-nowrap sm:min-w-[140px]"
+          aria-label="Add new transaction"
         >
-          <Plus className="w-5 h-5" />
-          Add Transaction
+          <Plus className="w-5 h-5 flex-shrink-0" />
+          <span>Add New</span>
         </button>
       </div>
 
@@ -452,14 +437,11 @@ const TransactionsList: React.FC = () => {
 
       {/* Filtered Empty State */}
       {sortedTransactions.length === 0 && transactions.length > 0 && (
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">
-          <p className="text-gray-600 text-lg mb-2">
-            No transactions match your filters.
-          </p>
-          <p className="text-gray-500 text-sm mb-4">
-            Try adjusting your criteria or clear all filters.
-          </p>
-        </div>
+        <EmptyState
+          icon={<Filter size={64} />}
+          title="No transactions match your filters"
+          message="Try adjusting your filters or clearing them to see all transactions."
+        />
       )}
 
       {/* Delete Confirmation Dialog */}

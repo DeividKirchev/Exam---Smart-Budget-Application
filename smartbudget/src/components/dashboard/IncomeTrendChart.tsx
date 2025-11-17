@@ -27,6 +27,7 @@ import {
 } from '../../services/calculationService';
 import { formatCurrency } from '../../utils/formatCurrency';
 import type { Period } from '../../models/Period';
+import { EmptyState } from '../common/EmptyState';
 
 /**
  * Props for IncomeTrendChart component
@@ -122,14 +123,16 @@ export const IncomeTrendChart: React.FC<IncomeTrendChartProps> = ({
   // Render empty state
   if (isEmpty) {
     return (
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-xl font-semibold mb-4 text-gray-900">
+      <div className="bg-white rounded-lg shadow min-h-[500px]">
+        <h2 className="text-xl font-semibold p-6 pb-0 text-gray-900">
           Income vs Expenses Trend
         </h2>
-        <div className="flex flex-col items-center justify-center py-12">
-          <BarChart3 className="w-16 h-16 text-gray-400 mb-4" />
-          <p className="text-gray-600">No transactions in this period</p>
-        </div>
+        <EmptyState
+          icon={<BarChart3 size={48} />}
+          title="No data to display"
+          message="No data to display for this period. Add transactions to see trends."
+          className="min-h-[400px]"
+        />
       </div>
     );
   }
@@ -141,7 +144,7 @@ export const IncomeTrendChart: React.FC<IncomeTrendChartProps> = ({
         Income vs Expenses Trend
       </h2>
       <ResponsiveContainer width="100%" height={400}>
-        <BarChart data={chartData}>
+        <BarChart data={chartData} margin={{ left: 0, right: 0 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
           <XAxis
             dataKey="date"
@@ -152,12 +155,7 @@ export const IncomeTrendChart: React.FC<IncomeTrendChartProps> = ({
             tickFormatter={value => formatCurrency(value)}
             tick={{ fill: '#6b7280', fontSize: 12 }}
             tickLine={{ stroke: '#d1d5db' }}
-            label={{
-              value: 'Amount (USD)',
-              angle: -90,
-              position: 'insideLeft',
-              fill: '#6b7280',
-            }}
+            width={90}
           />
           <Tooltip content={<CustomTooltip />} cursor={{ fill: '#f3f4f6' }} />
           <Legend wrapperStyle={{ paddingTop: '20px' }} iconType="square" />

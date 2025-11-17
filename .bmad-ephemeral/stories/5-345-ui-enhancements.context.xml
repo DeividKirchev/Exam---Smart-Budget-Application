@@ -1,0 +1,643 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>5</epicId>
+    <storyIds>5.3, 5.4, 5.5</storyIds>
+    <title>UI/UX Enhancements - Responsive Dashboard, Form UX, and Error States</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-16</generatedAt>
+    <generator>BMAD Story Context Workflow (Mutual Context)</generator>
+    <sourceStoryPaths>
+      .bmad-ephemeral/stories/5-3-responsive-dashboard-layout.md
+      .bmad-ephemeral/stories/5-4-form-ux-enhancements.md
+      .bmad-ephemeral/stories/5-5-error-states-empty-states.md
+    </sourceStoryPaths>
+    <note>
+      Mutual context file for three interconnected stories focusing on responsive design, form UX, and comprehensive error/empty state handling across the SmartBudget application.
+    </note>
+  </metadata>
+
+  <stories>
+    <story id="5.3" title="Responsive Dashboard Layout">
+      <asA>a user on any device</asA>
+      <iWant>the Dashboard to adapt to my screen size</iWant>
+      <soThat>I can view my financial summary comfortably on any device</soThat>
+      <keyFocus>
+        Implement responsive grid layouts for Dashboard page, ensuring optimal component arrangement at mobile (≤767px), tablet (768-1023px), and desktop (≥1024px) breakpoints. Charts must be wrapped in ResponsiveContainer, widgets must adapt item counts, and all components must maintain readability without horizontal scrolling.
+      </keyFocus>
+    </story>
+
+    <story id="5.4" title="Form UX Enhancements">
+      <asA>a user</asA>
+      <iWant>forms to be intuitive and provide helpful feedback</iWant>
+      <soThat>I can add/edit transactions quickly without confusion</soThat>
+      <keyFocus>
+        Enhance TransactionForm with autofocus on Amount field, smart defaults (today's date, "Expense" type), dynamic category filtering based on income/expense selection, real-time inline validation with clear error messages, loading states during submission, and optimized mobile keyboard types (numeric for amount, date picker for date).
+      </keyFocus>
+    </story>
+
+    <story id="5.5" title="Error States & Empty States">
+      <asA>a user</asA>
+      <iWant>clear messaging when errors occur or when there's no data</iWant>
+      <soThat>I understand what's happening and what to do next</soThat>
+      <keyFocus>
+        Create reusable EmptyState, ErrorMessage, and LoadingSpinner components. Implement comprehensive empty states (no transactions, no chart data, no filtered results) with helpful messages and CTAs. Add user-friendly error handling for form validation, storage quota errors, and component crashes (Error Boundary). All messages must be actionable and free of technical jargon.
+      </keyFocus>
+    </story>
+  </stories>
+
+  <sharedContext>
+    <commonGoals>
+      - Deliver exceptional UX across all devices (mobile, tablet, desktop)
+      - Provide clear, immediate feedback for all user interactions
+      - Guide users toward successful task completion with helpful messages
+      - Maintain visual consistency through reusable components (CategoryBadge, EmptyState, ErrorMessage)
+      - Meet WCAG AA accessibility standards (keyboard navigation, ARIA labels, touch targets ≥44x44px)
+      - Ensure performance targets: UI responsiveness <100ms, chart rendering <2s, no layout shifts
+    </commonGoals>
+
+    <sharedDependencies>
+      - Tailwind CSS responsive utilities (sm:, md:, lg:, xl: breakpoints)
+      - Lucide React icons (already installed in Story 5.1 and 5.2)
+      - useMediaQuery hook (created in Story 5.1)
+      - CategoryBadge component (created in Story 5.2)
+      - React hooks: useState, useEffect, useRef, useMemo
+      - React Router: useNavigate (for CTAs), useLocation (for active route)
+      - Recharts: ResponsiveContainer for adaptive charts
+      - date-fns: format, isAfter, isValid (for date validation)
+    </sharedDependencies>
+
+    <sharedComponents>
+      <component name="CategoryBadge" path="src/components/common/CategoryBadge.tsx" status="CREATED_IN_5.2">
+        Reusable component displaying category with icon and color. Use variant prop ('compact', 'default', 'large') to adjust size per breakpoint. Apply in responsive layouts, forms, and error messages.
+      </component>
+
+      <component name="useMediaQuery" path="src/hooks/useMediaQuery.ts" status="CREATED_IN_5.1">
+        Custom hook for breakpoint detection. Use to conditionally render components or adjust behavior based on screen size. Example: useMediaQuery('(max-width: 767px)') returns true on mobile.
+      </component>
+
+      <component name="EmptyState" path="src/components/common/EmptyState.tsx" status="TO_CREATE_IN_5.5">
+        Reusable empty state component with icon, title, message, and optional CTA button. Use in Dashboard (no data), TransactionsList (no transactions), and filtered results (no matches).
+      </component>
+
+      <component name="ErrorMessage" path="src/components/common/ErrorMessage.tsx" status="TO_CREATE_IN_5.5">
+        Reusable error display component with type (error/warning/info), icon, message, and optional dismiss button. Use for form validation errors, storage errors, and general error handling.
+      </component>
+
+      <component name="LoadingSpinner" path="src/components/common/LoadingSpinner.tsx" status="TO_CREATE_IN_5.5">
+        Reusable loading indicator with size prop (sm/md/lg) and optional message. Use during async operations (form submission, data loading) to prevent user confusion.
+      </component>
+    </sharedComponents>
+
+    <responsiveBreakpoints>
+      - Mobile: ≤767px (single column layouts, hamburger menu, touch-optimized)
+      - Tablet: 768-1023px (2-column grids, compact spacing)
+      - Desktop: ≥1024px (3-column grids, full horizontal layouts)
+      - Tailwind prefixes: md: (768px+), lg: (1024px+), xl: (1280px+)
+    </responsiveBreakpoints>
+
+    <designPatterns>
+      <pattern name="Mobile-First Responsive">
+        Base styles for mobile (no prefix), add md: for tablet, lg: for desktop. Example: grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ensures progressive enhancement.
+      </pattern>
+
+      <pattern name="Inline Validation">
+        Validate fields on blur, display errors inline below field (not alert/toast). Clear errors when user corrects input. Show success state when valid.
+      </pattern>
+
+      <pattern name="Loading States">
+        Disable submit buttons during async operations, show spinner with "Saving..." text, prevent double-submission. Re-enable button on success/error.
+      </pattern>
+
+      <pattern name="Empty State Guidance">
+        When no data exists, show helpful empty state with: icon (visual interest), title (what's missing), message (why/how to fix), CTA button (actionable next step).
+      </pattern>
+
+      <pattern name="Error Recovery">
+        When errors occur, provide: clear explanation (what went wrong), actionable guidance (what to do next), recovery option (retry/dismiss button). Never show stack traces or technical errors.
+      </pattern>
+    </designPatterns>
+  </sharedContext>
+
+  <acceptanceCriteria>
+    <!-- Story 5.3: Responsive Dashboard Layout -->
+    <criteria story="5.3">
+      AC-5.3.1: Mobile Layout (≤767px)
+      - Single column layout with stacked components (grid-cols-1)
+      - Component order: Summary Cards → Period Selector → Charts → Recent Transactions
+      - No horizontal scrolling
+      - Charts are resizable and readable (ResponsiveContainer)
+      - Touch interactions work smoothly (chart interactions, period selector)
+      - Text and buttons appropriately sized for mobile
+
+      AC-5.3.2: Tablet Layout (768-1023px)
+      - 2-column grid layout where appropriate (grid-cols-2)
+      - Summary cards in 2-column grid (3 cards total)
+      - Charts positioned side-by-side if space allows
+      - Responsive chart sizing
+      - No horizontal scrolling
+      - Touch-friendly interactions maintained
+
+      AC-5.3.3: Desktop Layout (≥1024px)
+      - Multi-column dashboard with optimal space usage (grid-cols-3)
+      - Summary cards in 3-column grid
+      - Charts positioned for maximum readability
+      - Recent transactions in dedicated sidebar or bottom section
+      - Efficient use of screen real estate
+
+      AC-5.3.4: Chart Responsiveness
+      - All charts (pie chart, trend chart) wrapped in ResponsiveContainer
+      - Charts maintain aspect ratio and readability at all breakpoints
+      - Chart tooltips and legends remain accessible on touch devices
+      - Chart labels don't overlap or become unreadable
+
+      AC-5.3.5: Adaptive Component Sizing
+      - Summary card text sizes adjust per breakpoint (text-sm md:text-base lg:text-lg)
+      - Period selector dropdown/buttons sized appropriately
+      - Recent transactions widget adapts (fewer items on mobile: 3-5, more on desktop: 5-10)
+      - Spacing and padding optimized for each breakpoint (p-4 md:p-6 lg:p-8)
+    </criteria>
+
+    <!-- Story 5.4: Form UX Enhancements -->
+    <criteria story="5.4">
+      AC-5.4.1: Auto-focus and Smart Defaults
+      - Amount field receives auto-focus when form opens
+      - Date field defaults to today's date (format(new Date(), 'yyyy-MM-dd'))
+      - Type field defaults to "Expense" (most common use case)
+      - Description field is optional (clearly marked)
+
+      AC-5.4.2: Dynamic Category Filtering
+      - Category dropdown filters based on Income/Expense toggle
+      - When user selects "Income", only income categories shown
+      - When user selects "Expense", only expense categories shown
+      - Category selection resets when type changes (if invalid for new type)
+
+      AC-5.4.3: Real-time Validation with Inline Errors
+      - Amount validates on blur: must be > 0, max 2 decimals
+      - Date validates on blur: must be valid date, not future date
+      - Category validates on blur: must be selected
+      - Validation errors show inline below field (not alert/toast)
+      - Error messages are clear and actionable (e.g., "Amount must be greater than $0")
+
+      AC-5.4.4: Visual States and Feedback
+      - Fields have clear visual states: default, focus, error, success
+      - Focus state: blue border, subtle shadow (focus:ring-2 focus:ring-blue-500)
+      - Error state: red border, red error text below (border-red-500)
+      - Success state (optional): green checkmark after validation passes
+      - Helpful placeholder text in all fields
+
+      AC-5.4.5: Mobile Keyboard Optimization
+      - Amount field uses numeric keyboard on mobile (inputMode="decimal", type="number")
+      - Date field uses native date picker on mobile (type="date")
+      - Description field uses standard text keyboard
+      - All fields properly labeled for screen readers (aria-label)
+
+      AC-5.4.6: Submit Button States
+      - Submit button disabled until form is valid
+      - Disabled state: gray, not clickable, cursor not-allowed (bg-gray-300 text-gray-500)
+      - Enabled state: blue, clickable, cursor pointer (bg-blue-600 hover:bg-blue-700)
+      - Loading state: spinner shown during save, button text "Saving..."
+      - Success feedback: "Transaction saved!" message after successful save
+
+      AC-5.4.7: Cancel and Reset Behavior
+      - "Cancel" button clears form and navigates back to previous page
+      - Confirmation prompt if form has unsaved changes ("Discard unsaved changes?")
+      - "Reset" button (optional) clears all fields but stays on form
+    </criteria>
+
+    <!-- Story 5.5: Error States & Empty States -->
+    <criteria story="5.5">
+      AC-5.5.1: Empty Transactions List State
+      - When no transactions exist, show friendly empty state
+      - Message: "No transactions yet. Add your first transaction to get started!"
+      - Include visual element (icon: FileX or Inbox from Lucide)
+      - Display prominent "Add Transaction" call-to-action button
+      - Empty state centered and visually appealing
+
+      AC-5.5.2: Empty Chart Data States
+      - Expense Breakdown Chart: "No expenses to display for this period. Try selecting a different date range."
+      - Income vs Expenses Chart: "No data to display for this period. Add transactions to see trends."
+      - Empty state replaces chart (don't show empty/broken chart)
+      - Include helpful suggestion (change period or add transactions)
+      - Maintain chart container dimensions (no layout shift)
+
+      AC-5.5.3: Empty Dashboard State (No Transactions)
+      - Summary cards show $0.00 with clear indication
+      - Period selector still functional
+      - Charts show appropriate empty states
+      - Recent transactions widget shows empty state
+      - Overall message: "Welcome to SmartBudget! Add your first transaction to start tracking your finances."
+
+      AC-5.5.4: Empty Filtered Results
+      - When filter/search returns no results: "No transactions match your filters."
+      - Include "Clear Filters" button to reset
+      - Show count of active filters (e.g., "3 filters active")
+      - Suggest alternative actions (adjust filters, add transaction)
+
+      AC-5.5.5: Storage/Network Errors
+      - LocalStorage quota exceeded: "Unable to save. Your browser storage is full. Please free up space."
+      - LocalStorage read error: "Unable to load your data. Please refresh the page."
+      - Generic save error: "Oops! Something went wrong. Please try again."
+      - Error messages user-friendly (no technical jargon)
+      - Errors don't break the application (graceful degradation)
+
+      AC-5.5.6: Form Validation Errors
+      - Specific field errors shown inline (handled in AC-5.4.3)
+      - Form submission error: "Please fix the errors above before submitting."
+      - Errors are actionable and clear
+
+      AC-5.5.7: Loading States
+      - Show loading spinner while fetching/saving data
+      - Loading message: "Loading transactions..." or "Saving..."
+      - Skeleton screens for dashboard components (optional enhancement)
+      - No flickering or layout shifts during loading
+
+      AC-5.5.8: Error Boundaries
+      - React Error Boundary catches component crashes
+      - Fallback UI: "Something went wrong. Please refresh the page."
+      - Error logged to console for debugging
+      - Application remains functional outside crashed component
+    </criteria>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <!-- Architecture Documentation -->
+      <doc path="docs/architecture.md" title="System Architecture" section="Technology Stack Details - UI & Styling">
+        Tailwind CSS 4.0 utility-first framework with responsive utilities (sm:, md:, lg:, xl: breakpoints). Lucide React icon library (tree-shakeable, modern). Mobile-first responsive design pattern. Recharts ResponsiveContainer for adaptive chart sizing.
+      </doc>
+
+      <doc path="docs/architecture.md" title="System Architecture" section="Component Patterns">
+        Functional components with TypeScript. Custom hooks pattern for reusable logic (useMediaQuery, usePeriod, useTransactions). Event handlers: handle prefix. State setters: set prefix. Memoization with useMemo for expensive calculations.
+      </doc>
+
+      <doc path="docs/architecture.md" title="System Architecture" section="Error Handling">
+        Form validation errors shown inline with clear user messages. Storage errors wrapped in try-catch with user-friendly fallback. React Error Boundary for component crashes. Never show technical error messages to users. Always log errors to console for debugging.
+      </doc>
+
+      <doc path="docs/architecture.md" title="System Architecture" section="Chart Data Transformation Patterns">
+        ResponsiveContainer pattern for Recharts: wrap all charts in ResponsiveContainer with width="100%" and dynamic height. Charts automatically resize based on container width. Custom Tooltip pattern for user-friendly tooltips.
+      </doc>
+
+      <!-- PRD Requirements -->
+      <doc path="docs/PRD.md" title="Product Requirements Document" section="FR-5.1: Mobile Responsiveness">
+        Application must be fully functional on screens ≥320px wide. Touch-friendly UI elements (min 44x44px tap targets). Forms usable with on-screen keyboard. Charts readable and interactive on small screens. No horizontal scrolling required.
+      </doc>
+
+      <doc path="docs/PRD.md" title="Product Requirements Document" section="NFR-1.2: UI Responsiveness">
+        All user actions provide feedback within 100ms. Click-to-visual-response time for buttons, form interactions, navigation. Loading states prevent user confusion during async operations.
+      </doc>
+
+      <doc path="docs/PRD.md" title="Product Requirements Document" section="NFR-4.2: Error Handling & User Feedback">
+        Form validation errors shown inline with specific guidance. System errors display user-friendly messages (not technical stack traces). Loading states prevent user confusion. Success confirmations for important actions.
+      </doc>
+
+      <!-- Epic Tech Spec -->
+      <doc path=".bmad-ephemeral/stories/tech-spec-epic-5.md" title="Epic 5 Technical Specification" section="Story 5.3: Responsive Dashboard Layout Workflow">
+        Dashboard applies responsive grid based on breakpoint: Mobile (≤767px) grid-cols-1 single column stack. Tablet (768-1023px) grid-cols-2 two column layout. Desktop (≥1024px) grid-cols-3 three column layout. Charts wrapped in ResponsiveContainer automatically resize. Touch interactions work on mobile.
+      </doc>
+
+      <doc path=".bmad-ephemeral/stories/tech-spec-epic-5.md" title="Epic 5 Technical Specification" section="Story 5.4: Form UX Enhancement Workflow">
+        Amount field auto-focused on form open. Real-time validation on blur with inline error messages. Dynamic category filtering based on Income/Expense toggle. Submit button disabled until valid, shows spinner during save. Success message after save. Mobile keyboards optimized (numeric for amount, date picker for date).
+      </doc>
+
+      <doc path=".bmad-ephemeral/stories/tech-spec-epic-5.md" title="Epic 5 Technical Specification" section="Story 5.5: Error and Empty State Workflow">
+        Empty transaction list shows EmptyState with "Add Transaction" CTA. Empty charts show descriptive empty states. Form validation errors show inline ErrorMessage. Storage quota errors display user-friendly messages. Error Boundary catches component crashes with fallback UI.
+      </doc>
+    </docs>
+
+    <code>
+      <!-- Story 5.3: Dashboard Components -->
+      <artifact path="src/pages/Dashboard.tsx" kind="component" symbol="Dashboard" lines="" reason="Primary component to make responsive with grid layout. Apply grid-cols-1 md:grid-cols-2 lg:grid-cols-3 classes. Adjust spacing with p-4 md:p-6 lg:p-8. Use useMediaQuery for conditional rendering.">
+      </artifact>
+
+      <artifact path="src/components/dashboard/SummaryCards.tsx" kind="component" symbol="SummaryCards" lines="" reason="Apply responsive grid classes: grid-cols-1 md:grid-cols-2 lg:grid-cols-3. Adjust text sizes: text-sm md:text-base lg:text-lg. Ensure cards stack properly on mobile.">
+      </artifact>
+
+      <artifact path="src/components/dashboard/ExpenseBreakdownChart.tsx" kind="component" symbol="ExpenseBreakdownChart" lines="" reason="Wrap PieChart in ResponsiveContainer with width='100%' height={300} md:height={400}. Test chart on mobile - verify labels don't overlap. Add empty state when no data.">
+      </artifact>
+
+      <artifact path="src/components/dashboard/IncomeTrendChart.tsx" kind="component" symbol="IncomeTrendChart" lines="" reason="Wrap BarChart/LineChart in ResponsiveContainer. Adjust chart margins for mobile (smaller margins). Test chart tooltips on touch devices. Add empty state when no data.">
+      </artifact>
+
+      <artifact path="src/components/dashboard/PeriodSelector.tsx" kind="component" symbol="PeriodSelector" lines="" reason="Adjust button/dropdown sizes for mobile (full width on mobile). Use responsive text sizes (text-xs md:text-sm). Ensure dropdown doesn't overflow viewport on mobile. Test touch interactions.">
+      </artifact>
+
+      <artifact path="src/components/dashboard/RecentTransactionsWidget.tsx" kind="component" symbol="RecentTransactionsWidget" lines="" reason="Show fewer transactions on mobile (limit to 3-5 items using useMediaQuery). Show more transactions on desktop (5-10 items). Use responsive card/list layout. Add empty state when no transactions.">
+      </artifact>
+
+      <!-- Story 5.4: Form Components -->
+      <artifact path="src/components/transactions/TransactionForm.tsx" kind="component" symbol="TransactionForm" lines="" reason="Add autofocus on Amount field (useRef + useEffect). Set smart defaults (date=today, type='expense'). Implement dynamic category filtering (useMemo based on type). Add real-time validation (onBlur handlers). Implement submit button states (disabled, loading, success). Optimize mobile input types (inputMode='decimal', type='date').">
+      </artifact>
+
+      <artifact path="src/utils/validators.ts" kind="utility" symbol="validators" lines="" reason="Validation functions for form fields. validateAmount (>0, max 2 decimals), validateDate (valid date, not future), validateCategory (not empty). Return string error message or undefined if valid.">
+      </artifact>
+
+      <!-- Story 5.5: Common Components (To Create) -->
+      <artifact path="src/components/common/EmptyState.tsx" kind="component" symbol="EmptyState" lines="" reason="TO CREATE: Reusable empty state component. Props: icon (LucideIcon), title (string), message (string), actionLabel (string), onAction (function), className (string). Use in Dashboard, TransactionsList, filtered results.">
+      </artifact>
+
+      <artifact path="src/components/common/ErrorMessage.tsx" kind="component" symbol="ErrorMessage" lines="" reason="TO CREATE: Reusable error message component. Props: message (string), type (error/warning/info), dismissible (boolean), onDismiss (function), className (string). Color-coded by type. Use for form validation, storage errors.">
+      </artifact>
+
+      <artifact path="src/components/common/LoadingSpinner.tsx" kind="component" symbol="LoadingSpinner" lines="" reason="TO CREATE: Reusable loading spinner component. Props: size (sm/md/lg), message (string), className (string). Use Lucide Loader2 icon with animate-spin class. Use during async operations.">
+      </artifact>
+
+      <artifact path="src/components/common/ErrorBoundary.tsx" kind="component" symbol="ErrorBoundary" lines="" reason="TO CREATE: React Error Boundary class component. Catches component crashes, shows fallback UI with 'Refresh Page' button. Logs errors to console. Wrap App or major sections in ErrorBoundary.">
+      </artifact>
+
+      <!-- Existing Components Used in Multiple Stories -->
+      <artifact path="src/hooks/useMediaQuery.ts" kind="hook" symbol="useMediaQuery" lines="" reason="CREATED IN 5.1: Custom hook for breakpoint detection. Returns boolean based on media query match. Use to conditionally render components or adjust item counts.">
+      </artifact>
+
+      <artifact path="src/components/common/CategoryBadge.tsx" kind="component" symbol="CategoryBadge" lines="" reason="CREATED IN 5.2: Reusable category badge with icon and color. Use variant prop (compact/default/large) to adjust size per breakpoint. Apply in Dashboard, forms, error messages.">
+      </artifact>
+
+      <artifact path="src/utils/iconMapper.ts" kind="utility" symbol="iconMapper" lines="" reason="CREATED IN 5.2: Maps category icon strings to Lucide React components. Provides fallback icon if not found. Use in CategoryBadge and EmptyState components.">
+      </artifact>
+
+      <!-- TransactionsList for Empty States -->
+      <artifact path="src/pages/TransactionsList.tsx" kind="component" symbol="TransactionsList" lines="" reason="Add empty state when no transactions exist. Use EmptyState component with 'Add Transaction' CTA. Add empty filtered results state when filters return no results (with 'Clear Filters' button).">
+      </artifact>
+
+      <!-- Storage Service for Error Handling -->
+      <artifact path="src/services/storageService.ts" kind="service" symbol="storageService" lines="" reason="Wrap localStorage operations in try-catch. Detect QuotaExceededError specifically. Return error object {success: false, error: 'user-friendly message'}. Handle JSON parse errors gracefully.">
+      </artifact>
+
+      <!-- App.tsx for Error Boundary -->
+      <artifact path="src/App.tsx" kind="component" symbol="App" lines="" reason="Wrap application in ErrorBoundary component. Ensures component crashes are caught with fallback UI. Maintains app functionality outside crashed component.">
+      </artifact>
+    </code>
+
+    <dependencies>
+      <node>
+        <package name="react" version="^18.3.0" status="INSTALLED">Core React library - use useState, useEffect, useRef, useMemo, Component (for Error Boundary)</package>
+        <package name="react-router-dom" version="^6.30.0" status="INSTALLED">Routing library - use useNavigate for CTAs, useLocation for active route</package>
+        <package name="tailwindcss" version="^4.0.0" status="INSTALLED">CSS framework - use responsive utilities (md:, lg: prefixes), grid/flexbox classes, transition classes</package>
+        <package name="lucide-react" version="^0.469.0" status="INSTALLED">Icon library - use FileX, Inbox, AlertCircle, Loader2, BarChart3 icons for empty/error/loading states</package>
+        <package name="recharts" version="^2.15.0" status="INSTALLED">Charting library - use ResponsiveContainer to wrap PieChart, BarChart, LineChart for adaptive sizing</package>
+        <package name="date-fns" version="^4.1.0" status="INSTALLED">Date manipulation library - use format (default dates), isValid (date validation), isAfter (future date check)</package>
+        <package name="typescript" version="~5.6.0" status="INSTALLED">Type definitions for all components, hooks, and utilities</package>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <!-- Architectural Constraints -->
+    - Component-based architecture: All UI enhancements encapsulated in reusable components
+    - Separation of concerns: Styling via Tailwind classes only, no inline styles or CSS-in-JS
+    - Consistent naming: PascalCase for components, camelCase for functions/variables, use/handle prefixes for hooks/handlers
+    - Type safety: All components, hooks, and utilities fully typed with TypeScript interfaces
+    - File organization: Common components in src/components/common/, pages in src/pages/, hooks in src/hooks/, utils in src/utils/
+
+    <!-- Responsive Design Constraints -->
+    - Mobile-first responsive design: Base styles for mobile, use md: and lg: prefixes for tablet/desktop overrides
+    - No horizontal scrolling at any breakpoint (320px to 4K displays)
+    - Touch targets: All tap targets on mobile must be ≥44x44px (NFR-4.1)
+    - Grid layouts: Use CSS Grid with responsive cols (grid-cols-1 md:grid-cols-2 lg:grid-cols-3)
+    - Spacing: Use responsive spacing (p-4 md:p-6 lg:p-8, gap-4 md:gap-6 lg:gap-8)
+    - Text sizes: Use responsive text sizes (text-sm md:text-base lg:text-lg)
+
+    <!-- Form UX Constraints -->
+    - Autofocus: Only autofocus critical field (Amount) on form open, not on every render
+    - Validation timing: Validate on blur (not onChange) to avoid interrupting user input
+    - Error display: Show errors inline below fields, never in alerts/modals/toasts
+    - Loading states: Always disable submit button during async operations to prevent double-submission
+    - Success feedback: Provide immediate visual confirmation after successful save
+    - Mobile keyboards: Use correct input types (number, date, text) for optimal mobile experience
+
+    <!-- Error/Empty State Constraints -->
+    - User-friendly messages: Never show technical errors (stack traces, error codes) to users
+    - Actionable guidance: Every error/empty state must suggest clear next action
+    - Consistent components: Use EmptyState, ErrorMessage, LoadingSpinner components throughout app
+    - Graceful degradation: Errors must not break application, show fallback UI and allow recovery
+    - Console logging: Log all errors to console for debugging, even if hidden from user
+    - Layout stability: Empty/error states must maintain container dimensions to prevent layout shift
+
+    <!-- Performance Constraints -->
+    - UI responsiveness: All user actions must provide feedback within 100ms (NFR-1.2)
+    - Chart rendering: Charts must render within 2 seconds of data availability (NFR-1.3)
+    - Filter updates: Transaction filtering must update view in <500ms (NFR-1.4)
+    - Animation timing: Transitions and animations should complete in ≤300ms
+    - Memoization: Use useMemo for expensive calculations (filteredCategories, chartData, isFormValid)
+    - Layout reflows: Minimize layout shifts (CLS <0.1) by maintaining container dimensions
+
+    <!-- Accessibility Constraints -->
+    - Keyboard navigation: All interactive elements accessible via Tab, Enter, Escape keys
+    - ARIA attributes: All buttons, icons, and interactive elements must have appropriate aria-labels
+    - Focus management: Visible focus states (focus:ring-2 focus:ring-blue-500) on all interactive elements
+    - Screen reader support: Semantic HTML (button, nav, main), meaningful alt text, ARIA roles
+    - Color contrast: WCAG AA compliance (4.5:1 ratio for text, 3:1 for UI components)
+    - Touch accessibility: All tap targets ≥44x44px on mobile devices
+
+    <!-- Testing Constraints -->
+    - Manual testing required at exact breakpoints: 320px, 767px, 768px, 1023px, 1024px, 1920px
+    - Test on actual devices: iPhone SE (mobile), iPad (tablet), MacBook (desktop)
+    - Browser compatibility: Chrome, Firefox, Safari, Edge (latest 2 versions)
+    - Accessibility testing: Keyboard navigation without mouse, ARIA label verification
+    - Performance testing: Chrome DevTools Lighthouse score ≥90
+  </constraints>
+
+  <interfaces>
+    <!-- React Hooks -->
+    <interface name="useState" kind="react-hook" signature="useState<T>(initialValue: T): [T, Dispatch<SetStateAction<T>>]" path="react">
+      React hook for managing component state. Use for form data (formData, errors, touched), UI state (isMenuOpen, isSubmitting, isDirty), loading state (isLoading).
+    </interface>
+
+    <interface name="useEffect" kind="react-hook" signature="useEffect(effect: EffectCallback, deps?: DependencyList): void" path="react">
+      React hook for side effects. Use for autofocus (amountRef.current.focus()), event listeners (Escape key, click outside), tracking dirty state. Run effect when dependencies change.
+    </interface>
+
+    <interface name="useRef" kind="react-hook" signature="useRef<T>(initialValue: T): RefObject<T>" path="react">
+      React hook for mutable ref object. Use for amountRef to autofocus input field, menuRef to detect clicks outside. Attach to DOM elements via ref prop.
+    </interface>
+
+    <interface name="useMemo" kind="react-hook" signature="useMemo<T>(factory: () => T, deps: DependencyList): T" path="react">
+      React hook for memoizing expensive calculations. Use for filteredCategories (based on type), isFormValid (based on formData), chartData (based on transactions and period). Prevents unnecessary re-calculations.
+    </interface>
+
+    <!-- Custom Hooks -->
+    <interface name="useMediaQuery" kind="custom-hook" signature="useMediaQuery(query: string): boolean" path="src/hooks/useMediaQuery.ts">
+      Custom React hook returning boolean indicating if media query matches current viewport. Uses window.matchMedia API. Updates on window resize. Example: useMediaQuery('(max-width: 767px)') returns true on mobile.
+    </interface>
+
+    <interface name="usePeriod" kind="custom-hook" signature="usePeriod(): { selectedPeriod: Period, setPeriod: (period: Period) => void }" path="src/hooks/usePeriod.ts">
+      Custom hook for managing selected period state. Returns current period and setter function. Use in Dashboard to get period for filtering transactions and charts.
+    </interface>
+
+    <!-- React Router Hooks -->
+    <interface name="useNavigate" kind="react-router-hook" signature="useNavigate(): NavigateFunction" path="react-router-dom">
+      React Router hook for programmatic navigation. Use for CTA buttons (navigate('/transactions/new')), cancel buttons (navigate(-1)), success redirects. Example: navigate('/dashboard') after save.
+    </interface>
+
+    <interface name="useLocation" kind="react-router-hook" signature="useLocation(): Location" path="react-router-dom">
+      React Router hook returning current location object with pathname property. Use to detect active route for navigation highlighting, track form state across routes.
+    </interface>
+
+    <!-- Validation Functions -->
+    <interface name="validateAmount" kind="utility-function" signature="validateAmount(amount: string): string | undefined" path="src/utils/validators.ts">
+      Validation function for amount field. Returns error message string if invalid, undefined if valid. Checks: amount > 0, max 2 decimals. Example: validateAmount('-10') returns "Amount must be greater than $0".
+    </interface>
+
+    <interface name="validateDate" kind="utility-function" signature="validateDate(date: string): string | undefined" path="src/utils/validators.ts">
+      Validation function for date field. Returns error message string if invalid, undefined if valid. Checks: valid date format, not in future. Uses date-fns isValid and isAfter functions.
+    </interface>
+
+    <interface name="validateCategory" kind="utility-function" signature="validateCategory(category: string): string | undefined" path="src/utils/validators.ts">
+      Validation function for category field. Returns error message string if invalid, undefined if valid. Checks: category is not empty, exists in CATEGORIES constant.
+    </interface>
+
+    <!-- Date-fns Functions -->
+    <interface name="format" kind="date-function" signature="format(date: Date, formatStr: string): string" path="date-fns">
+      Formats Date object to string. Use for default date value: format(new Date(), 'yyyy-MM-dd'). Use for display formatting: format(date, 'MMM dd, yyyy').
+    </interface>
+
+    <interface name="isValid" kind="date-function" signature="isValid(date: Date): boolean" path="date-fns">
+      Checks if Date object is valid. Use in validateDate to ensure date is parseable. Returns false for invalid dates (e.g., new Date('invalid')).
+    </interface>
+
+    <interface name="isAfter" kind="date-function" signature="isAfter(date: Date, dateToCompare: Date): boolean" path="date-fns">
+      Checks if first date is after second date. Use in validateDate to prevent future dates: isAfter(selectedDate, new Date()) returns true if date is in future.
+    </interface>
+
+    <!-- Recharts Components -->
+    <interface name="ResponsiveContainer" kind="recharts-component" signature="<ResponsiveContainer width={string|number} height={number} />" path="recharts">
+      Recharts component for responsive chart sizing. Always wrap charts in ResponsiveContainer with width="100%" and dynamic height. Charts automatically resize based on container width.
+    </interface>
+
+    <!-- Lucide Icons -->
+    <interface name="Lucide Icons" kind="react-component" signature="<IconName size={number} className={string} />" path="lucide-react">
+      Lucide React icon components. Import: FileX, Inbox (empty states), AlertCircle (errors), Loader2 (loading), BarChart3 (empty charts). Size prop for icon dimensions. ClassName for Tailwind styling.
+    </interface>
+
+    <!-- Component Props -->
+    <interface name="EmptyStateProps" kind="component-props" signature="{ icon?: LucideIcon, title: string, message: string, actionLabel?: string, onAction?: () => void, className?: string }" path="src/components/common/EmptyState.tsx">
+      Props for EmptyState component. icon: Lucide icon component (optional, defaults to FileX). title: main heading. message: description text. actionLabel: CTA button label (optional). onAction: CTA button click handler (optional). className: additional Tailwind classes (optional).
+    </interface>
+
+    <interface name="ErrorMessageProps" kind="component-props" signature="{ message: string, type?: 'error' | 'warning' | 'info', dismissible?: boolean, onDismiss?: () => void, className?: string }" path="src/components/common/ErrorMessage.tsx">
+      Props for ErrorMessage component. message: error message text. type: severity level (defaults to 'error'). dismissible: show dismiss button (defaults to false). onDismiss: dismiss handler (optional). className: additional Tailwind classes (optional).
+    </interface>
+
+    <interface name="LoadingSpinnerProps" kind="component-props" signature="{ size?: 'sm' | 'md' | 'lg', message?: string, className?: string }" path="src/components/common/LoadingSpinner.tsx">
+      Props for LoadingSpinner component. size: spinner size (defaults to 'md'). message: loading message text (optional). className: additional Tailwind classes (optional).
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>
+      Manual testing required for responsive behavior, form UX, and error/empty states. Use Chrome DevTools for breakpoint testing (320px, 767px, 768px, 1023px, 1024px, 1920px). Test on actual mobile devices if possible (iPhone, iPad, Android). Verify ARIA attributes with browser accessibility inspector. Use Lighthouse for WCAG AA compliance check and performance metrics. Test keyboard navigation without mouse (Tab, Enter, Escape). Test form validation with various invalid inputs. Test empty states by deleting all transactions. Test error states by filling LocalStorage, corrupting data, forcing component crashes.
+    </standards>
+
+    <locations>
+      - Manual testing: Browser DevTools responsive mode
+      - Accessibility testing: Browser DevTools accessibility inspector
+      - Performance testing: Chrome DevTools Lighthouse (target score ≥90)
+      - Cross-browser testing: Chrome, Firefox, Safari, Edge (desktop and mobile)
+      - Cross-device testing: iPhone SE (320px), iPad (768px), MacBook (1024px+)
+    </locations>
+
+    <ideas>
+      <!-- Story 5.3: Responsive Dashboard Testing -->
+      AC-5.3.1-5.3.5: Test responsive dashboard layout
+      - Open Dashboard at 320px width → verify single column layout (grid-cols-1)
+      - Verify Summary Cards stack in 3 rows (Income, Expenses, Balance)
+      - Verify Period Selector full-width
+      - Verify Charts stack vertically (each full-width)
+      - Verify Recent Transactions full-width with 3-5 items
+      - Verify no horizontal scrolling
+      - Resize to 768px → verify 2-column layout (grid-cols-2)
+      - Verify Summary Cards span 2 columns
+      - Verify Charts side-by-side
+      - Resize to 1024px → verify 3-column layout (grid-cols-3)
+      - Verify efficient use of screen space
+      - Test chart tooltips on touch devices (tap chart segment)
+      - Verify chart labels readable at all breakpoints
+      - Verify text sizes adjust (text-sm on mobile, text-base on tablet, text-lg on desktop)
+      - Verify spacing adjusts (p-4 on mobile, p-6 on tablet, p-8 on desktop)
+
+      <!-- Story 5.4: Form UX Testing -->
+      AC-5.4.1-5.4.7: Test form UX enhancements
+      - Open transaction form → verify Amount field auto-focused
+      - Verify Date defaults to today (format: yyyy-MM-dd)
+      - Verify Type defaults to "Expense"
+      - Verify Description marked as optional
+      - Enter invalid amount ("-10") → blur field → verify inline error: "Amount must be greater than $0"
+      - Enter valid amount ("100.50") → blur field → verify error clears
+      - Select "Income" type → verify Category dropdown shows only income categories
+      - Switch to "Expense" type → verify Category dropdown shows only expense categories
+      - Select Income category, then switch to Expense → verify category resets
+      - Leave all fields empty → click Submit → verify inline errors on all required fields
+      - Fill all fields validly → verify Submit button enabled (blue, clickable)
+      - Click Submit → verify loading state (spinner, "Saving...", button disabled)
+      - After save success → verify success message "Transaction saved!"
+      - Verify form clears and focus returns to Amount field
+      - Test on mobile → verify Amount field shows numeric keyboard (inputMode="decimal")
+      - Test on mobile → verify Date field shows native date picker (type="date")
+      - Edit form with changes → click Cancel → verify confirmation: "Discard unsaved changes?"
+      - Click Cancel without changes → verify immediate navigation back
+
+      <!-- Story 5.5: Error and Empty State Testing -->
+      AC-5.5.1-5.5.8: Test error and empty states
+      - Delete all transactions → navigate to /transactions → verify EmptyState shown
+      - Verify message: "No transactions yet. Add your first transaction to get started!"
+      - Verify "Add Transaction" CTA button visible and functional
+      - Navigate to Dashboard with no transactions → verify Summary Cards show $0.00
+      - Verify charts show empty states: "No data to display for this period."
+      - Verify Recent Transactions shows empty state
+      - Add transactions → filter by category with no matches → verify EmptyState: "No transactions match your filters."
+      - Verify "Clear Filters" button shown and functional
+      - Fill LocalStorage to quota → attempt to save transaction → verify error: "Unable to save. Your browser storage is full."
+      - Corrupt localStorage data → reload app → verify error: "Unable to load your data. Please refresh the page."
+      - Submit form with validation errors → verify inline errors shown below fields
+      - Verify error messages user-friendly (no stack traces or technical jargon)
+      - Force component crash (throw error in render) → verify Error Boundary shows fallback UI
+      - Verify fallback message: "Something went wrong. Please refresh the page."
+      - Verify "Refresh Page" button functional
+      - Test loading states during async operations (spinner shown, no flickering)
+      - Verify no layout shifts when switching between empty/error/loaded states
+    </ideas>
+  </tests>
+
+  <implementationNotes>
+    <note priority="CRITICAL" category="Execution Order">
+      These three stories have dependencies and should be implemented in specific order:
+      1. Story 5.5 FIRST: Create reusable components (EmptyState, ErrorMessage, LoadingSpinner, ErrorBoundary)
+      2. Story 5.4 SECOND: Enhance forms using EmptyState for empty categories, ErrorMessage for validation, LoadingSpinner for submission
+      3. Story 5.3 THIRD: Make Dashboard responsive using EmptyState for no data, useMediaQuery for breakpoints, ResponsiveContainer for charts
+
+      This order ensures reusable components exist before they're needed in forms and dashboard.
+    </note>
+
+    <note priority="HIGH" category="Responsive Testing">
+      Test at exact breakpoint boundaries (767px → 768px, 1023px → 1024px) to catch transition bugs. Use Chrome DevTools device toolbar with responsive mode. Test portrait and landscape orientations on tablet. Verify no horizontal scrolling by scrolling horizontally at each breakpoint. Test touch interactions on actual mobile devices (not just browser simulation) to verify 44x44px tap targets are truly usable.
+    </note>
+
+    <note priority="HIGH" category="Form Validation">
+      Validation timing is critical for good UX: validate on blur (not onChange) to avoid interrupting user input. Clear errors when user corrects input (onChange after error shown). Validate all fields on submit before allowing submission. Use useMemo for isFormValid calculation to avoid unnecessary re-renders. Provide specific, actionable error messages (not generic "Invalid input").
+    </note>
+
+    <note priority="MEDIUM" category="Performance Optimization">
+      Use useMemo for expensive calculations: filteredCategories (Story 5.4), isFormValid (Story 5.4), chartData transformations (Story 5.3), adaptive item counts (Story 5.3). Memoize useMediaQuery results in custom hook to avoid constant re-evaluation. Use React.memo for CategoryBadge, EmptyState, ErrorMessage if re-render performance becomes issue. Test with React DevTools Profiler to identify slow components.
+    </note>
+
+    <note priority="MEDIUM" category="Accessibility Compliance">
+      All interactive elements must have ARIA labels: hamburger menu (aria-label, aria-expanded, aria-controls), submit buttons (aria-disabled when disabled), loading spinners (aria-busy, role="status"), error messages (role="alert", aria-live="polite"). Test keyboard navigation: Tab cycles through interactive elements, Enter activates buttons/links, Escape closes modals/menus. Verify focus states visible with keyboard navigation (focus:ring-2 focus:ring-blue-500). Test with screen reader (basic test - ensure content is read).
+    </note>
+
+    <note priority="MEDIUM" category="Error Boundary Implementation">
+      Error Boundary must be class component (React limitation - hooks don't work for error boundaries). Use static getDerivedStateFromError to update state when error caught. Use componentDidCatch to log error to console. Wrap entire App or major sections (Dashboard, TransactionsList) in ErrorBoundary. Test by intentionally throwing error in component: throw new Error('Test error boundary'). Verify fallback UI shows and app remains functional outside crashed component.
+    </note>
+
+    <note priority="LOW" category="Empty State Customization">
+      EmptyState component should be flexible with optional props: icon (defaults to FileX if not provided), actionLabel (CTA button only shown if provided), onAction (button only clickable if provided). Consider adding variant prop ('centered', 'left-aligned') for different layouts. Add className prop for additional styling flexibility. Test with various icon sizes and messages to ensure layout doesn't break.
+    </note>
+
+    <note priority="LOW" category="Chart Responsive Behavior">
+      ResponsiveContainer must have explicit height (not 100%) to avoid layout issues. Use dynamic height based on breakpoint: height={300} (mobile), height={400} (desktop). Test chart resize behavior by resizing browser window - charts should smoothly resize without flickering. Verify chart tooltips work on touch devices by tapping chart segments. Consider reducing chart data points on mobile for better performance (aggregate if >50 points).
+    </note>
+
+    <note priority="LOW" category="Loading State Best Practices">
+      Show loading spinner immediately when async operation starts (don't wait for delay). Disable all interactive elements during loading to prevent double-submission. Use descriptive loading messages: "Saving transaction...", "Loading dashboard...", "Updating data...". Consider adding skeleton screens (optional enhancement) for smoother loading transitions. Test loading states with network throttling (Chrome DevTools) to simulate slow connections.
+    </note>
+  </implementationNotes>
+</story-context>

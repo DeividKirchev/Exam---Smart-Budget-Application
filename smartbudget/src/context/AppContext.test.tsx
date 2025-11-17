@@ -6,7 +6,6 @@
 
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { render, renderHook, act, waitFor } from '@testing-library/react';
-import React from 'react';
 import { AppProvider, useAppContext } from './AppContext';
 import type { Transaction } from '../models/Transaction';
 import type { Period } from '../models/Period';
@@ -15,7 +14,7 @@ import type { Period } from '../models/Period';
 vi.mock('../services/storageService', () => ({
   storageService: {
     loadTransactions: vi.fn(() => []),
-    loadSettings: vi.fn(() => ({ selectedPeriod: null })),
+    loadSettings: vi.fn(() => ({ selectedPeriod: undefined })),
     saveSettings: vi.fn(),
     addTransaction: vi.fn(transaction => ({
       ...transaction,
@@ -72,7 +71,7 @@ describe('AppContext', () => {
     const { storageService } = await import('../services/storageService');
     vi.mocked(storageService.loadTransactions).mockReturnValue([]);
     vi.mocked(storageService.loadSettings).mockReturnValue({
-      selectedPeriod: null,
+      selectedPeriod: undefined,
     });
     vi.mocked(storageService.addTransaction).mockImplementation(
       transaction => ({
@@ -302,8 +301,8 @@ describe('AppContext', () => {
     it('should set error state if validation fails', async () => {
       const { validateTransactionData } = await import('../utils/validators');
       vi.mocked(validateTransactionData).mockReturnValue({
-        isValid: false,
-        errors: ['Amount is required', 'Date is invalid'],
+        valid: false,
+        errors: { amount: 'Amount is required', date: 'Date is invalid' },
       });
 
       const { result } = renderHook(() => useAppContext(), {

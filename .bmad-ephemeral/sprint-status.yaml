@@ -74,11 +74,11 @@ development_status:
   5-5-error-states-empty-states: done
   epic-5-retrospective: optional
 
-  epic-6: backlog
-  6-1-manual-testing-bug-fixes: backlog
+  epic-6: contexted
+  6-1-manual-testing-bug-fixes: done
   6-2-code-documentation-comments: skip
-  6-3-readme-documentation: backlog
+  6-3-readme-documentation: done
   6-4-create-summary-md-ai-impact-analysis: skip
-  6-5-deploy-application-to-production: backlog
+  6-5-deploy-application-to-production: ready-for-dev
   6-6-final-repository-polish: backlog
   epic-6-retrospective: optional

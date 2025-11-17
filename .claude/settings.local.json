@@ -33,7 +33,11 @@
       "Bash(npm run test:*)",
       "Bash(npm run test:coverage:*)",
       "SlashCommand(/bmad:bmm:workflows:create-story)",
-      "Bash(npm test:*)"
+      "Bash(npm test:*)",
+      "SlashCommand(/bmad:bmm:agents:sm)",
+      "Bash(test:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(Out-File -Append -Encoding utf8 \"d:\\Projects\\React Udemy\\Mine\\AI First\\Exam - Smart Budget Application\\prompts.md\")"
     ],
     "deny": [],
     "ask": []

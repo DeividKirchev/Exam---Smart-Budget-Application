@@ -1,0 +1,641 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>6</epicId>
+    <storyId>6.5</storyId>
+    <title>Deploy Application to Production</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-17</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>.bmad-ephemeral/stories/6-5-deploy-application-to-production.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>the project owner</asA>
+    <iWant>the application deployed and publicly accessible</iWant>
+    <soThat>it can be demonstrated and evaluated</soThat>
+    <tasks>
+- [ ] **Task 1**: Verify production build works locally (AC: #1, #2)
+- [ ] **Task 2**: Test production build locally (AC: #2)
+- [ ] **Task 3**: Set up hosting platform account (AC: #3)
+- [ ] **Task 4**: Configure deployment settings (AC: #3)
+- [ ] **Task 5**: Execute initial deployment (AC: #4)
+- [ ] **Task 6**: Verify application functions in production (AC: #5)
+- [ ] **Task 7**: Test production performance (AC: #6)
+- [ ] **Task 8**: Update documentation with production URL (AC: #7)
+- [ ] **Task 9**: Validate automatic deployment workflow (AC: #8)
+- [ ] **Task 10**: Cross-browser production testing (AC: #9)
+- [ ] **Task 11**: Final production validation (AC: #10)
+- [ ] **Task 12**: Create deployment summary (AC: #10)
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+### AC-1: Production Build Successful
+**Given** the application has been tested and is ready for deployment
+**When** running the production build command
+**Then**:
+- `npm run build` completes successfully with exit code 0
+- Production bundle created in `/dist` folder
+- TypeScript compilation completes without errors
+- Build output shows minified JavaScript, purged CSS, hashed filenames, source maps
+- Bundle size reasonable (<1MB, preferably <700KB)
+- No build warnings or errors
+- Build completes in <60 seconds (NFR-P2)
+
+### AC-2: Local Production Preview Verified
+**Given** production build completed successfully
+**When** running `npm run preview`
+**Then**:
+- Preview server starts at http://localhost:4173
+- Application loads and functions correctly in production mode
+- All features work (Transaction CRUD, Dashboard, Filtering, Navigation, LocalStorage)
+- No console errors
+- Performance acceptable (page load <3s)
+- Styling correct (Tailwind classes applied)
+
+### AC-3: Hosting Platform Configured
+**Given** application ready for deployment
+**When** setting up hosting platform (Netlify or Vercel)
+**Then**:
+- Account created on hosting platform (Netlify recommended)
+- GitHub repository connected via OAuth
+- Build settings configured: Build command `npm run build`, Publish dir `smartbudget/dist` or `dist`, Node 20.x/22.x
+- Environment variables configured (none expected for MVP)
+- SPA routing configured via redirects (netlify.toml or Vercel auto-detect)
+- Automatic deploys enabled from `main` branch (CI/CD)
+
+### AC-4: Initial Deployment Successful
+**Given** hosting platform configured
+**When** triggering first deployment
+**Then**:
+- Deployment completes within 5 minutes (NFR-P3)
+- Build logs show: Repository cloned, Dependencies installed, Build successful, Assets uploaded
+- Deployment status "Success" or "Published"
+- Public production URL generated (e.g., `https://smartbudget-deyvid.netlify.app`)
+- No deployment errors
+- Deploy logs accessible
+
+### AC-5: Application Functions in Production
+**Given** application deployed to production URL
+**When** accessing via public URL
+**Then**:
+- Application loads successfully
+- HTTPS enforced
+- All features work: Dashboard, Transactions CRUD, Filtering, Navigation, LocalStorage, Responsive
+- SPA routing works (direct URLs don't 404)
+- No console errors
+- Error boundaries work gracefully
+
+### AC-6: Performance Meets Requirements in Production
+**Given** application deployed and functional
+**When** testing performance on production URL
+**Then** (per PRD NFR-1):
+- Initial page load: <3s on 3G
+- UI interactions: <100ms response
+- Chart rendering: <2s
+- Filter operations: <500ms
+- Lighthouse Performance score >80
+- Production build optimized (minified, tree-shaken, code-split)
+- CDN delivery fast
+
+### AC-7: Production URL Documented
+**Given** application successfully deployed
+**When** updating project documentation
+**Then**:
+- Production URL added to README.md (Live Demo link, Deployment section)
+- GitHub repository "About" section updated (Website field, Description)
+- Production URL added to prompts.md
+- README deployment section includes actual URL, automatic deploys note, deployment instructions
+
+### AC-8: Deployment Process Validated
+**Given** deployment complete
+**When** validating deployment workflow
+**Then**:
+- Manual test: Code change → commit → push to main
+- Automatic deployment triggers within 1 minute
+- New deployment completes successfully
+- Changes visible on production URL within 5 minutes
+- Deploy preview URLs work
+- Rollback capability verified
+- Deployment history visible
+- Build logs accessible
+
+### AC-9: Cross-Browser Production Testing
+**Given** application deployed to production
+**When** testing on multiple browsers
+**Then** (as verified in Story 6.1):
+- Chrome 90+: All features work
+- Firefox 88+: All features work
+- Safari 14+: All features work
+- Mobile browsers: iOS Safari, Chrome Android work
+- No browser-specific bugs
+- Consistent UX across browsers
+- LocalStorage works in all browsers
+
+### AC-10: Production Deployment Complete
+**Given** all previous ACs met
+**When** finalizing deployment
+**Then**:
+- Application publicly accessible 24/7 (99.9% uptime)
+- No P0/P1 bugs in production
+- Performance requirements met (NFR-1)
+- Security requirements met (HTTPS, no exposed secrets)
+- README and GitHub repo updated with production URL
+- Deployment process documented
+- PRD success criteria met: "Public GitHub repository" ✓, "Deployed, accessible application" ✓
+- Production URL ready for demonstration
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <artifact>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-6.md</path>
+        <title>Epic 6 Technical Specification</title>
+        <section>AC-6: Production Deployment Success, Deployment Workflow, NFR-P2/P3</section>
+        <snippet>Production deployment to Netlify/Vercel with public URL. Build must complete successfully (npm run build, exit code 0). Deployment time <5 minutes. Application functions correctly in production with HTTPS enforced, SPA routing working, performance meeting NFR-1 targets (page load <3s, interactions <100ms). Production URL documented in README and GitHub About section. Build process: npm install → npm run build → deploy /dist to CDN.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/architecture.md</path>
+        <title>System Architecture</title>
+        <section>Deployment Platform, Project Initialization, Build Tool (Vite)</section>
+        <snippet>Vite build tool configured for production builds. Build command: npm run build (outputs to /dist). Preview: npm run preview (localhost:4173). Deployment target: Netlify or Vercel (static hosting). Node.js 20.19+ or 22.12+ required. Vite optimizes production builds automatically: minification, tree shaking, CSS purging, asset hashing, source maps.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>Success Criteria - Deliverables, NFR-1 Performance</section>
+        <snippet>Success criteria: "Public GitHub repository with complete, working code" and "Deployed, accessible application". Performance requirements (NFR-1): Initial page load <3s on 3G, UI interactions <100ms, chart rendering <2s, filter updates <500ms. MVP must be publicly accessible and demonstrable.</snippet>
+      </artifact>
+      <artifact>
+        <path>.bmad-ephemeral/stories/6-1-manual-testing-bug-fixes.md</path>
+        <title>Story 6.1: Manual Testing & Bug Fixes (Completed)</title>
+        <section>Dev Agent Record - Completion Notes, File List</section>
+        <snippet>Production build tested and successful: 613.61 KB (184.38 KB gzipped), build time ~25s. All 17 TypeScript build errors fixed. All 50 test cases passed. Cross-browser testing verified (Chrome, Firefox, Safari). Performance requirements met. No P0 or P1 bugs found. Application production-ready. Files fixed: ErrorBoundary.tsx, ExpenseBreakdownChart.tsx, TransactionForm.tsx, test files. vitest.config.ts created (separated from vite.config.ts).</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/testing/test-summary.md</path>
+        <title>Testing Summary Report (from Story 6.1)</title>
+        <section>Build Success, Performance Validation, Cross-Browser Testing</section>
+        <snippet>Build successful: npm run build completes without errors, 613.61 KB bundle. Performance validated: Load <3s, Interactions <100ms, Charts <2s, Filters <500ms (all NFR-1 requirements met). Cross-browser testing passed: Chrome, Firefox, Safari all work correctly. Responsive design validated across mobile, tablet, desktop. Data persistence confirmed. Application meets all MVP acceptance criteria and is production-ready.</snippet>
+      </artifact>
+      <artifact>
+        <path>netlify.toml</path>
+        <title>Netlify Configuration</title>
+        <section>Build Settings, SPA Redirects</section>
+        <snippet>Netlify deployment configuration already exists. Build command: npm run build. Publish directory: dist. SPA redirect rule: /* → /index.html (status 200) for React Router support. This file is ready for deployment - no changes needed.</snippet>
+      </artifact>
+    </docs>
+    <code>
+      <artifact>
+        <path>smartbudget/package.json</path>
+        <kind>config</kind>
+        <symbol>scripts</symbol>
+        <lines>6-18</lines>
+        <reason>Contains build scripts for deployment: "build": "tsc -b && vite build" (Task 1), "preview": "vite preview" (Task 2). Also lists all production dependencies that will be installed during deployment. Critical for AC-1, AC-2, AC-4.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/vite.config.ts</path>
+        <kind>config</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>Vite build configuration. Defines build behavior, optimizations, and output settings. Automatically handles minification, tree shaking, CSS purging, asset hashing. Relevant for understanding build process (AC-1) and production optimizations (AC-6).</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/tsconfig.json</path>
+        <kind>config</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>TypeScript compiler configuration. Ensures TypeScript compilation succeeds during build (tsc -b). Relevant for AC-1 build success verification.</reason>
+      </artifact>
+      <artifact>
+        <path>netlify.toml</path>
+        <kind>config</kind>
+        <symbol>build, redirects</symbol>
+        <lines>1-8</lines>
+        <reason>Netlify deployment configuration. Specifies build command (npm run build), publish directory (dist), and SPA redirect rules (/* → /index.html status 200). Critical for AC-3 (hosting platform configuration) and AC-5 (SPA routing in production). Already configured and ready.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/dist/</path>
+        <kind>directory</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>Production build output directory (generated by npm run build). Contains minified JavaScript, purged CSS, hashed assets, source maps. This folder is deployed to Netlify/Vercel CDN. Verify exists after build (AC-1), size reasonable (AC-1, AC-6).</reason>
+      </artifact>
+      <artifact>
+        <path>.gitignore</path>
+        <kind>config</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>Ensures /dist folder and .env files are not committed to repository. Important for security (AC-10) and deployment best practices (hosting platform builds from source, not committed build artifacts).</reason>
+      </artifact>
+      <artifact>
+        <path>README.md</path>
+        <kind>documentation</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>Will be updated with production URL in Task 8 (AC-7). Must add live demo link, deployment section with actual URL, note about automatic deploys. Critical documentation update post-deployment.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <production>
+        <package name="react" version="18.3.1" purpose="Core UI framework - deployed to production"/>
+        <package name="react-dom" version="18.3.1" purpose="React DOM bindings - deployed to production"/>
+        <package name="react-router-dom" version="6.30.2" purpose="Client-side routing - requires SPA redirect rules"/>
+        <package name="recharts" version="3.4.1" purpose="Dashboard charts - deployed to production"/>
+        <package name="date-fns" version="4.1.0" purpose="Date utilities - deployed to production"/>
+        <package name="lucide-react" version="0.553.0" purpose="Icon library - deployed to production"/>
+        <package name="uuid" version="13.0.0" purpose="ID generation - deployed to production"/>
+      </production>
+      <devDependencies>
+        <package name="vite" version="6.4.1" purpose="Build tool - runs during deployment (npm run build)"/>
+        <package name="typescript" version="5.9.3" purpose="Type checking - runs during build (tsc -b)"/>
+        <package name="tailwindcss" version="4.0.0" purpose="CSS framework - purges unused classes during build"/>
+        <package name="eslint" version="9.39.1" purpose="Code quality - not deployed (dev only)"/>
+        <package name="prettier" version="3.6.2" purpose="Code formatting - not deployed (dev only)"/>
+      </devDependencies>
+      <hosting>
+        <platform name="Netlify" tier="Free" bandwidth="100GB/month" builds="300min/month" features="Automatic HTTPS, CDN, Deploy previews, Rollback"/>
+        <platform name="Vercel" tier="Free" bandwidth="100GB/month" builds="100 deployments/month" features="Automatic HTTPS, CDN, Deploy previews, Rollback"/>
+      </hosting>
+      <node>
+        <runtime version="20.19+ or 22.12+" source="architecture.md" required="true"/>
+        <npm version="10.x" source="architecture.md" note="Comes with Node.js"/>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+**Deployment Constraints:**
+- No source code modifications allowed - this is deployment/documentation only
+- Must use static hosting (Netlify or Vercel) - no backend/server deployment
+- Production build must be tested locally before deploying (AC-1, AC-2)
+- Build must complete in <60 seconds (NFR-P2)
+- Deployment must complete in <5 minutes (NFR-P3)
+- HTTPS must be enforced (automatic with Netlify/Vercel)
+- No environment variables needed for MVP (LocalStorage only, no backend)
+
+**Architecture Constraints:**
+- No architectural changes allowed (Epic 6 constraint)
+- Application is feature-complete from Epics 1-5
+- Build process uses existing Vite configuration (no changes)
+- SPA routing requires redirect rules (netlify.toml already configured)
+- Node.js 20.19+ or 22.12+ required for Vite 6.x build
+
+**Security Constraints:**
+- No secrets or API keys in code (none exist in MVP)
+- .env files must not be committed (already in .gitignore)
+- HTTPS enforced on production URL (automatic)
+- No hardcoded credentials in commit history
+- Source maps acceptable for open-source educational project
+
+**Performance Constraints (NFR-1):**
+- Initial page load: <3 seconds on 3G connection
+- UI interactions: <100ms response time
+- Chart rendering: <2 seconds
+- Filter operations: <500ms
+- Bundle size: <1MB (preferably <700KB), <200KB gzipped
+- Lighthouse Performance score: >80
+
+**Testing Constraints:**
+- All features must work identically in production as development
+- Cross-browser testing required: Chrome 90+, Firefox 88+, Safari 14+, Mobile
+- No P0 or P1 bugs allowed in production (verified in Story 6.1)
+- LocalStorage persistence must work across browsers
+- Direct URL access must not 404 (SPA routing requirement)
+
+**Documentation Constraints:**
+- Production URL must be added to README.md (AC-7)
+- GitHub repository "About" section must include production URL (AC-7)
+- Deployment instructions must be accurate and tested (AC-7)
+- Automatic deploys must be documented in README (AC-7)
+  </constraints>
+
+  <interfaces>
+**Build & Deployment Interface (npm scripts):**
+- `npm run build` → TypeScript compile + Vite production build → outputs to /dist
+  - Expected output: "✓ built in Xs" message, /dist folder created
+  - Build time: ~25 seconds (tested in Story 6.1)
+  - Bundle size: ~614 KB (~184 KB gzipped)
+- `npm run preview` → Preview production build locally
+  - Starts server at: http://localhost:4173
+  - Use to verify build before deployment
+
+**Netlify Deployment Interface (netlify.toml):**
+```toml
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200  # SPA routing (rewrite, not redirect)
+```
+
+**Netlify Platform Interface:**
+- Authentication: GitHub OAuth
+- Repository connection: Select "Exam - Smart Budget Application"
+- Build settings: Base dir (smartbudget if monorepo), Build command, Publish dir
+- Deploy trigger: Automatic on push to main branch
+- Output: Production URL (e.g., https://smartbudget-deyvid.netlify.app)
+
+**Vercel Deployment Interface (Alternative):**
+```json
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
+```
+Note: Vercel auto-detects Vite projects - may not need vercel.json
+
+**Production Application Interface:**
+- URL: https://<subdomain>.netlify.app or https://<subdomain>.vercel.app
+- Protocol: HTTPS (enforced automatically)
+- Routing: Client-side (React Router) via SPA redirects
+- Data: LocalStorage (browser-based, no backend API)
+- CDN: Global edge locations for fast asset delivery
+
+**GitHub Repository Interface (for documentation updates):**
+- README.md: Add production URL to:
+  - Top section: `[Live Demo](https://...)` badge/link
+  - Deployment section: Actual production URL with instructions
+- GitHub Settings → About:
+  - Website field: Production URL
+  - Description: Mention "Live demo available"
+
+**Performance Testing Interface (Lighthouse):**
+- Chrome DevTools → Lighthouse tab
+- Run audit: Performance, Accessibility, Best Practices, SEO
+- Target: Performance score >80
+- Metrics: FCP, LCP, TTI, TBT, CLS
+
+**Deployment History Interface:**
+- Netlify/Vercel dashboard shows:
+  - List of all deployments with timestamps
+  - Deployment status (Success, Failed, Building)
+  - Build logs for each deployment
+  - Rollback option to previous successful deployment
+  - Deploy preview URLs (for PRs, if enabled)
+  </interfaces>
+
+  <tests>
+    <standards>
+**Deployment Testing Standards:**
+
+**Pre-Deployment Testing (Local):**
+- Run `npm run build` successfully (AC-1)
+- Verify /dist folder created with expected structure
+- Check bundle size (<700KB total, <200KB gzipped)
+- Run `npm run preview` and test all features (AC-2)
+- Verify no console errors in production mode
+- Test LocalStorage persistence in preview
+
+**Production Deployment Testing:**
+- Initial deployment successful (AC-4)
+- Production URL accessible via HTTPS (AC-5)
+- All features functional in production (AC-5)
+- SPA routing works (direct URLs don't 404) (AC-5)
+- Cross-browser testing (Chrome, Firefox, Safari, Mobile) (AC-9)
+- Performance testing (Lighthouse >80, load <3s, interactions <100ms) (AC-6)
+- Automatic deployment workflow validated (AC-8)
+
+**Performance Testing Standards (NFR-1 from PRD):**
+- Initial page load: <3 seconds on 3G connection (simulated in DevTools)
+- UI interactions: <100ms response time (button clicks, form inputs)
+- Chart rendering: <2 seconds (Dashboard pie chart and trend chart)
+- Filter operations: <500ms (period selector, category filter, search)
+- Lighthouse Performance score: >80/100
+- Bundle size verification: <1MB total, <200KB gzipped
+
+**Cross-Browser Testing Standards:**
+- Chrome 90+ (desktop): All features work, no console errors
+- Firefox 88+ (desktop): All features work, no console errors
+- Safari 14+ (macOS): All features work, no console errors
+- iOS Safari (mobile): All features work, responsive design correct
+- Chrome Android (mobile): All features work, responsive design correct
+- LocalStorage works in all browsers (including private/incognito where available)
+- Consistent user experience across all browsers
+
+**Security Testing Standards:**
+- HTTPS enforced (check URL starts with https://)
+- No secrets/API keys exposed in code (grep for common patterns)
+- .env files not committed (check .gitignore)
+- No console errors revealing sensitive information
+- Error boundaries work (no application crashes)
+
+**Documentation Testing Standards:**
+- README.md updated with production URL (AC-7)
+- GitHub About section updated (AC-7)
+- Deployment instructions in README are accurate
+- All links in README resolve correctly
+- Production URL copy-paste ready
+    </standards>
+    <locations>
+**Testing Locations:**
+
+**Local Testing:**
+- `smartbudget/` directory: Run `npm run build`, `npm run preview`
+- `smartbudget/dist/` directory: Verify build output exists
+- Browser: http://localhost:4173 (preview server)
+
+**Production Testing:**
+- Production URL: https://<subdomain>.netlify.app or vercel.app
+- Browser DevTools: Console, Network, Lighthouse
+- Multiple browsers: Chrome, Firefox, Safari, Mobile browsers
+- Multiple devices: Desktop, Tablet, Mobile (or DevTools responsive mode)
+
+**Hosting Platform Testing:**
+- Netlify/Vercel dashboard: Deployment status, build logs, deployment history
+- GitHub: Repository settings, webhooks, automatic deploys
+
+**Documentation Testing:**
+- README.md: Verify production URL added to all relevant sections
+- GitHub repository: Settings → About section
+- prompts.md: Deployment notes added
+
+**Files to Verify:**
+- `netlify.toml`: Correct build settings and SPA redirects
+- `package.json`: Build scripts functional
+- `vite.config.ts`: Build configuration correct
+- `.gitignore`: dist/, .env excluded
+    </locations>
+    <ideas>
+**Test Ideas Mapped to Acceptance Criteria:**
+
+**AC-1 (Production Build Successful):**
+- Run `npm run build` from smartbudget directory → Exit code 0
+- Verify /dist folder created with index.html, assets/ subdirectory
+- Check JavaScript files are minified (inspect file contents)
+- Verify filenames have hashes (e.g., index-abc123.js)
+- Measure bundle size (ls -lh dist/assets/ or check build output)
+- Verify source maps generated (index-abc123.js.map files exist)
+- Check build time <60 seconds (note timestamp in build output)
+- Verify no TypeScript errors (tsc -b completes successfully)
+
+**AC-2 (Local Production Preview):**
+- Run `npm run preview` → Server starts at localhost:4173
+- Open browser → Navigate to http://localhost:4173
+- Test Dashboard: Summary cards display, pie chart renders, trend chart renders
+- Test Add Transaction: Form loads, submit creates transaction
+- Test Edit Transaction: Click edit icon, form populates, save updates transaction
+- Test Delete Transaction: Click delete, confirm, transaction removed
+- Test Period Filter: Select "Last Month" → Transactions filter correctly
+- Test Category Filter: Select category → Transactions filter correctly
+- Test Search: Type in search box → Transactions filter by description
+- Test Navigation: Click Dashboard, Transactions links → Pages load
+- Test LocalStorage: Add transaction, refresh page → Data persists
+- Check browser console → No errors
+- Test responsive: Resize browser window → Layout adjusts correctly
+
+**AC-3 (Hosting Platform Configured):**
+- Create Netlify account → Account dashboard accessible
+- Connect GitHub → OAuth flow completes, repositories visible
+- Select repository → "Exam - Smart Budget Application" selected
+- Configure base directory → "smartbudget" (if monorepo) or blank
+- Set build command → "npm run build" or "cd smartbudget && npm run build"
+- Set publish directory → "dist" or "smartbudget/dist"
+- Set Node version → 20.x (if option available)
+- Verify netlify.toml detected → Build settings auto-populated
+- Enable automatic deploys → "Deploy on push to main" enabled
+- Save configuration → Settings saved successfully
+
+**AC-4 (Initial Deployment Successful):**
+- Trigger deployment → Click "Deploy site" or push to main
+- Monitor deployment → Dashboard shows "Building" status
+- Watch build logs → Repository cloning, npm install, npm run build
+- Wait for completion → Status changes to "Published" (target: <5 min)
+- Copy production URL → e.g., https://smartbudget-deyvid.netlify.app
+- Click production URL → Application loads (initial smoke test)
+- Check deployment status → No errors, success message displayed
+
+**AC-5 (Application Functions in Production):**
+- Open production URL in browser → Application loads
+- Verify HTTPS → URL starts with https://
+- Test all features (same as AC-2 but on production URL):
+  - Dashboard displays correctly
+  - Add, edit, delete transactions work
+  - Period filter, category filter, search work
+  - Navigation works (all routes accessible)
+  - LocalStorage persistence works
+  - Responsive design works (mobile, tablet, desktop)
+- Test direct URL access → https://<prod-url>/transactions loads (no 404)
+- Check browser console → No errors
+- Test error boundary → Verify graceful error handling
+
+**AC-6 (Performance Meets Requirements):**
+- Run Lighthouse audit: DevTools → Lighthouse → Run audit
+  - Performance score >80
+  - Note FCP, LCP, TTI, TBT, CLS metrics
+- Test initial page load:
+  - Hard refresh (Ctrl+Shift+R or Cmd+Shift+R)
+  - Enable DevTools Network throttling: "Slow 3G"
+  - Measure "Load" time in Network tab
+  - Verify <3 seconds
+- Test UI interaction responsiveness:
+  - Click buttons, links → Measure response time (<100ms)
+  - Type in form inputs → Immediate feedback
+  - Navigate between pages → Instant transition
+- Test chart rendering:
+  - Clear LocalStorage, add 30 transactions
+  - Navigate to Dashboard
+  - Measure time from navigation to charts fully rendered
+  - Verify <2 seconds
+- Test filter performance:
+  - Add 50+ transactions
+  - Apply period filter → Measure update time (<500ms)
+  - Apply category filter → Measure update time (<500ms)
+  - Search transactions → Measure update time (<500ms)
+- Verify production optimizations:
+  - Check Network tab: JS files minified (small file size)
+  - Check Response Headers: Content-Encoding: gzip or br (compression)
+  - Verify assets served from CDN (check Response Headers)
+
+**AC-7 (Production URL Documented):**
+- Update README.md:
+  - Add live demo link near top: `[Live Demo](https://...)`
+  - Update Deployment section with actual URL
+  - Add note: "Automatic deploys enabled from main branch"
+  - Commit and push changes
+- Update GitHub repository:
+  - Navigate to repository Settings → General → About
+  - Add production URL to "Website" field
+  - Update "Description" to mention live demo
+  - Click "Save"
+- Verify links:
+  - Click live demo link in README → Opens production URL
+  - Click website link in GitHub About → Opens production URL
+
+**AC-8 (Deployment Process Validated):**
+- Make test change: Update README (e.g., add comment)
+- Commit: `git commit -m "test: Validate automatic deployment"`
+- Push: `git push origin main`
+- Monitor hosting platform dashboard:
+  - Deployment triggers within 1 minute
+  - Build completes successfully
+  - Deployment status "Published"
+- Check production URL:
+  - Changes visible within 5 minutes
+  - Test change appears (e.g., updated README content)
+- Test rollback:
+  - Navigate to deployment history in platform dashboard
+  - Locate previous deployment
+  - Note "Rollback" or "Publish" button available (don't actually rollback)
+- Review deployment history:
+  - Multiple deployments visible with timestamps
+  - Build logs accessible for each deployment
+
+**AC-9 (Cross-Browser Production Testing):**
+- Test Chrome 90+ (desktop):
+  - Open production URL in Chrome
+  - Test all features (Dashboard, Transactions, Filtering, Navigation)
+  - Check console for errors
+  - Verify LocalStorage works
+- Test Firefox 88+ (desktop):
+  - Open production URL in Firefox
+  - Test all features
+  - Check console for errors
+  - Verify LocalStorage works
+- Test Safari 14+ (macOS):
+  - Open production URL in Safari
+  - Test all features
+  - Check console for errors
+  - Verify LocalStorage works
+- Test iOS Safari (mobile):
+  - Open production URL on iPhone or iPad
+  - Test features (touch interactions)
+  - Verify responsive design
+  - Check LocalStorage works
+- Test Chrome Android (mobile):
+  - Open production URL on Android device
+  - Test features (touch interactions)
+  - Verify responsive design
+  - Check LocalStorage works
+- Compare experiences:
+  - Consistent UX across all browsers
+  - No browser-specific bugs
+  - All features work identically
+
+**AC-10 (Production Deployment Complete):**
+- Verify 24/7 accessibility: Test from different network/device → Loads
+- Verify no P0/P1 bugs: Reference Story 6.1 testing results → All passed
+- Verify performance: Reference AC-6 Lighthouse results → Score >80
+- Verify security:
+  - HTTPS enforced: URL starts with https://
+  - No secrets exposed: Grep codebase for API keys, passwords → None found
+  - .env not committed: Check Git history → Not present
+- Verify documentation updated:
+  - README has production URL: Check README.md → URL present
+  - GitHub About updated: Check repository page → URL present
+- Verify deployment process documented:
+  - README Deployment section: Netlify/Vercel instructions → Documented
+- Verify PRD success criteria:
+  - "Public GitHub repository": Repository is public → ✓
+  - "Deployed, accessible application": Production URL works → ✓
+- Production ready for demonstration: Share URL with stakeholders
+    </ideas>
+  </tests>
+</story-context>

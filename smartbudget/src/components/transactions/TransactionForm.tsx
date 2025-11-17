@@ -49,6 +49,7 @@ interface FormErrors {
   category?: string;
   date?: string;
   description?: string;
+  submit?: string;
 }
 
 /**

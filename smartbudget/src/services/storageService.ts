@@ -224,9 +224,9 @@ export function deleteTransaction(id: string): boolean {
 /**
  * Default settings object
  */
-const DEFAULT_SETTINGS = {
+const DEFAULT_SETTINGS: Settings = {
   selectedPeriod: {
-    type: 'this-month',
+    type: 'this-month' as const,
     startDate: new Date(
       new Date().getFullYear(),
       new Date().getMonth(),

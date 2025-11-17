@@ -16,7 +16,6 @@ import {
   Cell,
   Tooltip,
   Legend,
-  type TooltipProps,
 } from 'recharts';
 import { PieChart as PieChartIcon } from 'lucide-react';
 import { useAppContext } from '../../context/AppContext';
@@ -51,13 +50,18 @@ export interface ExpenseBreakdownChartProps {
  * Displays category name, amount (formatted as USD), and percentage
  * when user hovers over a pie slice.
  */
-const CustomTooltip: React.FC<TooltipProps<number, string>> = ({
-  active,
-  payload,
+interface TooltipPayload {
+  payload: PieChartDataItem;
+}
+
+const CustomTooltip = (props: {
+  active?: boolean;
+  payload?: TooltipPayload[];
 }) => {
+  const { active, payload } = props;
   if (!active || !payload || !payload.length) return null;
 
-  const data = payload[0].payload as PieChartDataItem;
+  const data = payload[0].payload;
 
   return (
     <div className="bg-white p-4 rounded-lg shadow-lg border border-gray-200">
@@ -133,13 +137,15 @@ export const ExpenseBreakdownChart: React.FC<ExpenseBreakdownChartProps> = ({
       <ResponsiveContainer width="100%" height={400}>
         <PieChart>
           <Pie
-            data={chartData}
+            data={chartData as unknown as Record<string, unknown>[]}
             dataKey="value"
             nameKey="name"
             cx="50%"
             cy="50%"
             outerRadius={100}
-            label={({ name, percentage }) => `${name}: ${percentage}%`}
+            label={(props: { name?: string; percentage?: number }) =>
+              `${props.name}: ${props.percentage}%`
+            }
             labelLine
           >
             {chartData.map((entry, index) => (

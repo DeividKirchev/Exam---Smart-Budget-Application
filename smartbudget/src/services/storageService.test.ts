@@ -469,7 +469,7 @@ describe('storageService', () => {
     it('should persist settings to localStorage', () => {
       const newSettings = {
         selectedPeriod: {
-          type: 'last-month',
+          type: 'last-month' as const,
           startDate: '2025-10-01',
           endDate: '2025-10-31',
           label: 'October',
@@ -501,7 +501,9 @@ describe('storageService', () => {
 
       const newSettings = {
         selectedPeriod: {
-          type: 'last-month',
+          type: 'last-month' as const,
+          startDate: '2025-10-01',
+          endDate: '2025-10-31',
           label: 'Last Month',
         },
       };
@@ -509,7 +511,7 @@ describe('storageService', () => {
       saveSettings(newSettings);
 
       const result = loadSettings();
-      expect(result.selectedPeriod.type).toBe('last-month');
+      expect(result.selectedPeriod?.type).toBe('last-month');
       expect(result.customField).toBe('existing');
     });
   });

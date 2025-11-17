@@ -1,0 +1,673 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>6</epicId>
+    <storyId>6.3</storyId>
+    <title>README Documentation</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-17</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>.bmad-ephemeral/stories/6-3-readme-documentation.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a new user or developer</asA>
+    <iWant>comprehensive README documentation</iWant>
+    <soThat>I can understand, set up, and use the application</soThat>
+    <tasks>
+- [ ] **Task 1**: Create README structure and project overview (AC: #1, #13)
+  - [ ] 1.1: Create or update `/README.md` in project root
+  - [ ] 1.2: Add project title: "# SmartBudget - Personal Finance Tracker"
+  - [ ] 1.3: Add tagline: "A modern, responsive budgeting application built with React, TypeScript, and AI-assisted development"
+  - [ ] 1.4: Write project description (1-2 paragraphs)
+  - [ ] 1.5: Add badges (optional): License, Build Status, Version
+  - [ ] 1.6: Add table of contents with anchor links (optional)
+
+- [ ] **Task 2**: Document features list (AC: #2)
+  - [ ] 2.1: Create "## Features" section
+  - [ ] 2.2: List transaction management features
+  - [ ] 2.3: List dashboard and analytics features
+  - [ ] 2.4: List filtering and navigation features
+  - [ ] 2.5: List responsive design and UX features
+  - [ ] 2.6: List data persistence and error handling
+  - [ ] 2.7: Use bullet points with brief descriptions
+  - [ ] 2.8: Organize features by category (Core, Analytics, UX)
+
+- [ ] **Task 3**: Add screenshots or demo links (AC: #3)
+  - [ ] 3.1: Take screenshot of Dashboard view with real data
+  - [ ] 3.2: Take screenshot of Transactions list view
+  - [ ] 3.3: (Optional) Take mobile view screenshots
+  - [ ] 3.4: Create `/docs/images/` directory if needed
+  - [ ] 3.5: Save screenshots with descriptive names (dashboard.png, transactions.png)
+  - [ ] 3.6: Embed images in README with markdown: `![Dashboard](docs/images/dashboard.png)`
+  - [ ] 3.7: Add alt text for accessibility
+  - [ ] 3.8: Add link to live demo if deployed
+
+- [ ] **Task 4**: Document technology stack (AC: #4)
+  - [ ] 4.1: Create "## Technology Stack" section
+  - [ ] 4.2: List frontend technologies (React, TypeScript, Vite)
+  - [ ] 4.3: List styling and UI (Tailwind CSS, Lucide icons)
+  - [ ] 4.4: List state management (React Context API)
+  - [ ] 4.5: List routing (React Router 6.x)
+  - [ ] 4.6: List data visualization (Recharts, date-fns)
+  - [ ] 4.7: List code quality tools (ESLint, Prettier, Husky)
+  - [ ] 4.8: List data persistence (LocalStorage)
+  - [ ] 4.9: Use table format or categorized list
+  - [ ] 4.10: Add brief rationale for key choices (optional)
+
+- [ ] **Task 5**: Document prerequisites and system requirements (AC: #5)
+  - [ ] 5.1: Create "## Prerequisites" section
+  - [ ] 5.2: Document Node.js version: 20.19+ or 22.12+
+  - [ ] 5.3: Document npm version: 10.x
+  - [ ] 5.4: Document supported browsers and versions
+  - [ ] 5.5: Note operating systems supported
+  - [ ] 5.6: Mention Git requirement for cloning
+  - [ ] 5.7: Clarify no backend/database needed
+
+- [ ] **Task 6**: Write installation instructions (AC: #6)
+  - [ ] 6.1: Create "## Installation" section
+  - [ ] 6.2: Numbered step 1: Clone repository with exact command
+  - [ ] 6.3: Numbered step 2: Navigate to directory
+  - [ ] 6.4: Numbered step 3: Install dependencies with `npm install`
+  - [ ] 6.5: Add expected output or success indicators
+  - [ ] 6.6: Add troubleshooting subsection (optional)
+  - [ ] 6.7: Mention installation time estimate (e.g., 2-3 minutes)
+
+- [ ] **Task 7**: Write running locally instructions (AC: #7)
+  - [ ] 7.1: Create "## Running Locally" section
+  - [ ] 7.2: Document development mode: `npm run dev`
+  - [ ] 7.3: Document production build: `npm run build`
+  - [ ] 7.4: Document preview production: `npm run preview`
+  - [ ] 7.5: Document linting: `npm run lint`
+  - [ ] 7.6: Document formatting: `npm run format`
+  - [ ] 7.7: Document testing: `npm run test` (if tests exist)
+  - [ ] 7.8: Include expected output and URLs for each command
+  - [ ] 7.9: Use code blocks with syntax highlighting
+
+- [ ] **Task 8**: Document project structure (AC: #8)
+  - [ ] 8.1: Create "## Project Structure" section
+  - [ ] 8.2: Show folder tree with key directories
+  - [ ] 8.3: Explain purpose of each major folder
+  - [ ] 8.4: Highlight architectural patterns (component-based, service layer)
+  - [ ] 8.5: Reference architecture.md for detailed design
+  - [ ] 8.6: Use code block for folder tree visualization
+
+- [ ] **Task 9**: Document BMAD methodology (AC: #9)
+  - [ ] 9.1: Create "## BMAD Methodology" section
+  - [ ] 9.2: Explain what BMAD is (1-2 paragraphs)
+  - [ ] 9.3: Describe the 4 phases applied to this project
+  - [ ] 9.4: Link to Product Brief (if exists)
+  - [ ] 9.5: Link to PRD, Architecture, Epics documents
+  - [ ] 9.6: Link to prompts.md and summary.md
+  - [ ] 9.7: Explain educational objective
+  - [ ] 9.8: Note how BMAD enabled structured AI-assisted development
+
+- [ ] **Task 10**: Document AI-assisted development (AC: #10)
+  - [ ] 10.1: Create "## AI-Assisted Development" section
+  - [ ] 10.2: List AI tools used (Claude Code, etc.)
+  - [ ] 10.3: Describe AI integration in development workflow
+  - [ ] 10.4: Mention which epics used AI assistance heavily
+  - [ ] 10.5: Link to summary.md for detailed AI impact analysis
+  - [ ] 10.6: Link to prompts.md for full interaction log
+  - [ ] 10.7: Provide honest assessment of AI value
+  - [ ] 10.8: Note lessons learned about AI development
+
+- [ ] **Task 11**: Write deployment instructions (AC: #11)
+  - [ ] 11.1: Create "## Deployment" section
+  - [ ] 11.2: Document Netlify deployment steps (primary option)
+  - [ ] 11.3: Document Vercel deployment steps (alternative)
+  - [ ] 11.4: Include build settings (command, output dir)
+  - [ ] 11.5: Add link to live production URL (if deployed)
+  - [ ] 11.6: Mention environment variables (if any)
+  - [ ] 11.7: Note automatic deploys from main branch
+
+- [ ] **Task 12**: Add credits, license, and links (AC: #12)
+  - [ ] 12.1: Create "## License" section with MIT License note
+  - [ ] 12.2: Link to LICENSE file in repository
+  - [ ] 12.3: Create "## Author" section with name/GitHub link
+  - [ ] 12.4: Create "## Acknowledgments" section crediting tools/libraries
+  - [ ] 12.5: Create "## Documentation" section with links to all docs
+  - [ ] 12.6: Link to PRD, Architecture, Epics, prompts.md, summary.md
+  - [ ] 12.7: Add contact information (optional)
+  - [ ] 12.8: Add contributing guidelines (optional)
+
+- [ ] **Task 13**: Format and polish README (AC: #13)
+  - [ ] 13.1: Review all Markdown syntax for correctness
+  - [ ] 13.2: Verify headers are hierarchical (h1 → h2 → h3)
+  - [ ] 13.3: Verify code blocks have correct syntax highlighting
+  - [ ] 13.4: Verify lists are properly formatted
+  - [ ] 13.5: Spell check entire document
+  - [ ] 13.6: Grammar check entire document
+  - [ ] 13.7: Verify professional tone throughout
+  - [ ] 13.8: Add horizontal rules or emoji (optional, sparingly)
+
+- [ ] **Task 14**: Test README instructions (AC: #14)
+  - [ ] 14.1: Fresh clone of repository on clean machine/VM
+  - [ ] 14.2: Follow installation steps exactly as written
+  - [ ] 14.3: Verify all commands work without errors
+  - [ ] 14.4: Verify all links resolve correctly
+  - [ ] 14.5: Verify screenshots display properly on GitHub
+  - [ ] 14.6: Time the setup process (should match estimate)
+  - [ ] 14.7: Note any missing steps or assumptions
+  - [ ] 14.8: Update README based on testing findings
+
+- [ ] **Task 15**: Add "Last Updated" timestamp (AC: #13)
+  - [ ] 15.1: Add "Last Updated: YYYY-MM-DD" at top or bottom of README
+  - [ ] 15.2: Ensure date matches final edit date
+  - [ ] 15.3: Commit README with clear message: "docs: Complete README documentation"
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+### AC-1: Project Overview Section
+**Given** someone discovers the SmartBudget repository
+**When** they read the README.md
+**Then** the README includes:
+- Project name and tagline
+- Brief description (1-2 paragraphs) of what SmartBudget does
+- Key value proposition (why use this app)
+- Educational context (AI-assisted development with BMAD methodology)
+- Project status badge or note (e.g., "MVP Complete", "Portfolio Project")
+
+### AC-2: Features List Complete
+**Given** the README describes application capabilities
+**When** reviewing the features section
+**Then** it lists all implemented features:
+- Transaction management (add, edit, delete income/expenses)
+- Dashboard with summary statistics (income, expenses, balance)
+- Visual analytics (expense breakdown pie chart, income vs expenses trend)
+- Period-based filtering (This Month, Last Month, Custom Range)
+- Predefined category system with visual indicators
+- Responsive design (mobile, tablet, desktop)
+- LocalStorage data persistence
+- Error handling and empty states
+- Each feature briefly explained (1-2 sentences)
+
+### AC-3: Screenshots and Visual Demo
+**Given** users want to see the application before using it
+**When** viewing the README
+**Then** it includes:
+- At least 2 high-quality screenshots (Dashboard view, Transactions view)
+- Screenshots show real data (not empty states)
+- Images are properly sized and load quickly
+- Alternative: Link to live demo URL (if deployed)
+- Images stored in `/docs/images/` or `/public/screenshots/`
+- Responsive view screenshots (optional: mobile + desktop side-by-side)
+
+### AC-4: Technology Stack Documented
+**Given** developers want to understand the technical foundation
+**When** reviewing the tech stack section
+**Then** it lists all major technologies with versions:
+- **Frontend**: React 18.x, TypeScript 5.x
+- **Build Tool**: Vite 6.x
+- **Styling**: Tailwind CSS 4.0
+- **State Management**: React Context API
+- **Routing**: React Router 6.x
+- **Charts**: Recharts 2.x (or 3.x based on package.json)
+- **Date Handling**: date-fns 4.x
+- **Icons**: Lucide React
+- **Data Persistence**: LocalStorage API
+- **Code Quality**: ESLint, Prettier, Husky
+- Brief justification for key choices (optional but recommended)
+
+### AC-5: Prerequisites and System Requirements
+**Given** developers need to know what's required before setup
+**When** reviewing prerequisites
+**Then** the README clearly states:
+- Node.js version required: 20.19+ or 22.12+
+- npm version: 10.x (comes with Node.js)
+- Supported browsers: Chrome 90+, Firefox 88+, Safari 14+
+- Operating systems: Windows, macOS, Linux
+- Recommended: Git for version control
+- No backend or database required (client-side only)
+
+### AC-6: Installation Instructions Complete
+**Given** a developer wants to set up the project locally
+**When** following installation instructions
+**Then** step-by-step instructions are provided:
+1. Clone the repository: `git clone <repo-url>`
+2. Navigate to project directory: `cd smartbudget`
+3. Install dependencies: `npm install`
+4. Verify installation successful
+- Instructions are numbered and unambiguous
+- Exact commands provided (copy-paste ready)
+- Common issues section (optional but helpful)
+
+### AC-7: Running Locally Instructions
+**Given** a developer has installed the project
+**When** following instructions to run the app
+**Then** clear commands are provided:
+- **Development mode**: `npm run dev` → Opens at http://localhost:5173
+- **Production build**: `npm run build` → Creates `/dist` folder
+- **Preview production**: `npm run preview` → Opens at http://localhost:4173
+- **Linting**: `npm run lint` → Check code quality
+- **Format code**: `npm run format` → Auto-format with Prettier
+- **Run tests**: `npm run test` → Execute test suite (if applicable)
+- Expected output described for each command
+
+### AC-8: Project Structure Explained
+**Given** developers want to understand code organization
+**When** reviewing project structure section
+**Then** folder structure is documented:
+```
+smartbudget/
+├── src/
+│   ├── components/     # Reusable UI components
+│   ├── pages/          # Page-level components
+│   ├── services/       # Business logic & data access
+│   ├── context/        # React Context providers
+│   ├── models/         # TypeScript interfaces
+│   ├── constants/      # App constants & config
+│   ├── utils/          # Helper functions
+│   └── hooks/          # Custom React hooks
+├── public/             # Static assets
+├── docs/               # Documentation
+└── ...
+```
+- Key folders explained with purpose
+- Architectural patterns briefly mentioned
+- Reference to architecture.md for details
+
+### AC-9: BMAD Methodology Documented
+**Given** this is an educational project demonstrating BMAD methodology
+**When** reviewing the BMAD section
+**Then** it explains:
+- What BMAD (Building with Modern AI Development) is
+- How BMAD was applied to this project
+- The 4 phases: Analysis → Planning → Solutioning → Implementation
+- Links to BMAD documentation artifacts:
+  - Product Brief (if exists)
+  - PRD (Product Requirements Document)
+  - Architecture Document
+  - Epic Breakdown
+  - prompts.md (AI interaction log)
+  - summary.md (AI impact analysis)
+- Educational objective: Demonstrate AI-assisted development workflow
+
+### AC-10: AI-Assisted Development Notes
+**Given** this project demonstrates AI-assisted development
+**When** reviewing the AI assistance section
+**Then** it includes:
+- AI tools used (e.g., Claude Code, ChatGPT, GitHub Copilot)
+- Which epics/stories used AI assistance
+- Brief note on AI impact (detailed in summary.md)
+- How AI was integrated into development workflow
+- Link to prompts.md and summary.md for full details
+- Honest assessment (what AI helped with, what was manual)
+
+### AC-11: Deployment Instructions
+**Given** someone wants to deploy the application
+**When** reviewing deployment section
+**Then** instructions are provided for:
+- **Netlify Deployment**:
+  1. Create Netlify account
+  2. Connect GitHub repository
+  3. Configure build settings: `npm run build`, publish dir: `dist`
+  4. Deploy
+- **Vercel Deployment** (alternative):
+  1. Create Vercel account
+  2. Import GitHub repository
+  3. Vercel auto-detects Vite config
+  4. Deploy
+- **GitHub Pages** (optional alternative)
+- Link to live production URL (once deployed)
+- Note: Environment variables (if any)
+
+### AC-12: Credits, License, and Links
+**Given** the README needs professional presentation
+**When** reviewing the footer section
+**Then** it includes:
+- **Author**: Name and/or GitHub profile link
+- **License**: MIT License (or chosen license) with link to LICENSE file
+- **Acknowledgments**: Credits to tools, libraries, tutorials used
+- **Related Documentation**:
+  - Link to Product Brief (if applicable)
+  - Link to PRD (docs/PRD.md)
+  - Link to Architecture (docs/architecture.md)
+  - Link to Epics (docs/epics.md)
+  - Link to prompts.md (AI interaction log)
+  - Link to summary.md (AI impact analysis)
+- **Contact**: How to reach the author (optional)
+- **Contributing**: Note if contributions are welcome (optional for portfolio)
+
+### AC-13: Formatting and Readability
+**Given** the README must be professional and easy to read
+**When** reviewing overall presentation
+**Then**:
+- Markdown formatting is correct and renders properly on GitHub
+- Headers are hierarchical (h1 → h2 → h3)
+- Code blocks use correct syntax highlighting (```bash, ```typescript)
+- Lists are properly formatted (numbered for steps, bullets for features)
+- Links work and open correctly
+- Table of contents included (optional for long README)
+- Badges included (optional: build status, license, version)
+- No spelling or grammar errors
+- Professional tone throughout
+
+### AC-14: README Tested by Following Instructions
+**Given** the README instructions must actually work
+**When** testing the README
+**Then**:
+- A colleague or tester can follow installation steps successfully
+- All commands execute without errors (on clean environment)
+- Links resolve correctly
+- Screenshots display properly
+- Setup time matches what's documented
+- No missing steps or assumptions
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <artifact>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>Executive Summary, Success Criteria, Product Scope</section>
+        <snippet>SmartBudget is a web-based personal finance management application demonstrating BMAD methodology combined with AI-assisted development. Serves dual purposes: functional budgeting tool while showcasing modern development practices. MVP focuses on transaction management, visual analytics, responsive web interface, and local data persistence.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/architecture.md</path>
+        <title>System Architecture</title>
+        <section>Architecture Philosophy, Project Structure, Technology Stack Details</section>
+        <snippet>Built on Vite + React + TypeScript with component-based architecture, client-side state management, and local data persistence. Project initialized with `npm create vite@latest smartbudget -- --template react-ts`. Node.js 20.19+ or 22.12+ required. Uses Tailwind CSS 4.0, React Router 6.x, Recharts 3.x, date-fns 4.x, Lucide icons.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/epics.md</path>
+        <title>Epic Breakdown</title>
+        <section>Epic 6: Finalization and Deployment - Story 6.3</section>
+        <snippet>Epic 6 encompasses manual testing, code documentation, README creation, AI impact analysis, production deployment, and repository polish. Story 6.3 creates comprehensive README with setup instructions, features, screenshots, BMAD methodology overview, and AI-assisted development notes.</snippet>
+      </artifact>
+      <artifact>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-6.md</path>
+        <title>Epic 6 Technical Specification</title>
+        <section>AC-4: Professional README Documentation, Documentation Interfaces</section>
+        <snippet>README must contain 14 sections: title, description, features, screenshots, tech stack, prerequisites, installation, running locally, building, deployment, project structure, BMAD methodology, AI-assisted development, license, and links to related docs. Must be professional, scannable, and tested for accuracy.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/testing/test-summary.md</path>
+        <title>Testing Results Summary (from Story 6.1)</title>
+        <section>Browser Compatibility, Performance Validation</section>
+        <snippet>Application tested on Chrome 90+, Firefox 88+, Safari 14+. Performance benchmarks: page load <3s, interactions <100ms, charts <2s. All features work identically across browsers. Quality assurance completed with comprehensive test coverage.</snippet>
+      </artifact>
+      <artifact>
+        <path>prompts.md</path>
+        <title>AI Interaction Log</title>
+        <section>Complete timeline of AI interactions throughout development</section>
+        <snippet>Sequential user prompts documenting entire development journey from product brief through implementation. Provides transparency into AI-assisted development process. To be referenced in README AI-assisted development section.</snippet>
+      </artifact>
+    </docs>
+    <code>
+      <artifact>
+        <path>smartbudget/package.json</path>
+        <kind>config</kind>
+        <symbol>N/A</symbol>
+        <lines>1-62</lines>
+        <reason>Contains exact dependency versions, npm scripts, and project metadata needed for Technology Stack section (AC-4) and Running Locally section (AC-7)</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/</path>
+        <kind>directory</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>Complete source code structure needed for Project Structure section (AC-8). Includes components/, pages/, services/, context/, models/, constants/, utils/, hooks/ folders following architecture defined in architecture.md</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/vite.config.ts</path>
+        <kind>config</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>Vite configuration for build settings and development server. Relevant for technology stack section and build/deploy documentation</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/tsconfig.json</path>
+        <kind>config</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>TypeScript configuration showing type-safety setup for tech stack section</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/tailwind.config.js</path>
+        <kind>config</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>Tailwind CSS configuration for styling framework documentation</reason>
+      </artifact>
+      <artifact>
+        <path>netlify.toml</path>
+        <kind>config</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>Netlify deployment configuration for deployment instructions (AC-11). Shows build command and publish directory settings.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package name="react" version="18.3.1" purpose="Core UI framework"/>
+        <package name="react-dom" version="18.3.1" purpose="React DOM bindings"/>
+        <package name="react-router-dom" version="6.30.2" purpose="Client-side routing"/>
+        <package name="typescript" version="5.9.3" purpose="Static type checking"/>
+        <package name="vite" version="6.4.1" purpose="Build tool and dev server"/>
+        <package name="tailwindcss" version="4.0.0" purpose="Utility-first CSS framework"/>
+        <package name="recharts" version="3.4.1" purpose="Chart library for dashboard analytics"/>
+        <package name="date-fns" version="4.1.0" purpose="Date manipulation and formatting"/>
+        <package name="lucide-react" version="0.553.0" purpose="Icon library"/>
+        <package name="uuid" version="13.0.0" purpose="ID generation for transactions"/>
+        <package name="eslint" version="9.39.1" purpose="Code linting"/>
+        <package name="prettier" version="3.6.2" purpose="Code formatting"/>
+        <package name="husky" version="9.1.7" purpose="Git hooks for pre-commit checks"/>
+        <package name="vitest" version="4.0.9" purpose="Testing framework"/>
+        <package name="@testing-library/react" version="16.3.0" purpose="React component testing"/>
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+**Development Constraints:**
+- README is documentation only - no source code modifications allowed
+- Must maintain professional tone suitable for portfolio presentation
+- Screenshots must show real data (not empty states) per AC-3
+- All commands must be copy-paste ready with syntax highlighting
+- Documentation must be accurate and tested (AC-14 requires verification)
+- Must link to all related documentation (PRD, architecture, epics, prompts.md)
+- BMAD methodology explanation required (educational objective)
+- AI-assisted development transparency required (honest assessment)
+
+**Technical Constraints:**
+- README.md must render correctly on GitHub markdown parser
+- Images stored in docs/images/ directory
+- File paths must use project-relative paths (not absolute)
+- All npm commands verified in package.json scripts
+- Node.js 20.19+ or 22.12+ requirement documented
+- Deployment instructions for Netlify or Vercel only
+
+**Content Constraints:**
+- No sensitive information (API keys, passwords) in documentation
+- No exaggeration of capabilities (honest scope assessment)
+- Known limitations should be transparently documented
+- AI impact assessment must be honest (not oversold)
+- Testing results from Story 6.1 should be referenced
+- Deployment URL placeholder if not yet deployed
+
+**Quality Constraints:**
+- Zero spelling or grammar errors (AC-13)
+- Professional formatting with hierarchical headers
+- All links must resolve correctly
+- Commands tested and verified on clean environment
+- "Last Updated" timestamp required
+  </constraints>
+
+  <interfaces>
+**README Structure Interface (14 Required Sections):**
+1. Project Title and Description
+2. Features List (organized by category)
+3. Screenshots/Demo
+4. Technology Stack (table format)
+5. Prerequisites
+6. Installation Steps (numbered, copy-paste ready)
+7. Running Locally (npm scripts with expected output)
+8. Project Structure (folder tree with explanations)
+9. BMAD Methodology (4 phases explained)
+10. AI-Assisted Development (tools, impact, lessons)
+11. Deployment (Netlify/Vercel instructions)
+12. License (MIT recommended)
+13. Credits and Acknowledgments
+14. Related Documentation Links
+
+**npm Script Interface (from package.json):**
+- `npm run dev` → Start development server at localhost:5173
+- `npm run build` → TypeScript compile + Vite production build → dist/
+- `npm run preview` → Preview production build at localhost:4173
+- `npm run lint` → ESLint with max-warnings 0
+- `npm run format` → Prettier auto-format all source files
+- `npm run test` → Vitest run (execute test suite)
+- `npm run test:coverage` → Vitest with coverage report
+
+**Documentation Links Interface:**
+- PRD: `docs/PRD.md`
+- Architecture: `docs/architecture.md`
+- Epics: `docs/epics.md`
+- Prompts: `prompts.md` (root)
+- Summary: `summary.md` (root, to be created in Story 6.4)
+- Testing: `docs/testing/test-summary.md`
+- License: `LICENSE` (root)
+
+**Screenshot Interface:**
+- Location: `docs/images/`
+- Files: `dashboard.png`, `transactions.png`, `mobile-view.png` (optional)
+- Format: PNG, optimized <500KB each
+- Content: Real transaction data, not empty states
+- Resolution: 1920x1080 (desktop), 375x812 (mobile)
+  </interfaces>
+
+  <tests>
+    <standards>
+**README Testing Standards:**
+- All installation instructions must be tested on clean environment (AC-14)
+- All npm commands verified to execute without errors
+- All links validated to resolve correctly
+- Screenshots verified to display properly on GitHub
+- Markdown syntax validated for correct rendering
+- Setup time estimated and verified
+- Spelling and grammar checked (zero errors)
+- Professional tone review (no informal language)
+
+**Documentation Validation:**
+- README checklist: All 14 sections present
+- Dependency versions match package.json exactly
+- Node.js version requirement matches architecture.md
+- npm scripts match package.json scripts section
+- Project structure matches actual src/ folder organization
+- BMAD phases accurately reflect project execution
+- AI impact claims are honest and verifiable
+
+**Quality Checks:**
+- Zero broken links (internal and external)
+- All code blocks have correct syntax highlighting
+- Headers follow hierarchy (h1 → h2 → h3)
+- Lists properly formatted (numbered for steps, bullets for features)
+- Images load quickly and display correctly
+- Table of contents links work (if present)
+- Badges render correctly (if present)
+    </standards>
+    <locations>
+**Files to Create:**
+- `README.md` (project root)
+- `docs/images/dashboard.png`
+- `docs/images/transactions.png`
+- `docs/images/mobile-view.png` (optional)
+
+**Files to Reference:**
+- `smartbudget/package.json`
+- `docs/PRD.md`
+- `docs/architecture.md`
+- `docs/epics.md`
+- `prompts.md`
+- `docs/testing/test-summary.md`
+- `LICENSE` (should exist or be created)
+    </locations>
+    <ideas>
+**Test Ideas Mapped to Acceptance Criteria:**
+
+**AC-1 (Project Overview):**
+- Verify project title is "SmartBudget - Personal Finance Tracker"
+- Confirm tagline mentions React, TypeScript, AI-assisted development
+- Check description is 1-2 paragraphs explaining what SmartBudget does
+- Verify educational context (BMAD methodology) is mentioned
+
+**AC-2 (Features List):**
+- Count features listed (should be 8+ core features)
+- Verify features organized by category (Core, Analytics, UX)
+- Check each feature has 1-2 sentence description
+- Confirm all MVP features from PRD are documented
+
+**AC-3 (Screenshots):**
+- Verify at least 2 screenshots exist (Dashboard, Transactions)
+- Check images stored in `docs/images/` directory
+- Confirm images show real data (not empty states)
+- Verify images load and display correctly on GitHub
+- Check alt text present for accessibility
+
+**AC-4 (Technology Stack):**
+- Verify all major dependencies listed with versions
+- Cross-reference versions with package.json (must match)
+- Check table format or organized list used
+- Verify optional rationale for key tech choices
+
+**AC-5 (Prerequisites):**
+- Verify Node.js 20.19+ or 22.12+ documented
+- Check npm 10.x mentioned
+- Confirm browser versions listed (Chrome 90+, Firefox 88+, Safari 14+)
+- Verify "no backend required" clarified
+
+**AC-6 (Installation):**
+- Test clone command on fresh repository
+- Verify `cd smartbudget` navigates to correct directory
+- Test `npm install` completes without errors
+- Time installation process (should be 2-3 minutes)
+
+**AC-7 (Running Locally):**
+- Test `npm run dev` starts server at localhost:5173
+- Test `npm run build` creates dist/ folder successfully
+- Test `npm run preview` starts server at localhost:4173
+- Verify all commands have expected output documented
+
+**AC-8 (Project Structure):**
+- Verify folder tree matches actual src/ structure
+- Check key folders explained (components/, pages/, services/, etc.)
+- Confirm reference to architecture.md included
+
+**AC-9 (BMAD Methodology):**
+- Verify 4 phases explained (Analysis, Planning, Solutioning, Implementation)
+- Check links to PRD, architecture, epics documents
+- Confirm educational objective stated
+
+**AC-10 (AI-Assisted Development):**
+- Verify AI tools listed (Claude Code, etc.)
+- Check links to prompts.md and summary.md
+- Confirm honest assessment of AI value
+
+**AC-11 (Deployment):**
+- Verify Netlify deployment steps documented
+- Check Vercel alternative documented
+- Confirm build settings included (npm run build, dist/)
+
+**AC-12 (Credits, License, Links):**
+- Verify MIT License mentioned with link to LICENSE file
+- Check author name/GitHub link present
+- Confirm acknowledgments section crediting tools/libraries
+- Verify links to all related docs (PRD, architecture, epics, prompts, summary)
+
+**AC-13 (Formatting):**
+- Run markdown linter on README.md
+- Spell check entire document
+- Grammar check entire document
+- Verify headers follow hierarchy (h1 → h2 → h3)
+- Check code blocks have syntax highlighting (```bash, ```typescript)
+
+**AC-14 (Testing):**
+- Follow installation steps on clean machine/VM
+- Execute all commands exactly as documented
+- Click all links to verify they resolve
+- View README on GitHub to verify rendering
+- Time setup process and compare to estimate
+    </ideas>
+  </tests>
+</story-context>

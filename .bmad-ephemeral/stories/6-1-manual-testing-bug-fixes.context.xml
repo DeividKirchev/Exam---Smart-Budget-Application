@@ -1,0 +1,319 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>6</epicId>
+    <storyId>1</storyId>
+    <title>Manual Testing & Bug Fixes</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-17</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>d:\Projects\React Udemy\Mine\AI First\Exam - Smart Budget Application\.bmad-ephemeral\stories\6-1-manual-testing-bug-fixes.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a developer</asA>
+    <iWant>to thoroughly test the application and fix any bugs</iWant>
+    <soThat>users have a reliable, bug-free experience</soThat>
+    <tasks>
+- Task 1: Create test plan and test cases (AC: #1, #7)
+- Task 2: Create bug tracking log (AC: #2, #7)
+- Task 3: Execute functional testing - Transaction Management (AC: #1)
+- Task 4: Execute functional testing - Dashboard & Analytics (AC: #1)
+- Task 5: Execute functional testing - Filtering & Navigation (AC: #1)
+- Task 6: Execute responsive design testing (AC: #4)
+- Task 7: Execute cross-browser testing (AC: #3)
+- Task 8: Execute edge case testing (AC: #1)
+- Task 9: Execute data integrity testing (AC: #5)
+- Task 10: Execute performance testing (AC: #6)
+- Task 11: Fix all P0 (Critical) bugs (AC: #2)
+- Task 12: Fix all P1 (High) bugs (AC: #2)
+- Task 13: Document P2/P3 bugs as known issues (AC: #2)
+- Task 14: Create testing summary report (AC: #7)
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+AC-1: Manual Testing Completeness
+- All user flows tested: Add/Edit/Delete transactions, View Dashboard, Filter transactions
+- All device types tested: Desktop (≥1024px), Tablet (768-1023px), Mobile (≤767px)
+- All browsers tested: Chrome 90+, Firefox 88+, Safari 14+
+- Edge cases tested: Empty state, single transaction, 100+ transactions
+- Test results documented in structured format (test case ID, status, notes)
+- Identified bugs logged with priority (P0, P1, P2, P3) and reproduction steps
+
+AC-2: Critical Bug Resolution
+- All P0 (Critical) bugs are fixed and verified
+- All P1 (High) bugs are fixed and verified
+- P2/P3 bugs are documented as known issues (defer to post-MVP)
+- Each fix is committed with reference to bug ID
+- Regression testing confirms fixes don't introduce new issues
+
+AC-3: Cross-Browser Compatibility Verified
+- All features function identically across browsers
+- LocalStorage persistence works consistently
+- Charts render correctly in all browsers
+- Responsive layouts work properly
+- No console errors in any browser
+
+AC-4: Responsive Design Validated
+- All layouts adapt correctly at each breakpoint
+- Touch interactions work smoothly on mobile
+- Navigation is accessible on all devices
+- Charts are readable and interactive on all screens
+- No horizontal scrolling on any device
+
+AC-5: Data Integrity Verified
+- Transactions persist across browser refresh
+- Data survives browser close/reopen
+- No data corruption occurs during normal operations
+- Storage quota handling works gracefully
+- Data validation prevents invalid entries
+
+AC-6: Performance Requirements Met
+- Initial page load: <3 seconds (3G connection)
+- UI responsiveness: <100ms for user actions
+- Chart rendering: <2 seconds
+- Filter updates: <500ms
+- All NFR-1 performance requirements verified
+
+AC-7: Testing Documentation Complete
+- Test plan document created with all test cases
+- Bug log created with all identified issues
+- Test results documented (pass/fail status)
+- Known issues documented for P2/P3 bugs
+- Testing summary report created
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>Success Criteria</section>
+        <snippet>Defines functional and non-functional success metrics for the MVP. Success criteria include all features working correctly, performance targets met (page load &lt;3s, interactions &lt;100ms), and cross-browser compatibility verified.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-6.md</path>
+        <title>Epic 6 Technical Specification - Finalization and Deployment</title>
+        <section>Test Strategy Summary</section>
+        <snippet>Comprehensive manual testing approach with test categories (Functional P0, Non-Functional P1, Edge Cases P2), bug triage workflow (P0/P1 must fix, P2/P3 defer), and exit criteria. Testing targets include 100% critical path coverage across Chrome 90+, Firefox 88+, Safari 14+.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-6.md</path>
+        <title>Epic 6 Technical Specification</title>
+        <section>NFR-P4: Application Performance Validation</section>
+        <snippet>Performance benchmarks to verify: Initial page load &lt;3s (3G), UI responsiveness &lt;100ms, Chart rendering &lt;2s, Filter updates &lt;500ms. These targets established in Epics 1-5 must be validated in production environment.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/tech-spec-epic-6.md</path>
+        <title>Epic 6 Technical Specification</title>
+        <section>Data Models and Contracts - Test Log Structure</section>
+        <snippet>Defines TestCase interface with id, feature, description, steps, expectedResult, actualResult, status (Pass/Fail/Blocked), priority (P0/P1/P2), and optional bug reference. Also defines Bug interface with severity, priority, reproduction steps, and fix tracking.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Architecture Document</title>
+        <section>Responsive Breakpoints</section>
+        <snippet>Mobile: 320px, 375px, 414px, 640px (sm). Tablet: 768px (md), 1024px (lg). Desktop: 1280px (xl), 1920px (2xl). All components use Tailwind responsive classes.</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>Epics Document</title>
+        <section>Epic 6 - Finalization and Deployment</section>
+        <snippet>Story 6.1 focuses on manual testing and bug fixes to ensure production readiness. Includes comprehensive test plan execution, P0/P1 bug resolution, cross-browser validation, responsive design testing, and performance verification against NFR targets.</snippet>
+      </doc>
+      <doc>
+        <path>.bmad-ephemeral/stories/5-5-error-states-empty-states.md</path>
+        <title>Story 5.5 - Error States &amp; Empty States</title>
+        <section>Learnings from Previous Story</section>
+        <snippet>Story 5.5 implemented EmptyState, ErrorMessage, LoadingSpinner, and ErrorBoundary components. These must be tested across all empty scenarios (no transactions, filtered results, empty charts) and error scenarios (storage quota, corrupted data, component crashes).</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>smartbudget/src/services/storageService.ts</path>
+        <kind>service</kind>
+        <symbol>storageService</symbol>
+        <lines>-</lines>
+        <reason>LocalStorage persistence layer - critical for data integrity testing (AC-5). Must test: browser refresh persistence, close/reopen survival, quota handling, corruption recovery.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/context/AppContext.tsx</path>
+        <kind>context</kind>
+        <symbol>AppContext</symbol>
+        <lines>-</lines>
+        <reason>Global state management - verifies state persists across navigation and updates correctly when transactions added/edited/deleted.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/pages/Dashboard.tsx</path>
+        <kind>page</kind>
+        <symbol>Dashboard</symbol>
+        <lines>-</lines>
+        <reason>Main dashboard page - test summary cards accuracy, chart rendering, period selector, recent transactions widget.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/pages/TransactionsList.tsx</path>
+        <kind>page</kind>
+        <symbol>TransactionsList</symbol>
+        <lines>-</lines>
+        <reason>Transaction list page - test CRUD operations, sorting, filtering, empty states, loading states.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/pages/TransactionForm.tsx</path>
+        <kind>page</kind>
+        <symbol>TransactionForm</symbol>
+        <lines>-</lines>
+        <reason>Add/Edit transaction form - test form validation, data submission, error handling, mobile keyboard types.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/components/common/EmptyState.tsx</path>
+        <kind>component</kind>
+        <symbol>EmptyState</symbol>
+        <lines>-</lines>
+        <reason>Empty state component from Story 5.5 - test across all empty scenarios (no transactions, filtered results, empty charts).</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/components/common/ErrorBoundary.tsx</path>
+        <kind>component</kind>
+        <symbol>ErrorBoundary</symbol>
+        <lines>-</lines>
+        <reason>React error boundary from Story 5.5 - force component errors to verify fallback UI and recovery.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/components/common/LoadingSpinner.tsx</path>
+        <kind>component</kind>
+        <symbol>LoadingSpinner</symbol>
+        <lines>-</lines>
+        <reason>Loading state component from Story 5.5 - verify loading states don't cause layout shift or performance issues.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/components/dashboard/ExpenseBreakdownChart.tsx</path>
+        <kind>component</kind>
+        <symbol>ExpenseBreakdownChart</symbol>
+        <lines>-</lines>
+        <reason>Recharts pie chart - test rendering across browsers, mobile readability, hover tooltips, empty states.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/components/dashboard/IncomeTrendChart.tsx</path>
+        <kind>component</kind>
+        <symbol>IncomeTrendChart</symbol>
+        <lines>-</lines>
+        <reason>Recharts line chart - test rendering performance (&lt;2s), legend accuracy, responsive behavior on mobile.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/components/layout/Navigation.tsx</path>
+        <kind>component</kind>
+        <symbol>Navigation</symbol>
+        <lines>-</lines>
+        <reason>Responsive navigation from Story 5.1 - test hamburger menu on mobile, touch interactions, active page highlighting.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/components/transactions/FilterPanel.tsx</path>
+        <kind>component</kind>
+        <symbol>FilterPanel</symbol>
+        <lines>-</lines>
+        <reason>Transaction filtering component - test filter updates (&lt;500ms), state persistence, clear filters action.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/services/calculationService.ts</path>
+        <kind>service</kind>
+        <symbol>calculationService</symbol>
+        <lines>-</lines>
+        <reason>Financial calculations - verify dashboard summary cards accuracy (Income, Expenses, Balance) match actual transaction totals.</reason>
+      </artifact>
+      <artifact>
+        <path>smartbudget/src/utils/validators.ts</path>
+        <kind>utility</kind>
+        <symbol>validators</symbol>
+        <lines>-</lines>
+        <reason>Input validation utilities - test negative amounts, future dates, invalid inputs are properly rejected.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <node>
+        <package name="react" version="^18.3.1"/>
+        <package name="react-dom" version="^18.3.1"/>
+        <package name="react-router-dom" version="^6.30.2"/>
+        <package name="recharts" version="^3.4.1"/>
+        <package name="date-fns" version="^4.1.0"/>
+        <package name="lucide-react" version="^0.553.0"/>
+        <package name="uuid" version="^13.0.0"/>
+      </node>
+      <node_dev>
+        <package name="vite" version="^6.4.1"/>
+        <package name="typescript" version="~5.9.3"/>
+        <package name="tailwindcss" version="^4.0.0"/>
+        <package name="vitest" version="^4.0.9"/>
+        <package name="@testing-library/react" version="^16.3.0"/>
+        <package name="eslint" version="^9.39.1"/>
+        <package name="prettier" version="^3.6.2"/>
+      </node_dev>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>No architectural changes allowed - application is feature-complete from Epics 1-5</constraint>
+    <constraint>Testing is manual only - no new test framework dependencies</constraint>
+    <constraint>All P0 (Critical) and P1 (High) bugs must be fixed before deployment</constraint>
+    <constraint>P2/P3 bugs documented as known issues and deferred to post-MVP</constraint>
+    <constraint>Test on production build (npm run build + npm run preview) not just dev server</constraint>
+    <constraint>Browser compatibility: Chrome 90+, Firefox 88+, Safari 14+ (latest stable versions recommended)</constraint>
+    <constraint>Device testing: Mobile (320-767px), Tablet (768-1023px), Desktop (≥1024px)</constraint>
+    <constraint>Performance targets must be met: Page load &lt;3s (3G), Interactions &lt;100ms, Charts &lt;2s, Filters &lt;500ms</constraint>
+    <constraint>No console errors in production build on any supported browser</constraint>
+    <constraint>Each bug fix must include regression testing to prevent new issues</constraint>
+    <constraint>Test documentation must use structured format with test case IDs, reproduction steps, and priority levels</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>Transaction Interface</name>
+      <kind>TypeScript interface</kind>
+      <signature>{ id: string; type: 'income' | 'expense'; amount: number; category: string; description: string; date: string }</signature>
+      <path>smartbudget/src/models/Transaction.ts</path>
+    </interface>
+    <interface>
+      <name>storageService.getTransactions()</name>
+      <kind>Service method</kind>
+      <signature>getTransactions(): Transaction[]</signature>
+      <path>smartbudget/src/services/storageService.ts</path>
+    </interface>
+    <interface>
+      <name>storageService.saveTransaction()</name>
+      <kind>Service method</kind>
+      <signature>saveTransaction(transaction: Transaction): void</signature>
+      <path>smartbudget/src/services/storageService.ts</path>
+    </interface>
+    <interface>
+      <name>AppContext Provider</name>
+      <kind>React Context</kind>
+      <signature>{ transactions: Transaction[]; addTransaction: (t: Transaction) =&gt; void; updateTransaction: (id: string, t: Transaction) =&gt; void; deleteTransaction: (id: string) =&gt; void }</signature>
+      <path>smartbudget/src/context/AppContext.tsx</path>
+    </interface>
+    <interface>
+      <name>EmptyState Component</name>
+      <kind>React Component</kind>
+      <signature>{ icon: LucideIcon; title: string; message: string; action?: { label: string; onClick: () =&gt; void } }</signature>
+      <path>smartbudget/src/components/common/EmptyState.tsx</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>Manual testing using production build (npm run build + npm run preview). Test framework exists (Vitest + Testing Library with 390 passing tests) but Story 6.1 focuses on manual end-to-end validation. Use Chrome DevTools for performance profiling (Lighthouse for automated metrics, Performance tab for interaction timing, Network tab for 3G simulation). Document all tests in structured format with test case IDs (TC-XXX), reproduction steps, expected vs actual results, and priority levels (P0/P1/P2). Browser testing on latest stable versions: Chrome 131+, Firefox 133+, Safari 18+.</standards>
+    <locations>
+      <location>smartbudget/src/**/*.test.ts - 390 existing unit/integration tests (optional validation)</location>
+      <location>docs/testing/test-plan.md - Manual test plan to be created with TC-001 to TC-050</location>
+      <location>docs/testing/bug-log.md - Bug tracking log to be created</location>
+      <location>docs/testing/test-summary.md - Testing summary report to be created</location>
+    </locations>
+    <ideas>
+      <idea acRef="AC-1">TC-001 to TC-010: Transaction CRUD operations - Add income, Add expense, Edit transaction, Delete with confirmation, Cancel delete, View list, Sort by date/amount/category, Navigate from empty state</idea>
+      <idea acRef="AC-1">TC-011 to TC-020: Dashboard validation - Summary cards accuracy, Period selector (This Month/Last Month/Custom), Expense breakdown pie chart, Income trend chart, Recent transactions widget, Dashboard updates after transaction changes</idea>
+      <idea acRef="AC-1">TC-021 to TC-030: Navigation and filtering - Page navigation, Browser back/forward, Active page highlighting, Filter by date/category/type, Search by description, Clear filters, Filter state persistence, Empty filtered results</idea>
+      <idea acRef="AC-4">TC-031 to TC-040: Responsive design - Mobile layouts (320px, 375px, 414px), Tablet layouts (768px, 1024px), Desktop layouts (1280px, 1920px), Hamburger menu on mobile, Touch interactions, Chart readability on mobile, Keyboard types on mobile inputs, No horizontal scrolling, Orientation changes, Tap target sizes ≥44x44px</idea>
+      <idea acRef="AC-3">TC-041 to TC-048: Cross-browser testing - All critical flows on Chrome/Firefox/Safari (Windows/Mac), LocalStorage consistency, Chart rendering, Console error checks, Mobile browsers (iOS Safari, Chrome Android)</idea>
+      <idea acRef="AC-1">TC-049 to TC-058: Edge case testing - Empty state (no transactions), Single transaction, Large dataset (100+ transactions), Invalid inputs (negative amounts, future dates), LocalStorage quota (5MB limit), Corrupted data, Long descriptions (200+ chars), Large amounts ($1M+), Date edge cases (leap year, boundaries), Rapid successive actions</idea>
+      <idea acRef="AC-5">Data integrity testing - Transaction persistence across refresh, Data survives close/reopen, Edit changes saved, Delete persisted, 50 transactions saved correctly, Multiple tabs simultaneously, Data structure integrity, Storage error handling</idea>
+      <idea acRef="AC-6">Performance testing - Lighthouse audit for page load, Interaction timing (Performance tab), Chart rendering time, Filter update performance, 3G throttling validation (&lt;3s), Interaction responsiveness (&lt;100ms), Chart render (&lt;2s), Filter updates (&lt;500ms)</idea>
+      <idea acRef="AC-2">Bug fix validation - P0/P1 bugs reproduced and verified fixed, Regression testing after each fix, Commit messages reference bug IDs, Bug log status updated with commit SHAs, No new issues introduced by fixes</idea>
+      <idea acRef="AC-7">Testing documentation - Test plan with 50 test cases, Bug log with priority and repro steps, Test results with pass/fail status, Known issues for P2/P3 bugs, Testing summary report with sign-off</idea>
+    </ideas>
+  </tests>
+</story-context>

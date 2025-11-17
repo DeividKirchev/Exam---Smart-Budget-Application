@@ -498,6 +498,72 @@
 ---
 
 **92.**
-
 `Add my prompts to prompts.md.`
 `Fix the structure of the latest prompts to match`
+
+---
+
+**93.**
+`*epic-tech-context YOLO`
+
+---
+
+**94.**
+`Draft story 6-1 YOLO`
+
+---
+
+**95.**
+`Draft story 6.3`
+
+---
+
+**96.**
+`yes, YOLO`
+
+---
+
+**97.**
+`Context story 6-3`
+
+---
+
+**98.**
+`Dev story 6-1 YOLO`
+
+---
+
+**99.**
+`npm run build returns 17 errors`
+
+---
+
+**100.**
+`I have manually tested everything AC-1 to 6, you can continue`
+
+---
+
+**101.**
+`npm lint not working: (3 @typescript-eslint/no-explicit-any errors)`
+
+---
+
+**102.**
+`Context story 6-3`
+
+---
+
+**103.**
+`draft story 6-5`
+
+---
+
+**103.**
+`dev story 6-3`
+
+---
+---
+Timestamp: 2025-11-17 16:42:57
+Agent: dev (Amelia)
+Input: Dev story 6-5 YOLO - Only stop if I need to do anything
+---
